@@ -1,7 +1,6 @@
 package mehdi.bad.addons.utils;
 
 import mehdi.bad.addons.BadAddons;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -9,9 +8,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -71,7 +70,6 @@ public class RenderUtils {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y - 4, 0);
         RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.scale(0.8F, 0.8F, 1.0F);
         Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(stack, 0, 0);
         RenderHelper.disableStandardItemLighting();
 
@@ -79,19 +77,14 @@ public class RenderUtils {
     }
 
     private static ItemStack getItemStackByName(String name) {
-        // Check for blocks first
-        Block block = Block.getBlockFromName(name);
-        if (block != Blocks.air) { // Blocks will not be AIR
-            return new ItemStack(block);
-        }
+        ResourceLocation resourceLocation = new ResourceLocation(name);
+        Item item = Item.itemRegistry.getObject(resourceLocation);
 
-        // If not a block, check for items
-        Item item = Item.getByNameOrId(name);
         if (item != null) {
             return new ItemStack(item);
         }
 
-        return null; // Return null if neither block nor item is found
+        return null;
     }
 
     public static void translate(float var0, float var1, float var2) {

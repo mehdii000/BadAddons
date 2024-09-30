@@ -2,7 +2,6 @@ package mehdi.bad.addons.utils;
 
 import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Objects.Vector2i;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -14,7 +13,6 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
@@ -468,19 +466,13 @@ public class GuiUtils {
     }
 
     private static ItemStack getItemStackByName(String name) {
-        // Check for blocks first
-        Block block = Block.getBlockFromName(name);
-        if (block != Blocks.air) { // Blocks will not be AIR
-            return new ItemStack(block);
-        }
-
-        // If not a block, check for items
-        Item item = Item.getByNameOrId(name);
+        ResourceLocation resourceLocation = new ResourceLocation(name);
+        Item item = Item.itemRegistry.getObject(resourceLocation);
         if (item != null) {
             return new ItemStack(item);
         }
 
-        return null; // Return null if neither block nor item is found
+        return null;
     }
 
     private static void renderScaledItemStack(ItemStack stack, int x, int y, float scale) {

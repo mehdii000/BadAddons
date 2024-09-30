@@ -46,7 +46,7 @@ public class CombatXPTracker extends MovableModule {
                 initialXp += parsedXp;  // Initialize the XP tracker if necessary
             }
 
-            xpEta = ":DIAMOND_SWORD: §7Combat Xp: §b" + AuctionUtils.formatPrice(parsedXp - initialXp);
+            xpEta = ":DIAMOND_SWORD: §7Xp: §b+" + AuctionUtils.formatPrice(parsedXp - initialXp);
         } else {
             xpEta = "§c[ /tab -> Skills ]";
         }
