@@ -77,7 +77,7 @@ public class Configs {
             description = "The url of the discord webhook to send trades to.",
             parent = "Lowballing"
     )
-    public static String TradesWebhook = "https://discord.com/api/webhooks/1274000364621926432/BfbqUUY_b4FmDZM0K7fkCQlVbmOm-hKs4b83hNRhYMtC2vu6ChtzSIphLfmtcgG5zmKk";
+    public static String TradesWebhook = "";
 
     @Property(
             type = Property.Type.BOOLEAN,
