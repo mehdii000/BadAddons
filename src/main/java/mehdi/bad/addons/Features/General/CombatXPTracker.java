@@ -5,8 +5,8 @@ import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.Config.modules.MovableModule;
 import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.utils.AuctionUtils;
-import mehdi.bad.addons.utils.GuiUtils;
 import mehdi.bad.addons.utils.MinecraftUtils;
+import mehdi.bad.addons.utils.RenderUtils;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -46,7 +46,7 @@ public class CombatXPTracker extends MovableModule {
                 initialXp += parsedXp;  // Initialize the XP tracker if necessary
             }
 
-            xpEta = ":IRON_SWORD: §7XP: §b" + AuctionUtils.formatPrice(parsedXp - initialXp);
+            xpEta = ":DIAMOND_SWORD: §7Combat Xp: §b" + AuctionUtils.formatPrice(parsedXp - initialXp);
         } else {
             xpEta = "§c[ /tab -> Skills ]";
         }
@@ -66,7 +66,7 @@ public class CombatXPTracker extends MovableModule {
         float scaleFactor = (float) Math.ceil((float) getWidth() / 35);
         int centeredX = getX() + (getWidth() - BadAddons.mc.fontRendererObj.getStringWidth(xpEta)) / 2;
         int centeredY = getY() + (getHeight()) / 2;
-        GuiUtils.drawScaledCenteredStringWithItems(xpEta, centeredX, centeredY, scaleFactor);
+        RenderUtils.renderStringWithItems(xpEta, centeredX, centeredY, 1, true);
     }
 
 }

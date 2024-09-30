@@ -434,14 +434,14 @@ public class GuiUtils {
         GlStateManager.scale(1 / factor, 1 / factor, 1);
     }
 
-    public static void drawScaledCenteredStringWithItems(FontRenderer fontRenderer, String text, int x, int y, float scale) {
+    public static void drawScaledCenteredStringWithItems(String text, int x, int y, float scale) {
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, scale);
 
         // Calculate initial centered X and Y positions for the text
-        int textWidth = fontRenderer.getStringWidth(text.replaceAll("(:\\w+:)", "  ")); // Replace items with spaces to calculate width
+        int textWidth = BadAddons.mc.fontRendererObj.getStringWidth(text.replaceAll("(:\\w+:)", "  ")); // Replace items with spaces to calculate width
         int centerX = Math.round(x / scale - textWidth / 2);
-        int centerY = Math.round(y / scale - fontRenderer.FONT_HEIGHT / 2);
+        int centerY = Math.round(y / scale - BadAddons.mc.fontRendererObj.FONT_HEIGHT / 2);
 
         int cursorX = centerX;
         String[] parts = text.split(" ");
@@ -459,8 +459,8 @@ public class GuiUtils {
                 }
             } else {
                 // Render the string part
-                fontRenderer.drawStringWithShadow(part, cursorX, centerY, 1);
-                cursorX += fontRenderer.getStringWidth(part) + 4; // Move cursor for text width + space
+                BadAddons.mc.fontRendererObj.drawStringWithShadow(part, cursorX, centerY, 1);
+                cursorX += BadAddons.mc.fontRendererObj.getStringWidth(part) + 4; // Move cursor for text width + space
             }
         }
 
