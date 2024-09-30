@@ -63,7 +63,6 @@ public class CombatXPTracker extends MovableModule {
     @Override
     public void render() {
         if (!Configs.CombatXPTracker) return;
-        float scaleFactor = (float) Math.ceil((float) getWidth() / 35);
         int centeredX = getX() + (getWidth() - BadAddons.mc.fontRendererObj.getStringWidth(xpEta)) / 2;
         int centeredY = getY() + (getHeight()) / 2;
         RenderUtils.renderStringWithItems(xpEta, centeredX, centeredY, 1, true);
