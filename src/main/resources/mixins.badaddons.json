@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "mehdi.bad.addons.Mixins",
+  "refmap": "mixins.badaddons.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "FontRendererMixin",
+    "MixinGuiContainer",
+    "MixinRenderLivingEntity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "destiny": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "badaddons:destiny",
+        "stream": true
+      }
+    ]
+  },
+  "bk": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "badaddons:bk",
+        "stream": true
+      }
+    ]
+  },
+  "icyFill": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "badaddons:icyFill",
+        "stream": true
+      }
+    ]
+  }
+}

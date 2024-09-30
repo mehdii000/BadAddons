@@ -1,0 +1,16 @@
+[
+{
+  "modid": "badaddons",
+  "name": "BadAddons",
+  "description": "Throught heavens and earth, I alone am the §bhonored §rone!\nIf you want anything dm §2@ephermality §7in discord!",
+  "version": "1.0",
+  "mcversion": "1.8.9",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Autophobic (@ephermality)", "Exlione (@payssar)", "Coffee"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
