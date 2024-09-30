@@ -371,7 +371,7 @@ public class KuudraHandler extends MovableModule {
                     RenderUtils.renderStringWithItems((Objects.equals(teammates.get(i), ccstun)
                             ? "§a[STUN] §r" + teammates.get(i) + " §e" + supplies + "§7/6 §b:DIAMOND_PICKAXE: " + stunTime + "s"
                             : "§e[DPS] §r" + teammates.get(i) + " §e" + supplies + "§7/6 :CHEST:"
-                    ), getX(), getY() + 16 + (12*i), -1, true);
+                    ), getX(), getY() + 16 + (14*i), -1, true);
                 }
             }
 

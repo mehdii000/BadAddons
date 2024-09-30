@@ -2,11 +2,11 @@ package mehdi.bad.addons.utils;
 
 import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Objects.Vector2i;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.renderer.*;
@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
@@ -43,13 +44,6 @@ public class GuiUtils {
 
     public static void drawTexture(ResourceLocation var0, int var1, int var2, int var3, int var4) {
         drawTexture(var0, var1, var2, var3, var4, var3, var4, 0, 0);
-    }
-
-    public static void showTitle(String var0, String var1, int var2, int var3, int var4) {
-        GuiIngame var5 = Minecraft.getMinecraft().ingameGUI;
-        var5.displayTitle(ChatLib.addColor(var0), null, var2, var3, var4);
-        var5.displayTitle(null, ChatLib.addColor(var1), var2, var3, var4);
-        var5.displayTitle(null, null, var2, var3, var4);
     }
 
     public static void drawRotatedTexture(ResourceLocation var0, int var1, int var2, int var3, int var4, int var5) {
@@ -440,44 +434,60 @@ public class GuiUtils {
         GlStateManager.scale(1 / factor, 1 / factor, 1);
     }
 
-    public static void drawScaledCenteredStringWithItems(String text, int x, int y, float scale) {
+    public static void drawScaledCenteredStringWithItems(FontRenderer fontRenderer, String text, int x, int y, float scale) {
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, scale);
 
         // Calculate initial centered X and Y positions for the text
-        int textWidth = BadAddons.mc.fontRendererObj.getStringWidth(text.replaceAll("(:\\w+:)", "  ")); // Replace items with spaces to calculate width
+        int textWidth = fontRenderer.getStringWidth(text.replaceAll("(:\\w+:)", "  ")); // Replace items with spaces to calculate width
         int centerX = Math.round(x / scale - textWidth / 2);
-        int centerY = Math.round(y / scale - BadAddons.mc.fontRendererObj.FONT_HEIGHT / 2) - 4;
+        int centerY = Math.round(y / scale - fontRenderer.FONT_HEIGHT / 2);
 
         int cursorX = centerX;
         String[] parts = text.split(" ");
 
         for (String part : parts) {
             if (part.startsWith(":") && part.endsWith(":")) {
-                // Extract item name from placeholder
+                // Extract item/block name from placeholder
                 String itemName = part.substring(1, part.length() - 1).toLowerCase();
                 ItemStack itemStack = getItemStackByName(itemName);
 
                 if (itemStack != null) {
-                    // Render the item at the cursor position
+                    // Render the item/block at the cursor position
                     renderScaledItemStack(itemStack, cursorX, centerY, scale);
                     cursorX += 18 / scale;  // Move cursor for item width (scaled)
                 }
             } else {
                 // Render the string part
-                BadAddons.mc.fontRendererObj.drawStringWithShadow(part, cursorX, centerY, 1);
-                cursorX += BadAddons.mc.fontRendererObj.getStringWidth(part) + 4; // Move cursor for text width + space
+                fontRenderer.drawStringWithShadow(part, cursorX, centerY, 1);
+                cursorX += fontRenderer.getStringWidth(part) + 4; // Move cursor for text width + space
             }
         }
 
         GL11.glPopMatrix();
     }
 
+    private static ItemStack getItemStackByName(String name) {
+        // Check for blocks first
+        Block block = Block.getBlockFromName(name);
+        if (block != Blocks.air) { // Blocks will not be AIR
+            return new ItemStack(block);
+        }
+
+        // If not a block, check for items
+        Item item = Item.getByNameOrId(name);
+        if (item != null) {
+            return new ItemStack(item);
+        }
+
+        return null; // Return null if neither block nor item is found
+    }
+
     private static void renderScaledItemStack(ItemStack stack, int x, int y, float scale) {
         GlStateManager.pushMatrix();
 
         // Adjust position to align with scaled items
-        GlStateManager.translate(x, y, 0);
+        GlStateManager.translate(x, y - 4, 0);
 
         // Enable proper lighting to avoid darker appearance
         RenderHelper.enableGUIStandardItemLighting();
@@ -494,16 +504,6 @@ public class GuiUtils {
         GlStateManager.popMatrix();
     }
 
-    private static ItemStack getItemStackByName(String name) {
-        ResourceLocation resourceLocation = new ResourceLocation(name);
-        Item item = Item.itemRegistry.getObject(resourceLocation);
-
-        if (item != null) {
-            return new ItemStack(item);
-        }
-
-        return null;
-    }
 
     public static void drawBoxAt(float x, float y, float z, int red, int green, int blue, int alpha, float width, float height) {
         GL11.glPushMatrix();
