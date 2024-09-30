@@ -369,7 +369,7 @@ public class KuudraHandler extends MovableModule {
                     double stunTime = timeOfStunning == 0 ? (timeSinceEaten == 0 ? 0 : (double)(Math.round((System.currentTimeMillis() - timeSinceEaten) / 10)) / 100) : (timeSinceEaten == 0 ? 0 : (double)(Math.round((timeOfStunning - timeSinceEaten) / 10)) / 100);
 
                     RenderUtils.renderStringWithItems((Objects.equals(teammates.get(i), ccstun)
-                            ? "§a[STUN] §r" + teammates.get(i) + " §e" + supplies + "§7/6 §b:diamond_pickaxe: " + stunTime + "s"
+                            ? "§a[STUN] §r" + teammates.get(i) + " §e" + supplies + "§7/6 :IRON_PICKAXE: §b" + stunTime + "s"
                             : "§e[DPS] §r" + teammates.get(i) + " §e" + supplies + "§7/6 :CHEST:"
                     ), getX(), getY() + 16 + (14*i), -1, true);
                 }
