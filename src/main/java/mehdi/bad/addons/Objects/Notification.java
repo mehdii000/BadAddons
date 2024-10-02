@@ -4,20 +4,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
-import java.awt.*;
-
 public class Notification {
 
-    private String title;
-    private String description;
-    private long endTime;
-    private int smoothAnimation = 0;
+    private final String title;
+    private final String description;
+    private final long endTime;
+    private int smoothAnimation;
     private boolean visible = true;
-    private static final int WIDTH = 150;
-    private static final int HEIGHT = 35;
-    private static final int MARGIN = 5;
-    private static final int FADE_DURATION = 10;
-    private static final int REMOVE_DURATION = 10;
+    private static final int WIDTH = 250;
+    private static final int HEIGHT = 50;
+    private static final int MARGIN = 10;
+    private static final int FADE_DURATION = 1000; // 1 second fade
+    private static final int REMOVE_DURATION = 500; // 0.5 seconds for removal
 
     public Notification(String title, String description, long endTime) {
         this.title = title;
@@ -25,39 +23,45 @@ public class Notification {
         this.endTime = endTime;
     }
 
-    public void draw(RenderGameOverlayEvent.Post event) {
+    public void draw(RenderGameOverlayEvent.Post event, int index) {
         if (!visible) return;
 
         int width = event.resolution.getScaledWidth();
         int height = event.resolution.getScaledHeight();
-        int notificationX = width / 2 - WIDTH / 2;
-        int notificationY = MARGIN + smoothAnimation;
+        int notificationY = smoothAnimation + MARGIN * index; // Start from the top
 
-        drawBackground(notificationX, notificationY, WIDTH, HEIGHT, 0.6f);
-        drawCenteredString("§f" + title, notificationX + WIDTH / 2, notificationY + 12, 1);
-        drawCenteredString(description, notificationX + WIDTH / 2, notificationY + 26, 0.8f);
+        drawBackground(width / 2 - WIDTH / 2, notificationY, WIDTH, HEIGHT);
+        drawCenteredString(title, width / 2, notificationY + 15);
+        drawCenteredString(description, width / 2, notificationY + 45);
 
-        updateAnimation();
+        updateAnimation(index);
     }
 
-    private void drawBackground(int x, int y, int width, int height, float alpha) {
-        int backgroundColor = new Color(0, 0, 0, alpha).getRGB();
-        Gui.drawRect(x, y, x + width, y + height, backgroundColor);
+    private void drawBackground(int x, int y, int width, int height) {
+        // Draw the black box
+        Gui.drawRect(x, y, x + width, y + height, 0xFF000000); // Solid black background
+        // Draw the white outline
+        Gui.drawRect(x, y, x + width, y + 1, 0xFFFFFFFF); // Top border
+        Gui.drawRect(x, y, x + 1, y + height, 0xFFFFFFFF); // Left border
+        Gui.drawRect(x, y + height - 1, x + width, y + height, 0xFFFFFFFF); // Bottom border
+        Gui.drawRect(x + width - 1, y, x + width, y + height, 0xFFFFFFFF); // Right border
     }
 
-    private void drawCenteredString(String text, int x, int y, float scale) {
+    private void drawCenteredString(String text, int x, int y) {
         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(text, x - Minecraft.getMinecraft().fontRendererObj.getStringWidth(text) / 2, y, 0xFFFFFF);
     }
 
-    private void updateAnimation() {
-        int currentIndex = NotificationManager.notifications.indexOf(this);
-        int targetY = currentIndex * (HEIGHT + MARGIN) + MARGIN;
+    public void updateAnimation(int index) {
+        int targetY = index * (HEIGHT + MARGIN) + MARGIN;
+
+        // Easing effect for the animation
         if (smoothAnimation < targetY) {
             smoothAnimation += Math.max(1, (targetY - smoothAnimation) / 4);
         } else {
             smoothAnimation = targetY;
         }
 
+        // Fade-out logic
         if (System.currentTimeMillis() >= endTime - FADE_DURATION) {
             float fadeProgress = (endTime - System.currentTimeMillis()) / (float) FADE_DURATION;
             if (fadeProgress <= 0) {
@@ -65,10 +69,13 @@ public class Notification {
                     smoothAnimation += Math.min(1, (targetY + HEIGHT - smoothAnimation) / REMOVE_DURATION);
                 } else {
                     visible = false;
-                    NotificationManager.removeNotification(this);
                 }
             }
         }
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 
     public long getEndTime() {

@@ -12,7 +12,7 @@ public class NotificationManager {
     static List<Notification> notifications = new ArrayList<>();
 
     public static void pushNotification(String title, String description, int durationTicks) {
-        long endTime = System.currentTimeMillis() + durationTicks; // Each tick is 50 milliseconds in Forge
+        long endTime = System.currentTimeMillis() + durationTicks; // Convert ticks to milliseconds
         notifications.add(new Notification(title, description, endTime));
     }
 
@@ -25,11 +25,14 @@ public class NotificationManager {
         if (event.type != RenderGameOverlayEvent.ElementType.TEXT)
             return;
 
+        int index = 0;
         Iterator<Notification> iterator = notifications.iterator();
         while (iterator.hasNext()) {
             Notification notification = iterator.next();
             if (notification.getEndTime() > System.currentTimeMillis()) {
-                notification.draw(event);
+                notification.draw(event, index);
+                notification.updateAnimation(index);
+                index++;
             } else {
                 iterator.remove();
             }

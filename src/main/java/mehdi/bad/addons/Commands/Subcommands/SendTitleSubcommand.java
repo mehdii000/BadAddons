@@ -1,13 +1,13 @@
 package mehdi.bad.addons.Commands.Subcommands;
 
-import mehdi.bad.addons.Objects.TitleManager;
+import mehdi.bad.addons.Objects.NotificationManager;
 import net.minecraft.command.ICommandSender;
 
 public class SendTitleSubcommand implements Subcommand {
 
 	@Override
 	public String getCommandName() {
-		return "sendtitle";
+		return "testsend";
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SendTitleSubcommand implements Subcommand {
 			string.append(s);
 			string.append(" ");
 		}
-		TitleManager.pushTitle(string.toString(), 1500);
+		NotificationManager.pushNotification(string.toString(), "Just a description!", 3500);
 		return true;
 	}
 

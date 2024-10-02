@@ -7,7 +7,7 @@ import mehdi.bad.addons.Config.modules.MovableModule;
 import mehdi.bad.addons.Events.RenderEntityModelEvent;
 import mehdi.bad.addons.Events.SlotClickEvent;
 import mehdi.bad.addons.Events.TickEndEvent;
-import mehdi.bad.addons.Objects.TitleManager;
+import mehdi.bad.addons.Objects.NotificationManager;
 import mehdi.bad.addons.utils.*;
 import net.minecraft.block.BlockNetherBrick;
 import net.minecraft.block.state.IBlockState;
@@ -55,7 +55,13 @@ public class KuudraHandler extends MovableModule {
     private List<String> teammates = new ArrayList<String>();
     private HashMap<String, Integer> pickSupplies = new HashMap<String, Integer>();
 
-    private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
+    private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\s(?:recovered one of Elle's supplies|took\\s\\d+(?:\\.\\d+)?s\\sto\\srecover\\ssupply\\s\\(\\d+/\\d+\\)!)";
+
+    private boolean containsSupplyPattern(String input) {
+        Pattern pattern = Pattern.compile(SUPPLY_REGEX);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.find(); // This checks if the pattern is found anywhere in the string
+    }
 
     public KuudraHandler() {
         super("KuudraSplits", 16, 16, 100, 200);
@@ -65,15 +71,13 @@ public class KuudraHandler extends MovableModule {
     public void onChatStuff(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
 
-        if (message.contains(" recovered one of Elle's supplies") && Configs.SupplyCount) {
+        if (containsSupplyPattern(SUPPLY_REGEX) && Configs.SupplyCount) {
             Pattern pattern = Pattern.compile(SUPPLY_REGEX);
             Matcher matcher = pattern.matcher(message);
-            if (matcher.find()) {
-                String picker = matcher.group(1);
-                TitleManager.pushTitle("§a" + picker, 2500);
-                if (teammates.contains(picker)) {
-                    pickSupplies.put(picker, pickSupplies.getOrDefault(picker, 0) + 1);
-                }
+            String picker = matcher.group(1);
+            NotificationManager.pushNotification("§e§l" + message.split(SUPPLY_REGEX)[0], "§aPicked-Up A Supply", 3000);
+            if (teammates.contains(picker)) {
+                pickSupplies.put(picker, pickSupplies.getOrDefault(picker, 0) + 1);
             }
         }
 
@@ -168,7 +172,8 @@ public class KuudraHandler extends MovableModule {
             // Render EspBoxes as normal
             for (EspBox box : EspBoxes) {
                 if (Configs.KuudraPresHighlightType == 0) {
-                    RealRenderUtils.renderWaypointText(box.label, box.x, box.y, box.z, e.partialTicks);
+                    GuiUtils.drawBoundingBoxAtBlock(new BlockPos(box.x, box.y, box.z), Configs.KuudraPresNames ? Color.GRAY : box.color);
+                    if (Configs.KuudraPresNames) RealRenderUtils.renderWaypointText(box.label, box.x, box.y+0.5, box.z, e.partialTicks);
                 } else {
                     RealRenderUtils.render3dString(box.label, box.x, box.y, box.z, 0x00FF00, 3f, e.partialTicks);
                 }

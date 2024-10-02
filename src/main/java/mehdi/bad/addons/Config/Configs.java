@@ -240,9 +240,17 @@ public class Configs {
     public static boolean KuudraPresHighlight = false;
 
     @Property(type = Property.Type.SELECT, name = "WaypointsType", parent = "Waypoints",
-            options = {"§aText", "§bTextBox"},
+            options = {"§aText", "§bCube"},
             description = "Select a waypoints rendering type.")
     public static int KuudraPresHighlightType = 0;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "PresWaypointsName",
+            description = "Name each pre waypoint based on their location.",
+            parent = "Waypoints"
+    )
+    public static boolean KuudraPresNames = false;
 
     @Property(
             type = Property.Type.BOOLEAN,

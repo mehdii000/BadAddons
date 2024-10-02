@@ -16,7 +16,6 @@ import mehdi.bad.addons.Features.General.HighlightGraceItems;
 import mehdi.bad.addons.Features.General.ReplacedWordsConfig;
 import mehdi.bad.addons.Features.General.WeirdFlipper;
 import mehdi.bad.addons.Features.General.WhitelistedBedsConfig;
-import mehdi.bad.addons.Features.Kuudra.SupplyHighlight;
 import mehdi.bad.addons.Features.Lowballing.TradesTracker;
 import mehdi.bad.addons.Objects.*;
 import mehdi.bad.addons.utils.AuctionUtils;
@@ -51,7 +50,6 @@ public class BadAddons {
             new PercentageSubcommand(),
             new LastTradeSubcommand(),
             new SendTitleSubcommand(),
-            new SendNotifCommand(),
             new GuiSubcommand(),
             new FlipperSubcommand(),
             new ReplaceWordSubcommand(),
@@ -100,16 +98,14 @@ public class BadAddons {
 
         ClientCommandHandler.instance.registerCommand(commandManager);
         ClientCommandHandler.instance.registerCommand(new CommandDevItemData());
+        MinecraftForge.EVENT_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(new ScoreBoard());
-        MinecraftForge.EVENT_BUS.register(new TitleManager());
         MinecraftForge.EVENT_BUS.register(new NotificationManager());
-        MinecraftForge.EVENT_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(new WeirdFlipper());
         MinecraftForge.EVENT_BUS.register(new TradesTracker());
         MinecraftForge.EVENT_BUS.register(new HighlightGraceItems());
-        MinecraftForge.EVENT_BUS.register(new SupplyHighlight());
         MinecraftForge.EVENT_BUS.register(new DungeonRoomDetection());
         MinecraftForge.EVENT_BUS.register(new WaterboardSolver());
     }
