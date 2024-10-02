@@ -55,7 +55,8 @@ public class KuudraHandler extends MovableModule {
     private long timeSinceFresh = 0;
     private List<String> teammates = new ArrayList<String>();
     private HashMap<String, Integer> pickSupplies = new HashMap<String, Integer>();
-    private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\s(?:recovered one of Elle's supplies|took\\s\\d+(?:\\.\\d+)?s\\sto\\srecover\\ssupply\\s\\(\\d+/\\d+\\)!)";
+
+    private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
 
     private boolean containsSupplyPattern(String input) {
         Pattern pattern = Pattern.compile(SUPPLY_REGEX);
@@ -99,14 +100,15 @@ public class KuudraHandler extends MovableModule {
             BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
             switch (Configs.FreshDisplayType) {
                 case 0:
-                    BadAddons.mc.ingameGUI.displayTitle(Configs.FreshDisplayString, "", 0, 2000, 0);
+                    BadAddons.mc.ingameGUI.displayTitle("§a" + Configs.FreshDisplayString.replace("&", "§"), "", 0, 2500, 0);
                 case 1:
+                    NotificationManager.pushNotification("§a" + Configs.FreshDisplayString.replace("&", "§"), "", 2500);
                     break;
             }
         }
 
         if (message.contains(" destroyed one of Kuudra") && Configs.InstastunHelper) {
-            ChatLib.chat("§e[BA] §aDestroyed pod in §f" + clickToStun + "§a clicks!");
+            NotificationManager.pushNotification("§cDestroyed pod in", "§e" + clickToStun + " Times!", 4000);
             timeOfStunning = System.currentTimeMillis();
         }
 
@@ -157,7 +159,7 @@ public class KuudraHandler extends MovableModule {
                     RealRenderUtils.render3dString("§e" + progress, entity.posX, entity.posY + (timeSinceFresh > 0 ? 3 : 1), entity.posZ, 0x00FF00, 22, e.partialTicks);
 
                     if (Configs.FreshDisplay && timeSinceFresh > 0) {
-                        RealRenderUtils.render3dString("§c" + String.valueOf((int) (Math.ceil((System.currentTimeMillis() - timeSinceFresh / 10)) / 100)), entity.posX, entity.posY + 1, entity.posZ, 0x00FF00, 15, e.partialTicks);
+                        RealRenderUtils.render3dString("§c" + MathUtils.formatTicks(timeSinceFresh - System.currentTimeMillis()), entity.posX, entity.posY + 1, entity.posZ, 0x00FF00, 15, e.partialTicks);
                     }
 
                 }
@@ -172,7 +174,7 @@ public class KuudraHandler extends MovableModule {
             if (Configs.KuudraWaypointsProximity) {
                 for (EspBox box : EspBoxes) {
                     // Check if the EspBox is within proximity (4 block radius)
-                    if (playerPos.squareDistanceTo(new Vec3(box.x + 0.5, box.y + 0.5, box.z + 0.5)) <= 16) {  // 4^2 = 16
+                    if (playerPos.squareDistanceTo(new Vec3(box.x + 0.5, box.y + 0.5, box.z + 0.5)) <= 24) {  // 4^2 = 16
                         nearbyColors.add(box.color.getRGB());  // Add the color of the nearby EspBox
                     }
                 }
@@ -190,10 +192,10 @@ public class KuudraHandler extends MovableModule {
             // Render EspBoxes as normal
             for (EspBox box : EspBoxes) {
                 if (Configs.KuudraPresHighlightType == 0) {
-                    GuiUtils.drawBoundingBoxAtBlock(new BlockPos(box.x, box.y, box.z), Configs.KuudraPresNames ? Color.GRAY : box.color);
-                    if (Configs.KuudraPresNames) RealRenderUtils.renderWaypointText(box.label, box.x, box.y+0.5, box.z, e.partialTicks);
+                    GuiUtils.drawBoundingBoxAtBlock(new BlockPos(box.x, box.y - 1, box.z), Configs.KuudraPresNames ? Color.WHITE : box.color);
+                    if (Configs.KuudraPresNames) RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 2f, e.partialTicks);
                 } else {
-                    RealRenderUtils.render3dString(box.label, box.x, box.y, box.z, 0x00FF00, 3f, e.partialTicks);
+                    RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 3f, e.partialTicks);
                 }
             }
         }

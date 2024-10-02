@@ -46,6 +46,14 @@ public class MathUtils {
         return sdf.format(date);
     }
 
+    public static String formatTicks(long ticks) {
+        // Convert ticks to seconds (1 tick = 1 millisecond)
+        long seconds = ticks / 1000;
+
+        // Format the output as a string
+        return (int) seconds + "s";
+    }
+
     public static int intLerp(int start, int end, float t) {
         if (t <= 0.0f) {
             return start;
