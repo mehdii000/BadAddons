@@ -73,7 +73,7 @@ public class KuudraHandler extends MovableModule {
         String message = event.message.getUnformattedText();
 
         if (Configs.SupplyCount) {
-            if (containsSupplyPattern(SUPPLY_REGEX)) {
+            if (containsSupplyPattern(message)) {
                 Pattern pattern = Pattern.compile(SUPPLY_REGEX);
                 Matcher matcher = pattern.matcher(message);
                 String picker = matcher.group(1);
@@ -107,7 +107,7 @@ public class KuudraHandler extends MovableModule {
             }
         }
 
-        if (message.contains(" destroyed one of Kuudra") && Configs.InstastunHelper) {
+        if (message.contains(" destroyed one of Kuudra")) {
             NotificationManager.pushNotification("§cDestroyed pod in", "§e" + clickToStun + " Times!", 4000);
             timeOfStunning = System.currentTimeMillis();
         }
