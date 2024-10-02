@@ -52,9 +52,9 @@ public class KuudraHandler extends MovableModule {
     private String ccstun = "";
     private long timeSinceEaten = 0;
     private long timeOfStunning = 0;
+    private long timeSinceFresh = 0;
     private List<String> teammates = new ArrayList<String>();
     private HashMap<String, Integer> pickSupplies = new HashMap<String, Integer>();
-
     private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\s(?:recovered one of Elle's supplies|took\\s\\d+(?:\\.\\d+)?s\\sto\\srecover\\ssupply\\s\\(\\d+/\\d+\\)!)";
 
     private boolean containsSupplyPattern(String input) {
@@ -71,28 +71,41 @@ public class KuudraHandler extends MovableModule {
     public void onChatStuff(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
 
-        if (containsSupplyPattern(SUPPLY_REGEX) && Configs.SupplyCount) {
-            Pattern pattern = Pattern.compile(SUPPLY_REGEX);
-            Matcher matcher = pattern.matcher(message);
-            String picker = matcher.group(1);
-            NotificationManager.pushNotification("§e§l" + message.split(SUPPLY_REGEX)[0], "§aPicked-Up A Supply", 3000);
-            if (teammates.contains(picker)) {
-                pickSupplies.put(picker, pickSupplies.getOrDefault(picker, 0) + 1);
+        if (Configs.SupplyCount) {
+            if (containsSupplyPattern(SUPPLY_REGEX)) {
+                Pattern pattern = Pattern.compile(SUPPLY_REGEX);
+                Matcher matcher = pattern.matcher(message);
+                String picker = matcher.group(1);
+                NotificationManager.pushNotification("§e§l" + message.split(SUPPLY_REGEX)[0], "§aPicked-Up A Supply", 3000);
+                if (teammates.contains(picker)) {
+                    pickSupplies.put(picker, pickSupplies.getOrDefault(picker, 0) + 1);
+                }
+            }
+
+            if (message.contains(" is now ready!") && Configs.SupplyCount) {
+                if (!teammates.contains(message.split(" is now ready!")[0])) teammates.add(message.split(" is now ready!")[0]);
+            }
+            if (message.contains(" has been eaten by Kuudra!") && (!message.contains("Elle"))) {
+                String stunner = message.split(" has been eaten by Kuudra!")[0];
+                timeOfStunning = 0;
+                clickToStun = 0;
+                timeSinceEaten = System.currentTimeMillis();
+                if (teammates.contains(stunner)) ccstun = stunner;
             }
         }
 
-        if (message.contains(" is now ready!") && Configs.SupplyCount) {
-            if (!teammates.contains(message.split(" is now ready!")[0])) teammates.add(message.split(" is now ready!")[0]);
-        }
-        if (message.contains(" has been eaten by Kuudra!") && (!message.contains("Elle"))) {
-            String stunner = message.split(" has been eaten by Kuudra!")[0];
-            timeOfStunning = 0;
-            clickToStun = 0;
-            timeSinceEaten = System.currentTimeMillis();
-            if (teammates.contains(stunner)) ccstun = stunner;
+        if (message.contains("Your Fresh Tools Perk bonus doubles your building speed for the next 10 seconds!") && Configs.FreshDisplay) {
+            timeSinceFresh = (System.currentTimeMillis() + 10000);
+            BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
+            switch (Configs.FreshDisplayType) {
+                case 0:
+                    BadAddons.mc.ingameGUI.displayTitle(Configs.FreshDisplayString, "", 0, 2000, 0);
+                case 1:
+                    break;
+            }
         }
 
-        if (message.contains(" destroyed one of Kuudra")) {
+        if (message.contains(" destroyed one of Kuudra") && Configs.InstastunHelper) {
             ChatLib.chat("§e[BA] §aDestroyed pod in §f" + clickToStun + "§a clicks!");
             timeOfStunning = System.currentTimeMillis();
         }
@@ -141,7 +154,12 @@ public class KuudraHandler extends MovableModule {
             for (Entity entity : BadAddons.mc.theWorld.loadedEntityList) {
                 if (entity instanceof EntityArmorStand && entity.getDisplayName().getUnformattedText().contains("Building Progress ")) {
                     String progress = entity.getDisplayName().getUnformattedText().split("Building Progress ")[1].split("%")[0] + "%";
-                    RealRenderUtils.render3dString(progress, entity.posX, entity.posY + 1, entity.posZ, RainbowUtils.getRainbow().getRGB(), 23, e.partialTicks);
+                    RealRenderUtils.render3dString("§e" + progress, entity.posX, entity.posY + (timeSinceFresh > 0 ? 3 : 1), entity.posZ, 0x00FF00, 22, e.partialTicks);
+
+                    if (Configs.FreshDisplay && timeSinceFresh > 0) {
+                        RealRenderUtils.render3dString("§c" + String.valueOf((int) (Math.ceil((System.currentTimeMillis() - timeSinceFresh / 10)) / 100)), entity.posX, entity.posY + 1, entity.posZ, 0x00FF00, 15, e.partialTicks);
+                    }
+
                 }
             }
         }
@@ -196,6 +214,7 @@ public class KuudraHandler extends MovableModule {
 
     @SubscribeEvent
     public void onTickEnd(TickEndEvent e) {
+        if (System.currentTimeMillis() > timeSinceFresh) timeSinceFresh = -1;
         if (!SkyblockUtils.isInKuudra()) return;
         if (Configs.HideBlindness && BadAddons.mc.thePlayer.isPotionActive(Potion.blindness.getId())) {
             BadAddons.mc.thePlayer.removePotionEffect(Potion.blindness.getId());

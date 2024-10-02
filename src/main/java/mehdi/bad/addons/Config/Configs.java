@@ -201,6 +201,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.FOLDER,
+            name = "FreshHighlight",
+            description = "Kuudra freshing stuff.",
+            parent = "Kuudra"
+    )
+    public static boolean KuudraFreshFolder = false;
+
+    @Property(
+            type = Property.Type.FOLDER,
             name = "KuudraGameplay",
             description = "Kuudra important blah blah stuff.",
             parent = "Kuudra"
@@ -230,6 +238,27 @@ public class Configs {
             parent = "KuudraGameplay"
     )
     public static boolean TentacleHider = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "FreshDisplay",
+            description = "Displays a title/notification when §afresh tools §7perk activates.",
+            parent = "FreshHighlight"
+    )
+    public static boolean FreshDisplay = false;
+
+    @Property(
+            type = Property.Type.TEXT,
+            name = "FreshText",
+            description = "Custom message that appears when u fresh",
+            parent = "FreshHighlight"
+    )
+    public static String FreshDisplayString = "FRESH";
+
+    @Property(type = Property.Type.SELECT, name = "FreshDisplayType", parent = "FreshHighlight",
+            options = {"§aTitle", "§bNotification"},
+            description = "Select a rendering type for fresh tools.")
+    public static int FreshDisplayType = 0;
 
     @Property(
             type = Property.Type.BOOLEAN,
