@@ -101,6 +101,7 @@ public class KuudraHandler extends MovableModule {
             switch (Configs.FreshDisplayType) {
                 case 0:
                     BadAddons.mc.ingameGUI.displayTitle("§a" + Configs.FreshDisplayString.replace("&", "§"), "", 0, 2500, 0);
+                    break;
                 case 1:
                     NotificationManager.pushNotification("§a" + Configs.FreshDisplayString.replace("&", "§"), "", 2500);
                     break;
