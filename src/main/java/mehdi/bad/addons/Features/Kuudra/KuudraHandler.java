@@ -58,12 +58,6 @@ public class KuudraHandler extends MovableModule {
 
     private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
 
-    private boolean containsSupplyPattern(String input) {
-        Pattern pattern = Pattern.compile(SUPPLY_REGEX);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.find(); // This checks if the pattern is found anywhere in the string
-    }
-
     public KuudraHandler() {
         super("KuudraSplits", 16, 16, 100, 200);
     }
@@ -73,7 +67,7 @@ public class KuudraHandler extends MovableModule {
         String message = event.message.getUnformattedText();
 
         if (Configs.SupplyCount) {
-            if (containsSupplyPattern(message)) {
+            if (message.contains(" recovered one of Elle's supplies")) {
                 Pattern pattern = Pattern.compile(SUPPLY_REGEX);
                 Matcher matcher = pattern.matcher(message);
                 String picker = matcher.group(1);
@@ -109,7 +103,7 @@ public class KuudraHandler extends MovableModule {
         }
 
         if (message.contains(" destroyed one of Kuudra")) {
-            NotificationManager.pushNotification("§cDestroyed pod in", "§e" + clickToStun + " Times!", 4000);
+            BadAddons.mc.ingameGUI.displayTitle("§c§lATTACK", "", 0, 2500, 0);
             timeOfStunning = System.currentTimeMillis();
         }
 
