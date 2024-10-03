@@ -269,7 +269,7 @@ public class Configs {
     public static boolean KuudraPresHighlight = false;
 
     @Property(type = Property.Type.SELECT, name = "WaypointsType", parent = "Waypoints",
-            options = {"§aText", "§bCube"},
+            options = {"§bCube/Text", "§aText"},
             description = "Select a waypoints rendering type.")
     public static int KuudraPresHighlightType = 0;
 
@@ -312,6 +312,14 @@ public class Configs {
             parent = "KuudraGameplay"
     )
     public static boolean BalistaProgress = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "BoxKuudra",
+            description = "Draws a large box to esp kuudra.",
+            parent = "KuudraGameplay"
+    )
+    public static boolean BoxKuudra = false;
 
     @Property(
             type = Property.Type.BOOLEAN,

@@ -183,7 +183,8 @@ public class KuudraHandler extends MovableModule {
             // Render EspBoxes as normal
             for (EspBox box : EspBoxes) {
                 if (Configs.KuudraPresHighlightType == 0) {
-                    GuiUtils.drawBoundingBoxAtBlock(new BlockPos(box.x, box.y - 1, box.z), Configs.KuudraPresNames ? Color.WHITE : box.color);
+                    BlockPos blk = new BlockPos(box.x, box.y - 1, box.z);
+                    GuiUtils.drawBoundingBoxAtBlock(blk, Configs.KuudraPresNames ? Color.DARK_GRAY : box.color);
                     if (Configs.KuudraPresNames) RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 2f, e.partialTicks);
                 } else {
                     RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 3f, e.partialTicks);
@@ -257,17 +258,15 @@ public class KuudraHandler extends MovableModule {
                 .filter(gz -> gz.posY < 67)
                 .collect(Collectors.toList());
 
-        List<double[]> crates = new ArrayList<>();
-
         for (EntityGiantZombie supply : gzs) {
             List<EntityArmorStand> stands = getEntitiesInChunk(world, supply.chunkCoordX, supply.chunkCoordZ, EntityArmorStand.class);
 
             List<EntityArmorStand> active = stands.stream()
-                    .filter(stand -> stand.getCustomNameTag().contains("SUPPLIES") || stand.getCustomNameTag().contains("FUEL CELL"))
+                    .filter(stand -> stand.getCustomNameTag().contains("SUPPLIES"))
                     .collect(Collectors.toList());
 
             if (!active.isEmpty()) {
-                active.forEach(crate -> crates.add(new double[]{crate.posX, crate.posY, crate.posZ}));
+                active.forEach(crate -> GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(crate.posX, crate.posY, crate.posZ), Color.WHITE));
             } else {
                 double x = Math.round(supply.posX);
                 double z = Math.round(supply.posZ);
@@ -275,21 +274,16 @@ public class KuudraHandler extends MovableModule {
                 List<EntityArmorStand> nearbyStands = get3x3Stands((int) x, (int) z, 8, world);
 
                 List<EntityArmorStand> filteredNearbyStands = nearbyStands.stream()
-                        .filter(stand -> stand.getCustomNameTag().contains("SUPPLIES") || stand.getCustomNameTag().contains("FUEL CELL"))
+                        .filter(stand -> stand.getCustomNameTag().contains("SUPPLIES"))
                         .collect(Collectors.toList());
 
                 if (!filteredNearbyStands.isEmpty()) {
-                    filteredNearbyStands.forEach(crate -> crates.add(new double[]{crate.posX, crate.posY, crate.posZ}));
+                    filteredNearbyStands.forEach(crate -> GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(crate.posX, crate.posY, crate.posZ), Color.WHITE));
                 } else {
-                    crates.add(new double[]{supply.posX + 1, supply.posY, supply.posZ + 1});
+                    RealRenderUtils.renderBeaconBeam(new BlockPos(x, 70, z), 0xccf0ec, 1.0F, partialTicks, false);
                 }
             }
         }
-
-        crates.forEach(crate -> {
-            //RealRenderUtils.renderWaypointText("§4§lSUPPLY", crate[0], 60, crate[2], partialTicks);
-            RealRenderUtils.renderBeaconBeam(new BlockPos(crate[0], 70, crate[2]), 0x1fd8f1, 1.0F, partialTicks, false);
-        });
 
     }
 
