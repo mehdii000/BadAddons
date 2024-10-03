@@ -43,7 +43,7 @@ public class BadAddons {
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static ArrayList settings = Config.collect(Configs.class);
     public static GuiScreen guiToOpen = null;
-
+    private boolean checkForUpdate = false;
     public static float partialTicks = 0;
 
     public static BadCommand commandManager = new BadCommand(new Subcommand[]{
@@ -54,11 +54,16 @@ public class BadAddons {
             new GuiSubcommand(),
             new FlipperSubcommand(),
             new ReplaceWordSubcommand(),
-            new CreatepearlSubcommand()
+            new CheckupdateSubcommand(),
+            new UpdatemodSubcommand()
         });
     
     @SubscribeEvent
     public void onTick(TickEndEvent event) {
+        if (!checkForUpdate && SkyblockUtils.isInSkyblock()) {
+            UpdateCheck.checkForUpdates();
+            checkForUpdate = true;
+        }
         SkyblockUtils.currentMap = SkyblockUtils.updateCurrentMap();
         if (guiToOpen != null) {
             mc.displayGuiScreen(guiToOpen);

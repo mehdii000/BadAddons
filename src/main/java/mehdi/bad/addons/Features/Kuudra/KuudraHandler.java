@@ -1,7 +1,6 @@
 package mehdi.bad.addons.Features.Kuudra;
 
 import mehdi.bad.addons.BadAddons;
-import mehdi.bad.addons.Commands.Subcommands.CreatepearlSubcommand;
 import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.Config.modules.MovableModule;
 import mehdi.bad.addons.Events.RenderEntityModelEvent;
@@ -66,7 +65,7 @@ public class KuudraHandler extends MovableModule {
     public void onChatStuff(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
 
-        if (message.contains(" recovered one of Elle's supplies") && Configs.SupplyCount) {
+        if (message.contains("recovered one of Elle's supplies! ") && Configs.SupplyCount) {
             Pattern pattern = Pattern.compile(SUPPLY_REGEX);
             Matcher matcher = pattern.matcher(message);
             if (matcher.find()) {
@@ -142,10 +141,6 @@ public class KuudraHandler extends MovableModule {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onWorldRender(RenderWorldLastEvent e) {
-
-        if (CreatepearlSubcommand.lookAtPosition != null) {
-            GuiUtils.drawBoundingBoxAtBlock(CreatepearlSubcommand.lookAtPosition, Color.YELLOW);
-        }
 
         if (!SkyblockUtils.isInKuudra()) return;
         if (Configs.BalistaProgress) {
