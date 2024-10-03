@@ -799,4 +799,9 @@ public class GuiUtils {
 
     }
 
+    public static void drawSmallBoundingBoxAtBlock(double x, double y, double z, Color var1) {
+        drawBoxAt((float) x + 0.5F, (float) y, (float) z + 0.5F, var1.getRed(), var1.getGreen(), var1.getBlue(), var1.getAlpha(), 0.25F, 0.5F);
+
+    }
+
 }

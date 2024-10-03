@@ -54,6 +54,7 @@ public class KuudraHandler extends MovableModule {
     private long timeSinceFresh = 0;
     private List<String> teammates = new ArrayList<String>();
     private HashMap<String, Integer> pickSupplies = new HashMap<String, Integer>();
+    private int suppliesPicked = 0;
 
     private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
 
@@ -73,6 +74,7 @@ public class KuudraHandler extends MovableModule {
                 BadAddons.mc.ingameGUI.displayTitle("§a" + picker, "§asupplied", 0, 2500, 0);
                 if (this.teammates.contains(picker)) {
                     this.pickSupplies.put(picker, Integer.valueOf(this.pickSupplies.getOrDefault(picker, Integer.valueOf(0)).intValue() + 1));
+                    suppliesPicked++;
                 }
             }
         }
@@ -157,7 +159,7 @@ public class KuudraHandler extends MovableModule {
             }
         }
 
-        if (Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity) {
+        if (Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity && suppliesPicked < 6) {
             Vec3 playerPos = BadAddons.mc.thePlayer.getPositionVector();
             Set<Integer> nearbyColors = new HashSet<>();  // Store the colors of nearby EspBoxes
 
@@ -207,6 +209,15 @@ public class KuudraHandler extends MovableModule {
     }
 
     @SubscribeEvent
+    public void onRenderModel(RenderEntityModelEvent e) {
+        if (!Configs.BoxKuudra || !SkyblockUtils.isInKuudra()) return;
+        if (e.entity instanceof EntityMagmaCube) {
+            EntityMagmaCube mg = (EntityMagmaCube) e.entity;
+            if (mg.getSlimeSize() >= 15) OutlineUtils.outlineEntity(e, Color.RED, Configs.BoxKuudraSize + 1);
+        }
+    }
+
+    @SubscribeEvent
     public void onTickEnd(TickEndEvent e) {
         if (System.currentTimeMillis() > timeSinceFresh) timeSinceFresh = -1;
         if (!SkyblockUtils.isInKuudra()) return;
@@ -232,7 +243,6 @@ public class KuudraHandler extends MovableModule {
 
     private List<EntityArmorStand> get3x3Stands(int x, int z, int diff, World world) {
         List<EntityArmorStand> stands = new ArrayList<>();
-
         stands.addAll(getEntitiesInChunk(world, x, z, EntityArmorStand.class));
         stands.addAll(getEntitiesInChunk(world, x + diff, z + diff, EntityArmorStand.class));
         stands.addAll(getEntitiesInChunk(world, x + diff, z - diff, EntityArmorStand.class));
@@ -280,7 +290,7 @@ public class KuudraHandler extends MovableModule {
                 if (!filteredNearbyStands.isEmpty()) {
                     filteredNearbyStands.forEach(crate -> GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(crate.posX, crate.posY, crate.posZ), Color.WHITE));
                 } else {
-                    RealRenderUtils.renderBeaconBeam(new BlockPos(x, 70, z), 0xccf0ec, 1.0F, partialTicks, false);
+                    RealRenderUtils.renderBeaconBeamFloat(x, 70, z, 0xccf0ec, 1.0F, partialTicks, false);
                 }
             }
         }
@@ -373,7 +383,7 @@ public class KuudraHandler extends MovableModule {
 
         if (!SkyblockUtils.isInSkyblock()) return;
         if (SkyblockUtils.currentMap.contains("Kuudra") && SkyblockUtils.currentMap.contains("Hollow")) {
-            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + pickSupplies.entrySet().size() + "§7/6)", getX(), getY(), -1);
+            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6)", getX(), getY(), -1);
             for (int i = 0; i < teammates.size(); i++) {
                 if (teammates.get(i) != null) {
                     int supplies = (pickSupplies.get(teammates.get(i)) == null ? 0 : pickSupplies.get(teammates.get(i)));
@@ -392,6 +402,7 @@ public class KuudraHandler extends MovableModule {
             if (!teammates.isEmpty()) {
                 teammates.clear();
                 pickSupplies.clear();
+                suppliesPicked = 0;
             }
         }
 

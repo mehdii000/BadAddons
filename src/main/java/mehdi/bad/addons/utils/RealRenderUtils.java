@@ -127,6 +127,23 @@ public class RealRenderUtils {
 		RealRenderUtils.renderBeaconBeam(x, y, z, rgb, 1.0f, partialTicks, depth);
 	}
 
+	public static void renderBeaconBeamFloat(double fx, double fy, double fz, int rgb, float alphaMult, float partialTicks, boolean depth) {
+		double viewerX;
+		double viewerY;
+		double viewerZ;
+
+		Entity viewer = Minecraft.getMinecraft().getRenderViewEntity();
+		viewerX = viewer.lastTickPosX + (viewer.posX - viewer.lastTickPosX) * partialTicks;
+		viewerY = viewer.lastTickPosY + (viewer.posY - viewer.lastTickPosY) * partialTicks;
+		viewerZ = viewer.lastTickPosZ + (viewer.posZ - viewer.lastTickPosZ) * partialTicks;
+
+		double x = fx - viewerX;
+		double y = fy - viewerY;
+		double z = fz - viewerZ;
+
+		RealRenderUtils.renderBeaconBeam(x, y, z, rgb, 1.0f, partialTicks, depth);
+	}
+
 	public static void renderWayPoint(List<String> lines, Vector3f loc, float partialTicks, boolean onlyShowDistance) {
 		GlStateManager.alphaFunc(516, 0.1F);
 

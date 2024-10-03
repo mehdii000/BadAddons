@@ -321,6 +321,11 @@ public class Configs {
     )
     public static boolean BoxKuudra = false;
 
+    @Property(type = Property.Type.SELECT, name = "BoxKuudraSize", parent = "KuudraGameplay",
+            options = {"1", "2", "3", "4"},
+            description = "Select a size for outline.")
+    public static int BoxKuudraSize = 0;
+
     @Property(
             type = Property.Type.BOOLEAN,
             name = "InstaStunHelper",
