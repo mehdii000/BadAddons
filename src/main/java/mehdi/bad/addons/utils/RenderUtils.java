@@ -55,7 +55,7 @@ public class RenderUtils {
                 ItemStack itemStack = getItemStackByName(itemName);
 
                 if (itemStack != null) {
-                    renderItemStack(itemStack, cursorX, y);
+                    renderItemStack(itemStack, cursorX, y-1);
                     cursorX += 18; // Space between items
                 }
             } else {

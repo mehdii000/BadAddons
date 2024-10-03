@@ -66,27 +66,28 @@ public class KuudraHandler extends MovableModule {
     public void onChatStuff(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
 
-        if (Configs.SupplyCount) {
-            if (message.contains(" recovered one of Elle's supplies")) {
-                Pattern pattern = Pattern.compile(SUPPLY_REGEX);
-                Matcher matcher = pattern.matcher(message);
+        if (message.contains(" recovered one of Elle's supplies") && Configs.SupplyCount) {
+            Pattern pattern = Pattern.compile(SUPPLY_REGEX);
+            Matcher matcher = pattern.matcher(message);
+            if (matcher.find()) {
                 String picker = matcher.group(1);
-                NotificationManager.pushNotification("§e§l" + message.split(SUPPLY_REGEX)[0], "§aPicked-Up A Supply", 3000);
-                if (teammates.contains(picker)) {
-                    pickSupplies.put(picker, pickSupplies.getOrDefault(picker, 0) + 1);
+                BadAddons.mc.ingameGUI.displayTitle("§a" + picker, "§asupplied", 0, 2500, 0);
+                if (this.teammates.contains(picker)) {
+                    this.pickSupplies.put(picker, Integer.valueOf(this.pickSupplies.getOrDefault(picker, Integer.valueOf(0)).intValue() + 1));
                 }
             }
+        }
 
-            if (message.contains(" is now ready!") && Configs.SupplyCount) {
-                if (!teammates.contains(message.split(" is now ready!")[0])) teammates.add(message.split(" is now ready!")[0]);
-            }
-            if (message.contains(" has been eaten by Kuudra!") && (!message.contains("Elle"))) {
-                String stunner = message.split(" has been eaten by Kuudra!")[0];
-                timeOfStunning = 0;
-                clickToStun = 0;
-                timeSinceEaten = System.currentTimeMillis();
-                if (teammates.contains(stunner)) ccstun = stunner;
-            }
+        if (message.contains(" is now ready!") && Configs.SupplyCount) {
+            if (!teammates.contains(message.split(" is now ready!")[0])) teammates.add(message.split(" is now ready!")[0]);
+        }
+
+        if (message.contains(" has been eaten by Kuudra!") && (!message.contains("Elle"))) {
+            String stunner = message.split(" has been eaten by Kuudra!")[0];
+            timeOfStunning = 0;
+            clickToStun = 0;
+            timeSinceEaten = System.currentTimeMillis();
+            if (teammates.contains(stunner)) ccstun = stunner;
         }
 
         if (message.contains("Your Fresh Tools Perk bonus doubles your building speed for the next 10 seconds!") && Configs.FreshDisplay) {
@@ -154,7 +155,7 @@ public class KuudraHandler extends MovableModule {
                     RealRenderUtils.render3dString("§e" + progress, entity.posX, entity.posY + (timeSinceFresh > 0 ? 3 : 1), entity.posZ, 0x00FF00, 22, e.partialTicks);
 
                     if (Configs.FreshDisplay && timeSinceFresh > 0) {
-                        RealRenderUtils.render3dString("§c" + MathUtils.formatTicks(timeSinceFresh - System.currentTimeMillis()), entity.posX, entity.posY + 1, entity.posZ, 0x00FF00, 15, e.partialTicks);
+                        RealRenderUtils.render3dString("§c" + MathUtils.formatTicks(timeSinceFresh - System.currentTimeMillis()), entity.posX, entity.posY, entity.posZ, 0x00FF00, 15, e.partialTicks);
                     }
 
                 }
@@ -383,16 +384,16 @@ public class KuudraHandler extends MovableModule {
 
         if (!SkyblockUtils.isInSkyblock()) return;
         if (SkyblockUtils.currentMap.contains("Kuudra") && SkyblockUtils.currentMap.contains("Hollow")) {
-            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming", getX(), getY(), -1);
+            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + pickSupplies.entrySet().size() + "§7/6)", getX(), getY(), -1);
             for (int i = 0; i < teammates.size(); i++) {
                 if (teammates.get(i) != null) {
                     int supplies = (pickSupplies.get(teammates.get(i)) == null ? 0 : pickSupplies.get(teammates.get(i)));
                     double stunTime = timeOfStunning == 0 ? (timeSinceEaten == 0 ? 0 : (double)(Math.round((System.currentTimeMillis() - timeSinceEaten) / 10)) / 100) : (timeSinceEaten == 0 ? 0 : (double)(Math.round((timeOfStunning - timeSinceEaten) / 10)) / 100);
 
                     RenderUtils.renderStringWithItems((Objects.equals(teammates.get(i), ccstun)
-                            ? "§a[STUN] §r" + teammates.get(i) + " §e" + supplies + "§7/6 :IRON_PICKAXE: §b" + stunTime + "s"
-                            : "§e[DPS] §r" + teammates.get(i) + " §e" + supplies + "§7/6 :CHEST:"
-                    ), getX(), getY() + 16 + (14*i), -1, true);
+                            ? "§a[STUN] §r" + teammates.get(i) + " §e" + supplies + " :IRON_PICKAXE: §b" + stunTime + "s"
+                            : "§e[DPS] §r" + teammates.get(i) + " §e" + supplies + " :CHEST:"
+                    ), getX(), getY() + 16 + (15*i), -1, true);
                 }
             }
 

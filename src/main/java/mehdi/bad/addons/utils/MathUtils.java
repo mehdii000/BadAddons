@@ -51,7 +51,7 @@ public class MathUtils {
         long seconds = ticks / 1000;
 
         // Format the output as a string
-        return (int) seconds + "s";
+        return Math.ceil(seconds) + "s";
     }
 
     public static int intLerp(int start, int end, float t) {
