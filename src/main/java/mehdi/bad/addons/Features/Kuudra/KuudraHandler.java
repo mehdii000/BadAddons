@@ -213,7 +213,7 @@ public class KuudraHandler extends MovableModule {
         if (!Configs.BoxKuudra || !SkyblockUtils.isInKuudra()) return;
         if (e.entity instanceof EntityMagmaCube) {
             EntityMagmaCube mg = (EntityMagmaCube) e.entity;
-            if (mg.getSlimeSize() >= 15) OutlineUtils.outlineEntity(e, Color.RED, Configs.BoxKuudraSize + 1);
+            if (mg.getSlimeSize() >= 25) OutlineUtils.outlineEntity(e, Color.RED, Configs.BoxKuudraSize + 2);
         }
     }
 
@@ -290,7 +290,7 @@ public class KuudraHandler extends MovableModule {
                 if (!filteredNearbyStands.isEmpty()) {
                     filteredNearbyStands.forEach(crate -> GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(crate.posX, crate.posY, crate.posZ), Color.WHITE));
                 } else {
-                    RealRenderUtils.renderBeaconBeamFloat(x, 70, z, 0xccf0ec, 1.0F, partialTicks, false);
+                    RealRenderUtils.renderBeaconBeamFloat(x-1, 70, z+1, 0xccf0ec, 1.0F, partialTicks, false);
                 }
             }
         }
