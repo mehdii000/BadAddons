@@ -14,7 +14,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyStore;
-import java.util.zip.ZipInputStream;
 
 public class UpdateCheck {
 
@@ -61,116 +60,122 @@ public class UpdateCheck {
     }
 
     public static void downloadAndExtractMod() {
-        ZipInputStream zipInputStream;
-        InputStream inputStream = null;
-        InputStream trustStoreInputStream;
+        new Thread(() -> {
+            InputStream inputStream = null;
+            InputStream trustStoreInputStream;
 
-        try {
-            // Load truststore from the classpath
-            trustStoreInputStream = BadAddons.class.getResourceAsStream("/skytilscacerts.jks");
-            if (trustStoreInputStream == null) {
-                // Truststore not found in the classpath
-                throw new FileNotFoundException("Truststore file not found");
-            }
-
-            /**
-             *
-             * Create and load the truststore.
-             * Tried for 6 hours to create my own CA certified jks but failed...
-             * Assuming I can use ST cert since it's open source :).
-             * LMK if this needs to be changed, bedge.
-             */
-            KeyStore trustStore = KeyStore.getInstance("JKS");
-            trustStore.load(trustStoreInputStream, "skytilsontop".toCharArray());
-
-            // Initialize TrustManagerFactory with the loaded truststore
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init(trustStore);
-
-            // Initialize SSLContext with the trust managers from TrustManagerFactory
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
-
-            // Set the default SSL socket factory
-            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-
-            // Fetch information about the latest release
-            URL apiUrl = new URL(UPDATE_CHECK_URL);
-            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder response = new StringBuilder();
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
+            try {
+                // Load truststore from the classpath
+                trustStoreInputStream = BadAddons.class.getResourceAsStream("/skytilscacerts.jks");
+                if (trustStoreInputStream == null) {
+                    throw new FileNotFoundException("Truststore file not found");
                 }
-                reader.close();
 
-                // Parse JSON response
-                JsonObject releaseJson = new JsonParser().parse(response.toString()).getAsJsonObject();
-                String latestVersion = releaseJson.get("tag_name").getAsString();
+                // Create and load the truststore
+                KeyStore trustStore = KeyStore.getInstance("JKS");
+                trustStore.load(trustStoreInputStream, "skytilsontop".toCharArray());
 
-                // Extract URL of the jar file from the assets array
-                JsonArray assets = releaseJson.get("assets").getAsJsonArray();
-                String jarUrl = null;
-                for (int i = 0; i < assets.size(); i++) {
-                    JsonObject asset = assets.get(i).getAsJsonObject();
-                    if (asset.get("name").getAsString().equals("BadAddons-" + latestVersion.split("v")[1] + ".jar")) {
-                        jarUrl = asset.get("browser_download_url").getAsString();
-                        break;
+                // Initialize TrustManagerFactory with the loaded truststore
+                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                trustManagerFactory.init(trustStore);
+
+                // Initialize SSLContext with the trust managers from TrustManagerFactory
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
+
+                // Set the default SSL socket factory
+                HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+
+                // Fetch information about the latest release
+                URL apiUrl = new URL(UPDATE_CHECK_URL);
+                HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
                     }
-                }
+                    reader.close();
 
-                if (jarUrl != null) {
-                    try {
-                        // Download the JAR file
-                        inputStream = new URL(jarUrl).openStream();
-                        File modsFolder = new File(Minecraft.getMinecraft().mcDataDir, "mods");
-                        File jarFile = new File(modsFolder, "BadAddons-" + latestVersion.split("v")[1] + ".jar");
+                    // Parse JSON response
+                    JsonObject releaseJson = new JsonParser().parse(response.toString()).getAsJsonObject();
+                    String latestVersion = releaseJson.get("tag_name").getAsString();
 
-                        // Create parent directories if they don't exist
-                        File parentDir = new File(jarFile.getParent());
-                        if (!parentDir.exists()) {
-                            parentDir.mkdirs();
+                    // Extract URL of the jar file from the assets array
+                    JsonArray assets = releaseJson.get("assets").getAsJsonArray();
+                    String jarUrl = null;
+                    for (int i = 0; i < assets.size(); i++) {
+                        JsonObject asset = assets.get(i).getAsJsonObject();
+                        if (asset.get("name").getAsString().equals("BadAddons-" + latestVersion.split("v")[1] + ".jar")) {
+                            jarUrl = asset.get("browser_download_url").getAsString();
+                            break;
                         }
+                    }
 
-                        // Write the downloaded JAR file
-                        try (FileOutputStream fileOutputStream = new FileOutputStream(jarFile)) {
-                            byte[] buffer = new byte[1024];
-                            int bytesRead;
-                            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                                fileOutputStream.write(buffer, 0, bytesRead);
+                    if (jarUrl != null) {
+                        File modsFolder = new File(Minecraft.getMinecraft().mcDataDir, "mods");
+                        File oldModFile = new File(modsFolder, "BadAddons-" + BadAddons.VERSION + ".jar");
+
+                        // Check and delete the old mod file if it exists
+                        if (oldModFile.exists()) {
+                            if (oldModFile.delete()) {
+                                ChatLib.chat("§eOld BadAddons version " + BadAddons.VERSION + " has been deleted.");
+                            } else {
+                                ChatLib.chat("§cFailed to delete old BadAddons version " + BadAddons.VERSION + ". Please remove it manually.");
                             }
                         }
 
-                        ChatLib.chat("§aSuccessfully downloaded BadAddons version " + latestVersion);
+                        // Download the new JAR file
+                        try {
+                            inputStream = new URL(jarUrl).openStream();
+                            File jarFile = new File(modsFolder, "BadAddons-" + latestVersion.split("v")[1] + ".jar");
 
+                            // Create parent directories if they don't exist
+                            File parentDir = new File(jarFile.getParent());
+                            if (!parentDir.exists()) {
+                                parentDir.mkdirs();
+                            }
+
+                            // Write the downloaded JAR file
+                            try (FileOutputStream fileOutputStream = new FileOutputStream(jarFile)) {
+                                byte[] buffer = new byte[1024];
+                                int bytesRead;
+                                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                                    fileOutputStream.write(buffer, 0, bytesRead);
+                                }
+                            }
+
+                            ChatLib.chat("§aSuccessfully downloaded BadAddons version " + latestVersion + ". §cPlease restart your game for changes to take effect.");
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            ChatLib.chat("§cFailed to download the new version of BadAddons.");
+                        }
+
+                    } else {
+                        ChatLib.chat("§cError! BadAddons JAR not found in the latest update assets!");
+                    }
+                } else {
+                    ChatLib.chat("§cError downloading BadAddons latest update!");
+                }
+
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    ChatLib.chat("§cError! BadAddons JAR not found in the latest update assets!");
-                }
-            } else {
-                ChatLib.chat("§cError downloading BadAddons latest update!");
-            }
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
-        }
-
+        }).start(); // Run everything in a new thread to keep the process smooth
     }
 
 
