@@ -21,9 +21,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StringUtils;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -226,36 +228,6 @@ public class KuudraHandler extends MovableModule {
         }
     }
 
-    // Method to get all entities of a specific type from a chunk
-    private <T extends Entity> List<T> getEntitiesInChunk(World world, int chunkX, int chunkZ, Class<T> entityClass) {
-        List<T> entities = new ArrayList<>();
-        Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
-
-        for (ClassInheritanceMultiMap<Entity> entityMultiMap : chunk.getEntityLists()) {
-            for (Entity entity : entityMultiMap) {
-                if (entityClass.isInstance(entity)) {
-                    entities.add(entityClass.cast(entity));
-                }
-            }
-        }
-        return entities;
-    }
-
-    private List<EntityArmorStand> get3x3Stands(int x, int z, int diff, World world) {
-        List<EntityArmorStand> stands = new ArrayList<>();
-        stands.addAll(getEntitiesInChunk(world, x, z, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x + diff, z + diff, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x + diff, z - diff, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x - diff, z + diff, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x - diff, z - diff, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x + diff, z, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x - diff, z, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x, z + diff, EntityArmorStand.class));
-        stands.addAll(getEntitiesInChunk(world, x, z - diff, EntityArmorStand.class));
-
-        return stands;
-    }
-
     // Main method to process crates
     public void processCrates(World world, float partialTicks) {
         if (!Configs.KuudraSuppliesWaypoints) {
@@ -275,9 +247,9 @@ public class KuudraHandler extends MovableModule {
             double x = supply.getPosition().getX() + (3.7 * Math.cos((yaw + 130) * (Math.PI / 180)));
             double z = supply.getPosition().getZ() + (3.7 * Math.sin((yaw + 130) * (Math.PI / 180)));
 
-            GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 72, z), Color.YELLOW);
-            RealRenderUtils.render3dString("§4CRATE", x, 73, z, 1, 1.5f, partialTicks);
-            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 73, z, 0xcbed4e, 1, partialTicks, false);
+            GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 74, z), Color.YELLOW);
+            RealRenderUtils.render3dString("§4CRATE", x, 74, z, 1, 1.5f, partialTicks);
+            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 75, z, 0xcbed4e, 1, partialTicks, false);
 
         }
 
