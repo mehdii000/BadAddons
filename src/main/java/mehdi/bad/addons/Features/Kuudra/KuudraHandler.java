@@ -161,7 +161,7 @@ public class KuudraHandler extends MovableModule {
             }
         }
 
-        if (Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity && suppliesPicked < 6) {
+        if ((Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity) && suppliesPicked < 6) {
             Vec3 playerPos = BadAddons.mc.thePlayer.getPositionVector();
             Set<Integer> nearbyColors = new HashSet<>();  // Store the colors of nearby EspBoxes
 
@@ -204,7 +204,7 @@ public class KuudraHandler extends MovableModule {
             }
         }
 
-        if (Configs.KuudraSuppliesWaypoints) {
+        if (Configs.KuudraSuppliesWaypoints && suppliesPicked < 6) {
             processCrates(BadAddons.mc.theWorld, e.partialTicks);
         }
 
@@ -237,15 +237,14 @@ public class KuudraHandler extends MovableModule {
         List<EntityGiantZombie> gzs = world.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityGiantZombie)
                 .map(entity -> (EntityGiantZombie) entity)
-                .filter(gz -> gz.posY < 67)
-                .filter(gz -> gz.getHeldItem().toString().equalsIgnoreCase("1xitem.skull@3"))
+                .filter(gz -> gz.getHeldItem().toString().equals("1xitem.skull@3"))
                 .collect(Collectors.toList());
 
         for (EntityGiantZombie supply : gzs) {
 
             float yaw = supply.getRotationYawHead();
-            double x = supply.getPosition().getX() + (3.7 * Math.cos((yaw + 130) * (Math.PI / 180)));
-            double z = supply.getPosition().getZ() + (3.7 * Math.sin((yaw + 130) * (Math.PI / 180)));
+            double x = supply.getPosition().getX() + (3.8 * Math.cos((yaw + 130) * (Math.PI / 180)));
+            double z = supply.getPosition().getZ() + (3.8 * Math.sin((yaw + 130) * (Math.PI / 180)));
 
             GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 74, z), Color.YELLOW);
             RealRenderUtils.render3dString("§4CRATE", x, 74, z, 1, 1.5f, partialTicks);
