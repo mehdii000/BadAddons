@@ -93,17 +93,15 @@ public class KuudraHandler extends MovableModule {
             if (teammates.contains(stunner)) ccstun = stunner;
         }
 
+        // Handle Fresh Tools perk
         if (message.contains("Your Fresh Tools Perk bonus doubles your building speed for the next 10 seconds!") && Configs.FreshDisplay) {
-            timeSinceFresh = (System.currentTimeMillis() + 10000);
+            timeSinceFresh = System.currentTimeMillis() + 10000;
             BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
-            switch (Configs.FreshDisplayType) {
-                case 0:
-                    BadAddons.mc.ingameGUI.displayTitle("§a" + Configs.FreshDisplayString.replace("&", "§"), "", 0, 2500, 0);
-                    break;
-                case 1:
-                    NotificationManager.pushNotification("§a" + Configs.FreshDisplayString.replace("&", "§"), "", 2500);
-                    break;
-            }
+            String freshDisplayMessage = "§a" + Configs.FreshDisplayString.replace("&", "§");
+            if (Configs.FreshDisplayType == 0)
+                BadAddons.mc.ingameGUI.displayTitle(freshDisplayMessage, "", 0, 2500, 0);
+            else
+                NotificationManager.pushNotification(freshDisplayMessage, "", 2500);
         }
 
         if (message.contains(" destroyed one of Kuudra")) {
@@ -115,8 +113,7 @@ public class KuudraHandler extends MovableModule {
 
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload event) {
-        timeOfStunning = 0;
-        timeSinceEaten = 0;
+        resetKuudraHandler();
         if (!Configs.InstastunHelper) toStandOn = null; toBreak = null;
     }
 
@@ -151,7 +148,7 @@ public class KuudraHandler extends MovableModule {
             for (Entity entity : BadAddons.mc.theWorld.loadedEntityList) {
                 if (entity instanceof EntityArmorStand && entity.getDisplayName().getUnformattedText().contains("Building Progress ")) {
                     String progress = entity.getDisplayName().getUnformattedText().split("Building Progress ")[1].split("%")[0] + "%";
-                    RealRenderUtils.render3dString("§e" + progress, entity.posX, entity.posY + (timeSinceFresh > 0 ? 3 : 1), entity.posZ, 0x00FF00, 22, e.partialTicks);
+                    RealRenderUtils.render3dString("§e" + progress, entity.posX, entity.posY + (timeSinceFresh > 0 ? 3 : 1), entity.posZ, 0x00FF00, 21, e.partialTicks);
 
                     if (Configs.FreshDisplay && timeSinceFresh > 0) {
                         RealRenderUtils.render3dString("§c" + MathUtils.formatTicks(timeSinceFresh - System.currentTimeMillis()), entity.posX, entity.posY, entity.posZ, 0x00FF00, 15, e.partialTicks);
@@ -191,7 +188,7 @@ public class KuudraHandler extends MovableModule {
                     GuiUtils.drawBoundingBoxAtBlock(blk, Configs.KuudraPresNames ? Color.DARK_GRAY : box.color);
                     if (Configs.KuudraPresNames) RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 2f, e.partialTicks);
                 } else {
-                    RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 3f, e.partialTicks);
+                    RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 1.5f, e.partialTicks);
                 }
             }
         }
@@ -206,6 +203,10 @@ public class KuudraHandler extends MovableModule {
 
         if (Configs.KuudraSuppliesWaypoints && suppliesPicked < 6) {
             processCrates(BadAddons.mc.theWorld, e.partialTicks);
+        }
+
+        if (suppliesPicked > 6) {
+
         }
 
     }
@@ -233,22 +234,24 @@ public class KuudraHandler extends MovableModule {
         if (!Configs.KuudraSuppliesWaypoints) {
             return;
         }
-
+        if (world == null || world.loadedEntityList == null) {
+            return;
+        }
         List<EntityGiantZombie> gzs = world.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityGiantZombie)
                 .map(entity -> (EntityGiantZombie) entity)
-                .filter(gz -> gz.getHeldItem().toString().equals("1xitem.skull@3"))
+                .filter(gz -> gz.getHeldItem() != null && gz.getHeldItem().toString().equals("1xitem.skull@3"))
                 .collect(Collectors.toList());
 
         for (EntityGiantZombie supply : gzs) {
 
             float yaw = supply.getRotationYawHead();
-            double x = supply.getPosition().getX() + (3.8 * Math.cos((yaw + 130) * (Math.PI / 180)));
-            double z = supply.getPosition().getZ() + (3.8 * Math.sin((yaw + 130) * (Math.PI / 180)));
+            double x = supply.getPosition().getX() + (3.7 * Math.cos((yaw + 130) * (Math.PI / 180)));
+            double z = supply.getPosition().getZ() + (3.7 * Math.sin((yaw + 130) * (Math.PI / 180)));
 
-            GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 74, z), Color.YELLOW);
-            RealRenderUtils.render3dString("§4CRATE", x, 74, z, 1, 1.5f, partialTicks);
-            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 75, z, 0xcbed4e, 1, partialTicks, false);
+            GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 75, z), Color.YELLOW);
+            RealRenderUtils.render3dString("§4CRATE", x, 74.5, z, 1, 1.25f, partialTicks);
+            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 75, z, 0xcbed4e, 0.8f, partialTicks, false);
 
         }
 
@@ -339,7 +342,7 @@ public class KuudraHandler extends MovableModule {
     public void render() {
 
         if (!SkyblockUtils.isInSkyblock()) return;
-        if (SkyblockUtils.currentMap.contains("Kuudra") && SkyblockUtils.currentMap.contains("Hollow")) {
+        if (SkyblockUtils.isInKuudra()) {
             BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6)", getX(), getY(), -1);
             for (int i = 0; i < teammates.size(); i++) {
                 if (teammates.get(i) != null) {
@@ -354,15 +357,17 @@ public class KuudraHandler extends MovableModule {
             }
 
         } else {
-            timeSinceEaten = 0;
-            timeOfStunning = 0;
-            if (!teammates.isEmpty()) {
-                teammates.clear();
-                pickSupplies.clear();
-                suppliesPicked = 0;
-            }
+            resetKuudraHandler();
         }
 
+    }
+
+    private void resetKuudraHandler() {
+        timeSinceEaten = 0;
+        timeOfStunning = 0;
+        teammates.clear();
+        pickSupplies.clear();
+        suppliesPicked = 0;
     }
 
     public class EspBox {
