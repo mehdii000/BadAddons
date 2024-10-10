@@ -343,9 +343,9 @@ public class RealRenderUtils {
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		int i = 0;
-		fontRenderer.drawString(str, -fontRenderer.getStringWidth(str) / 2, i, color);
+		fontRenderer.drawStringWithShadow(str, (float) -fontRenderer.getStringWidth(str) / 2, i, color);
 		GlStateManager.depthMask(true);
-		fontRenderer.drawString(str, -fontRenderer.getStringWidth(str) / 2, i, -1);
+		fontRenderer.drawStringWithShadow(str, (float) -fontRenderer.getStringWidth(str) / 2, i, -1);
 
 		GlStateManager.enableDepth();
 		GlStateManager.enableBlend();

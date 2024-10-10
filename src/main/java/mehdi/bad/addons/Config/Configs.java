@@ -226,10 +226,18 @@ public class Configs {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "§bSuppliesWaypoints",
-            description = "Highlights supply-pres shapes.",
+            description = "Highlights kuudra supplies in the lava.",
             parent = "Waypoints"
     )
     public static boolean KuudraSuppliesWaypoints = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "§bRenderBeaconBeam",
+            description = "Wether to render  beacon or only a box.",
+            parent = "Waypoints"
+    )
+    public static boolean SuppliesWaypointsBeacon = false;
 
     @Property(
             type = Property.Type.BOOLEAN,

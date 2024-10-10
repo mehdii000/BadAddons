@@ -266,33 +266,19 @@ public class KuudraHandler extends MovableModule {
                 .filter(entity -> entity instanceof EntityGiantZombie)
                 .map(entity -> (EntityGiantZombie) entity)
                 .filter(gz -> gz.posY < 67)
+                .filter(gz -> gz.getHeldItem().toString().equalsIgnoreCase("1xitem.skull@3"))
                 .collect(Collectors.toList());
 
         for (EntityGiantZombie supply : gzs) {
-            List<EntityArmorStand> stands = getEntitiesInChunk(world, supply.chunkCoordX, supply.chunkCoordZ, EntityArmorStand.class);
 
-            List<EntityArmorStand> active = stands.stream()
-                    .filter(stand -> stand.getCustomNameTag().contains("SUPPLIES"))
-                    .collect(Collectors.toList());
+            float yaw = supply.getRotationYawHead();
+            double x = supply.getPosition().getX() + (3.7 * Math.cos((yaw + 130) * (Math.PI / 180)));
+            double z = supply.getPosition().getZ() + (3.7 * Math.sin((yaw + 130) * (Math.PI / 180)));
 
-            if (!active.isEmpty()) {
-                active.forEach(crate -> GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(crate.posX, crate.posY, crate.posZ), Color.WHITE));
-            } else {
-                double x = Math.round(supply.posX);
-                double z = Math.round(supply.posZ);
+            GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 72, z), Color.YELLOW);
+            RealRenderUtils.render3dString("§4CRATE", x, 73, z, 1, 1.5f, partialTicks);
+            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 73, z, 0xcbed4e, 1, partialTicks, false);
 
-                List<EntityArmorStand> nearbyStands = get3x3Stands((int) x, (int) z, 8, world);
-
-                List<EntityArmorStand> filteredNearbyStands = nearbyStands.stream()
-                        .filter(stand -> stand.getCustomNameTag().contains("SUPPLIES"))
-                        .collect(Collectors.toList());
-
-                if (!filteredNearbyStands.isEmpty()) {
-                    filteredNearbyStands.forEach(crate -> GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(crate.posX, crate.posY, crate.posZ), Color.WHITE));
-                } else {
-                    RealRenderUtils.renderBeaconBeamFloat(x-1, 70, z+1, 0xccf0ec, 1.0F, partialTicks, false);
-                }
-            }
         }
 
     }

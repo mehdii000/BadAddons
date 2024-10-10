@@ -43,12 +43,12 @@ public class CombatXPTracker extends MovableModule {
         if (xpValue != null) {
             int parsedXp = parseStringToInt(xpValue);  // Parse XP once for reuse
             if (initialXp < 0 || parsedXp - initialXp < 0) {
-                initialXp += parsedXp;  // Initialize the XP tracker if necessary
+                initialXp = parsedXp;  // Initialize the XP tracker if necessary
             }
 
             xpEta = ":DIAMOND_SWORD: §7Xp: §b+" + AuctionUtils.formatPrice(parsedXp - initialXp);
         } else {
-            xpEta = "§c[ /tab -> Skills ]";
+            xpEta = "§c[ §c/tab §7-> §cSkills §c]";
         }
     }
 

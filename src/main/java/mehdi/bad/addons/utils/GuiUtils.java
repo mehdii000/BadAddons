@@ -497,7 +497,7 @@ public class GuiUtils {
     }
 
 
-    public static void drawBoxAt(float x, float y, float z, int red, int green, int blue, int alpha, float width, float height) {
+    public static void drawBoxAt(double x, double y, double z, int red, int green, int blue, int alpha, float width, float height) {
         GL11.glPushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
@@ -534,16 +534,13 @@ public class GuiUtils {
         GL11.glPopMatrix();
     }
 
-    public static void drawFullBlockAt(BlockPos pos, Color color) {
-        double x = pos.getX();
-        double y = pos.getY();
-        double z = pos.getZ();
+    public static void drawFullBlockAt(double x, double y, double z, Color color) {
         float r = color.getRed() / 255.0F;
         float g = color.getGreen() / 255.0F;
         float b = color.getBlue() / 255.0F;
         float a = color.getAlpha() / 255.0F;
 
-        drawBoxAt((float) (x-0.5), (float) (y-0.5), (float) (z-0.5), (int) (r * 255), (int) (g * 255), (int) (b * 255), (int) (a * 255), 1, 1);
+        drawBoxAt((float) (x-0.5), (float) (y-0.5), (float) (z-0.5), (int) (r * 255), (int) (g * 255), (int) (b * 255), (int) (a * 255), 0.5f, 0.5f);
     }
     
     public static void drawNameAndLevel(FontRenderer var0, String var1, String var2, int var3, int var4, double var5, double var7) {
