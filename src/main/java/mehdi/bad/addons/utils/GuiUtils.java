@@ -797,7 +797,7 @@ public class GuiUtils {
     }
 
     public static void drawCustomBoundingBoxAtBlock(BlockPos var0, Color var1, float size) {
-        drawBoxAt((float) var0.getX() + 0.5F, (float) var0.getY(), (float) var0.getZ() + 0.5F, var1.getRed(), var1.getGreen(), var1.getBlue(), var1.getAlpha(), size/2, size);
+        drawBoxAt((float) var0.getX() + size/2, (float) var0.getY(), (float) var0.getZ() + size/2, var1.getRed(), var1.getGreen(), var1.getBlue(), var1.getAlpha(), size/2, size);
 
     }
 

@@ -228,7 +228,7 @@ public class KuudraHandler extends MovableModule {
 
             GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 75, z), Color.YELLOW);
             RealRenderUtils.render3dString("§4CRATE", x, 74.5, z, 1, 1.25f, partialTicks);
-            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 75, z, 0xcbed4e, 0.8f, partialTicks, false);
+            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 75, z, 0xcbed4e, 0.8f, partialTicks, true);
 
         }
 

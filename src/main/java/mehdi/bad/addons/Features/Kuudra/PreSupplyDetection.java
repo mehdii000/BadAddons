@@ -89,7 +89,7 @@ public class PreSupplyDetection extends MovableModule {
         if (!SkyblockUtils.isInKuudra()) return;
         if (Configs.KuudraPreDetection && currentPreSpot != null) {
             Vec3 pos = currentPreSpot.getInitialPos();
-            GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord, pos.yCoord, pos.zCoord), Color.RED, 13);
+            GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord, pos.yCoord, pos.zCoord), Color.WHITE, 12);
         }
     }
 
