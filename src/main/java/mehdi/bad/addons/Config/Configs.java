@@ -47,6 +47,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "FetchWaypoints",
+            description = "Fetches waypoints coords from chat and renders them.",
+            parent = "Maps"
+    )
+    public static boolean FetchWaypoints = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Combat XP Tracker",
             description = "Tracks combat xp regardless of method of gaining (hyperion).\n§cRequires /tab §7-> §cSkills [Combat]",
             parent = "Trackers"
@@ -307,6 +315,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "KuudraPreDetection",
+            description = "Marks and highilghts your current & last pre!",
+            parent = "KuudraGameplay"
+    )
+    public static boolean KuudraPreDetection = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "NoBlindness",
             description = "Hides blindness effect.",
             parent = "KuudraGameplay"
@@ -333,13 +349,5 @@ public class Configs {
             options = {"1", "2", "3", "4"},
             description = "Select a size for outline.")
     public static int BoxKuudraSize = 0;
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "InstaStunHelper",
-            description = "Highlights the blocks to stand on and to break for instastunning",
-            parent = "KuudraGameplay"
-    )
-    public static boolean InstastunHelper = false;
 
 }

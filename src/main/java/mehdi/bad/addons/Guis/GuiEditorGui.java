@@ -40,8 +40,8 @@ public class GuiEditorGui extends GuiScreen {
             GuiUtils.drawTexture(new ResourceLocation("badaddons:uibox.png"), x, y, width, height);
             GuiUtils.drawTexture(new ResourceLocation("badaddons:select.png"), x + width - RESIZE_HANDLE_SIZE, y + height - RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE, RESIZE_HANDLE_SIZE);
 
-            // Draw the module name in the center of the module
-            RenderUtils.drawScaledCenteredString("§b" + module.getName(), x + (width / 2), y + (height / 2), 1.25f - ((float) 1 / width));
+            module.render();
+            RenderUtils.drawScaledCenteredString("§b" + module.getName(), x + (width / 2), y, 1.25f - ((float) 1 / width));
         }
 
         // Handle dragging

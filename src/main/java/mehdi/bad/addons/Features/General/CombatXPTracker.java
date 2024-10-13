@@ -7,6 +7,7 @@ import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.utils.AuctionUtils;
 import mehdi.bad.addons.utils.MinecraftUtils;
 import mehdi.bad.addons.utils.RenderUtils;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -63,9 +64,22 @@ public class CombatXPTracker extends MovableModule {
     @Override
     public void render() {
         if (!Configs.CombatXPTracker) return;
-        int centeredX = getX() + (getWidth() - BadAddons.mc.fontRendererObj.getStringWidth(xpEta)) / 2;
-        int centeredY = getY() + (getHeight()) / 2;
-        RenderUtils.renderStringWithItems(xpEta, centeredX, centeredY, 1, true);
+
+        int textWidth = RenderUtils.getStringWidthWithItem(xpEta);
+        int textHeight = BadAddons.mc.fontRendererObj.FONT_HEIGHT;
+
+        float scaleX = (float) getWidth() / textWidth;
+        float scaleY = (float) getHeight() / textHeight;
+        float factor = Math.min(scaleX, scaleY) * 0.9f;
+
+        int centeredX = getX() + (getWidth() - (int)(textWidth * factor)) / 2;
+        int centeredY = getY() + (getHeight() - (int)(textHeight * factor)) / 2;
+
+        // Apply scaling
+        GlStateManager.scale(factor, factor, 1);
+        RenderUtils.renderStringWithItems(xpEta, centeredX / factor, centeredY / factor, 1, true);
+        GlStateManager.scale(1 / factor, 1 / factor, 1); // Revert scaling
     }
+
 
 }

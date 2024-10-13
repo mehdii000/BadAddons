@@ -8,9 +8,6 @@ import mehdi.bad.addons.Events.SlotClickEvent;
 import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.Objects.NotificationManager;
 import mehdi.bad.addons.utils.*;
-import net.minecraft.block.BlockNetherBrick;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
@@ -22,13 +19,11 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -36,7 +31,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.vecmath.Vector3f;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
@@ -45,10 +39,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class KuudraHandler extends MovableModule {
-
-    private Vector3f toStandOn;
-    private Vector3f toBreak;
-    private int clickToStun = 0;
 
     private String ccstun = "";
     private long timeSinceEaten = 0;
@@ -73,7 +63,7 @@ public class KuudraHandler extends MovableModule {
             Matcher matcher = pattern.matcher(message);
             if (matcher.find()) {
                 String picker = matcher.group(1);
-                BadAddons.mc.ingameGUI.displayTitle("§a" + picker, "§asupplied", 0, 2500, 0);
+                BadAddons.mc.ingameGUI.displayTitle("§a" + picker, "§aSupplied", 0, 2500, 0);
                 if (this.teammates.contains(picker)) {
                     this.pickSupplies.put(picker, Integer.valueOf(this.pickSupplies.getOrDefault(picker, Integer.valueOf(0)).intValue() + 1));
                     suppliesPicked++;
@@ -88,7 +78,6 @@ public class KuudraHandler extends MovableModule {
         if (message.contains(" has been eaten by Kuudra!") && (!message.contains("Elle"))) {
             String stunner = message.split(" has been eaten by Kuudra!")[0];
             timeOfStunning = 0;
-            clickToStun = 0;
             timeSinceEaten = System.currentTimeMillis();
             if (teammates.contains(stunner)) ccstun = stunner;
         }
@@ -114,7 +103,6 @@ public class KuudraHandler extends MovableModule {
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload event) {
         resetKuudraHandler();
-        if (!Configs.InstastunHelper) toStandOn = null; toBreak = null;
     }
 
     EspBox[] InnerEspBoxes = {
@@ -193,20 +181,8 @@ public class KuudraHandler extends MovableModule {
             }
         }
 
-        if (Configs.InstastunHelper) {
-            if (toStandOn != null && toBreak != null) {
-                GuiUtils.drawBoundingBoxAtBlock(new BlockPos(toStandOn.x, toStandOn.y, toStandOn.z), Color.CYAN);
-                GuiUtils.drawBoundingBoxAtBlock(new BlockPos(toBreak.x, toBreak.y, toBreak.z), Color.YELLOW);
-                RealRenderUtils.render3dString("§6" + clickToStun, toBreak.getX() + 0.5, toBreak.getY() + 1, toBreak.getZ() + 0.5, -1, 5, e.partialTicks);
-            }
-        }
-
         if (Configs.KuudraSuppliesWaypoints && suppliesPicked < 6) {
             processCrates(BadAddons.mc.theWorld, e.partialTicks);
-        }
-
-        if (suppliesPicked > 6) {
-
         }
 
     }
@@ -224,6 +200,7 @@ public class KuudraHandler extends MovableModule {
     public void onTickEnd(TickEndEvent e) {
         if (System.currentTimeMillis() > timeSinceFresh) timeSinceFresh = -1;
         if (!SkyblockUtils.isInKuudra()) return;
+        if (BadAddons.mc.thePlayer.getActivePotionEffects().isEmpty()) return;
         if (Configs.HideBlindness && BadAddons.mc.thePlayer.isPotionActive(Potion.blindness.getId())) {
             BadAddons.mc.thePlayer.removePotionEffect(Potion.blindness.getId());
         }
@@ -255,25 +232,6 @@ public class KuudraHandler extends MovableModule {
 
         }
 
-    }
-
-    @SubscribeEvent
-    public void onLeftClick(MouseEvent e) {
-        if (!SkyblockUtils.isInKuudra()) return;
-        if (!Configs.InstastunHelper) return;
-        if (BadAddons.mc.inGameHasFocus && SkyblockUtils.isInSkyblock()) {
-            if (e.button == 0 && e.buttonstate) {
-                MovingObjectPosition target = Minecraft.getMinecraft().objectMouseOver;
-                if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    IBlockState blockState = Minecraft.getMinecraft().theWorld.getBlockState(target.getBlockPos());
-                    if (blockState.getBlock() instanceof BlockNetherBrick) {
-                        clickToStun++;
-                        toBreak = new Vector3f(target.getBlockPos().getX(), target.getBlockPos().getY(), target.getBlockPos().getZ());
-                        toStandOn = new Vector3f(BadAddons.mc.thePlayer.getPosition().getX(), BadAddons.mc.thePlayer.getPosition().getY()-1, BadAddons.mc.thePlayer.getPosition().getZ());
-                    }
-                }
-            }
-        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -347,7 +305,7 @@ public class KuudraHandler extends MovableModule {
             for (int i = 0; i < teammates.size(); i++) {
                 if (teammates.get(i) != null) {
                     int supplies = (pickSupplies.get(teammates.get(i)) == null ? 0 : pickSupplies.get(teammates.get(i)));
-                    double stunTime = timeOfStunning == 0 ? (timeSinceEaten == 0 ? 0 : (double)(Math.round((System.currentTimeMillis() - timeSinceEaten) / 10)) / 100) : (timeSinceEaten == 0 ? 0 : (double)(Math.round((timeOfStunning - timeSinceEaten) / 10)) / 100);
+                    double stunTime = timeOfStunning == 0 ? (timeSinceEaten == 0 ? 0 : (double)(Math.round((float) (System.currentTimeMillis() - timeSinceEaten) / 10)) / 100) : (timeSinceEaten == 0 ? 0 : (double)(Math.round((timeOfStunning - timeSinceEaten) / 10)) / 100);
 
                     RenderUtils.renderStringWithItems((Objects.equals(teammates.get(i), ccstun)
                             ? "§a[STUN] §r" + teammates.get(i) + " §e" + supplies + " :IRON_PICKAXE: §b" + stunTime + "s"

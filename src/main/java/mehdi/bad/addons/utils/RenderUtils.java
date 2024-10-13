@@ -177,4 +177,10 @@ public class RenderUtils {
         GlStateManager.disableBlend();
         finishDraw();
 	}
+
+    public static int getStringWidthWithItem(String s) {
+        String modifiedString = s.replaceAll(":[^:]*:", "_");
+        return BadAddons.mc.fontRendererObj.getStringWidth(modifiedString);
+    }
+
 }

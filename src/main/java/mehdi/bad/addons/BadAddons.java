@@ -12,11 +12,7 @@ import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.Features.Dungeons.DungeonRoomDetection;
 import mehdi.bad.addons.Features.Dungeons.RoomLoader;
 import mehdi.bad.addons.Features.Dungeons.solvers.WaterboardSolver;
-import mehdi.bad.addons.Features.General.HighlightGraceItems;
-import mehdi.bad.addons.Features.General.ReplacedWordsConfig;
-import mehdi.bad.addons.Features.General.WeirdFlipper;
-import mehdi.bad.addons.Features.General.WhitelistedBedsConfig;
-import mehdi.bad.addons.Features.Kuudra.SupplyTimer;
+import mehdi.bad.addons.Features.General.*;
 import mehdi.bad.addons.Features.Lowballing.TradesTracker;
 import mehdi.bad.addons.Objects.*;
 import mehdi.bad.addons.utils.AuctionUtils;
@@ -110,11 +106,11 @@ public class BadAddons {
         MinecraftForge.EVENT_BUS.register(new NotificationManager());
 
         MinecraftForge.EVENT_BUS.register(new WeirdFlipper());
-        MinecraftForge.EVENT_BUS.register(new SupplyTimer());
         MinecraftForge.EVENT_BUS.register(new TradesTracker());
         MinecraftForge.EVENT_BUS.register(new HighlightGraceItems());
         MinecraftForge.EVENT_BUS.register(new DungeonRoomDetection());
         MinecraftForge.EVENT_BUS.register(new WaterboardSolver());
+        MinecraftForge.EVENT_BUS.register(new WaypointFetcher());
     }
 	
 }
