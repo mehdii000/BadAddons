@@ -18,6 +18,9 @@ Here're some of the project's best features:
 
 *   Kuudra Features ->
 *   \- Supply Waypoints
+*   \- Pre Detection & Highlight
+*   \- Chat Waypoints Fetcher
+*   \-
 *   \- PresWaypoints (Highlight pre-supply waypoints!)
 *   \- Proximity Pearlpoints (Highlights pearl waypoints relative to your pre)
 *   \- Supply Count (Shows a digestion of who and how many supply each player got and stun time.)
