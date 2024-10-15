@@ -502,7 +502,7 @@ public class GuiUtils {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.disableDepth();
-        GL11.glLineWidth((float) 2);
+        GL11.glLineWidth((float) 3);
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         RenderManager renderManager = BadAddons.mc.getRenderManager();
         GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ);

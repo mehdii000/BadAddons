@@ -378,7 +378,7 @@ public class RealRenderUtils {
 
 	public static void renderCustomBeacon(String str, Vec3 pos, Color color, boolean renderBeacon, float partialTicks, boolean depth) {
 		double dist = pos.distanceTo(BadAddons.mc.thePlayer.getPositionVector());
-		GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord, pos.yCoord, pos.zCoord), color, 0.25f);
+		GuiUtils.drawBoxAt(pos.xCoord, pos.yCoord, pos.zCoord, color.getRed(), color.getGreen(), color.getBlue(), 1, 0.3f, 0.3f);
 		if (renderBeacon) {
 			renderBeaconBeamFloat(pos.xCoord, pos.yCoord, pos.zCoord, color.getRGB(), 0.9f, partialTicks, depth);
 		}
