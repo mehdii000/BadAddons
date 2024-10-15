@@ -4,6 +4,7 @@ import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.MathUtils;
 import mehdi.bad.addons.utils.RealRenderUtils;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -38,7 +39,7 @@ public class WaypointFetcher {
             ArrayList<String> txt = new ArrayList<>();
             txt.add("§4WAYPOINT");
             txt.add("§7LEFT: §b" + time);
-            RealRenderUtils.renderBeaconBeamFloat(waypointToRender[0], waypointToRender[1], waypointToRender[2], 0xe07588, 0.8f, e.partialTicks, true);
+            RealRenderUtils.renderBeaconBeam(new BlockPos(waypointToRender[0], waypointToRender[1], waypointToRender[2]), 0xe07588, 1f, e.partialTicks, true);
             RealRenderUtils.renderWayPoint(txt, new Vector3f(waypointToRender[0], waypointToRender[1] + 1, waypointToRender[2]), e.partialTicks, false);
         } else {
             waypointToRender = null;

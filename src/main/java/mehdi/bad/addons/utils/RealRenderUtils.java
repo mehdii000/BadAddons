@@ -1,5 +1,6 @@
 package mehdi.bad.addons.utils;
 
+import mehdi.bad.addons.BadAddons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,6 +12,7 @@ import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 
 import javax.vecmath.Vector3f;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -157,19 +159,10 @@ public class RealRenderUtils {
 		double x = loc.x - viewerX + 0.5f;
 		double y = loc.y - viewerY - viewer.getEyeHeight();
 		double z = loc.z - viewerZ + 0.5f;
-
-		double distSq = x * x + y * y + z * z;
-		double dist = Math.sqrt(distSq);
-		if (distSq > 144) {
-			x *= 12 / dist;
-			y *= 12 / dist;
-			z *= 12 / dist;
-		}
 		GlStateManager.translate(x, y, z);
 		GlStateManager.translate(0, viewer.getEyeHeight(), 0);
 
 		lines = onlyShowDistance ? new ArrayList<>() : new ArrayList<>(lines);
-		lines.add(EnumChatFormatting.YELLOW.toString() + Math.round(dist) + "m");
 		renderNametag(lines);
 
 		GlStateManager.popMatrix();
@@ -301,7 +294,6 @@ public class RealRenderUtils {
 
 	public static void render3dString(String str, double x, double y, double z, int color, float scale, float partialTicks) {
 		GlStateManager.alphaFunc(516, 0.1F);
-
 		GlStateManager.pushMatrix();
 
 		Entity viewer = Minecraft.getMinecraft().getRenderViewEntity();
@@ -383,5 +375,12 @@ public class RealRenderUtils {
         worldRenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).endVertex();
         tessellator.draw();
     }
-	
+
+	public static void renderCustomBeacon(String str, Vec3 pos, Color color, boolean renderBeacon, float partialTicks, boolean depth) {
+		double dist = pos.distanceTo(BadAddons.mc.thePlayer.getPositionVector());
+		GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord, pos.yCoord, pos.zCoord), color, 0.25f);
+		if (renderBeacon) {
+			renderBeaconBeamFloat(pos.xCoord, pos.yCoord, pos.zCoord, color.getRGB(), 0.9f, partialTicks, depth);
+		}
+	}
 }

@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class PreSupplyDetection extends MovableModule {
@@ -68,6 +69,7 @@ public class PreSupplyDetection extends MovableModule {
     }
 
     public void checkAfterPreSpot() {
+        AtomicBoolean noCloseSupplies = new AtomicBoolean(true);
         List<EntityGiantZombie> gzs = BadAddons.mc.theWorld.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityGiantZombie)
                 .map(entity -> (EntityGiantZombie) entity)
@@ -75,12 +77,15 @@ public class PreSupplyDetection extends MovableModule {
                 .collect(Collectors.toList());
         gzs.forEach(supply -> {
             Vec3 supplyPos = new Vec3(supply.posX, 76, supply.posZ);
-            if (currentPreSpot.getInitialPos().distanceTo(supplyPos) < 20) {
-                BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
-                ChatLib.chat("§e[BA] §bPre [" + currentPreSpot.getName() + "] didn't spawn!");
-                BadAddons.mc.ingameGUI.displayTitle("§CNO-PRE", "", 0, 1000, 0);
+            if (currentPreSpot.getInitialPos().distanceTo(supplyPos) <= 18) {
+                noCloseSupplies.set(false); // Found a supply close to the prespot
             }
         });
+        if (!noCloseSupplies.get()) {
+            BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
+            ChatLib.chat("§e[BA] §bPre [" + currentPreSpot.getName() + "] didn't spawn!");
+            BadAddons.mc.ingameGUI.displayTitle("§CNO-PRE", "", 0, 2500, 0);
+        }
     }
 
     @SideOnly(Side.CLIENT)

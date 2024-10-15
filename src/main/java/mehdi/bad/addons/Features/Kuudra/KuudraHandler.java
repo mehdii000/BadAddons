@@ -114,7 +114,9 @@ public class KuudraHandler extends MovableModule {
             new EspBox("§aSQUARE", -35.5, 138, -124.5, Color.GREEN),
             new EspBox("§aSQUARE", -26.5, 126, -111.5, Color.GREEN),
             new EspBox("§dEQUAL", -106, 165, -101, Color.PINK),
-            new EspBox("§cSLASH", -105, 157, -100, Color.RED)
+            new EspBox("§cSLASH", -105, 157, -100, Color.RED),
+            new EspBox("§5X-Canon", -102, 160, -110, Color.MAGENTA),
+            new EspBox("§5X", -112, 155, -107, Color.MAGENTA)
     };
 
     // Outer Esp Boxes with labels and coordinates
@@ -124,7 +126,9 @@ public class KuudraHandler extends MovableModule {
             new EspBox("§eTRIANGLE", -67.5, 77, -122.5, Color.YELLOW),
             new EspBox("§aSQUARE", -140.5, 78, -90.5, Color.GREEN),
             new EspBox("§dEQUAL", -65.5, 76, -87.5, Color.PINK),
-            new EspBox("§cSLASH", -113.5, 77, -68.5, Color.RED)
+            new EspBox("§cSLASH", -113.5, 77, -68.5, Color.RED),
+            new EspBox("§5X-Canon", -134.5, 77, -138.5, Color.MAGENTA),
+            new EspBox("§5X", -130.5, 79, -113.5, Color.MAGENTA)
     };
 
     @SideOnly(Side.CLIENT)
@@ -173,7 +177,7 @@ public class KuudraHandler extends MovableModule {
             for (EspBox box : EspBoxes) {
                 if (Configs.KuudraPresHighlightType == 0) {
                     BlockPos blk = new BlockPos(box.x, box.y - 1, box.z);
-                    GuiUtils.drawBoundingBoxAtBlock(blk, Configs.KuudraPresNames ? Color.DARK_GRAY : box.color);
+                    GuiUtils.drawBoundingBoxAtBlock(blk, box.color);
                     if (Configs.KuudraPresNames) RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 2f, e.partialTicks);
                 } else {
                     RealRenderUtils.render3dString(box.label, box.x, box.y+0.25, box.z, 0x00FF00, 1.5f, e.partialTicks);
@@ -223,12 +227,14 @@ public class KuudraHandler extends MovableModule {
         for (EntityGiantZombie supply : gzs) {
 
             float yaw = supply.getRotationYawHead();
-            double x = supply.getPosition().getX() + (3.7 * Math.cos((yaw + 130) * (Math.PI / 180)));
-            double z = supply.getPosition().getZ() + (3.7 * Math.sin((yaw + 130) * (Math.PI / 180)));
+            double x = supply.posX + (3.7 * Math.cos((yaw + 130) * (Math.PI / 180)));
+            double z = supply.posZ + (3.7 * Math.sin((yaw + 130) * (Math.PI / 180)));
 
-            GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 75, z), Color.YELLOW);
+            /*GuiUtils.drawSmallBoundingBoxAtBlock(new BlockPos(x, 75, z), Color.YELLOW);
             RealRenderUtils.render3dString("§4CRATE", x, 74.5, z, 1, 1.25f, partialTicks);
-            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 75, z, 0xcbed4e, 0.8f, partialTicks, true);
+            if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 72, z, 0xcbed4e, 0.8f, partialTicks, true);*/
+
+            RealRenderUtils.renderCustomBeacon("Supply", new Vec3(x, 74, z), Color.YELLOW, Configs.SuppliesWaypointsBeacon, partialTicks, true);
 
         }
 
