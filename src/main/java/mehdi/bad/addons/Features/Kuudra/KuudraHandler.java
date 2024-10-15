@@ -48,6 +48,8 @@ public class KuudraHandler extends MovableModule {
     private HashMap<String, Integer> pickSupplies = new HashMap<String, Integer>();
     private int suppliesPicked = 0;
 
+    public static boolean buildingPhase = false;
+
     private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
 
     public KuudraHandler() {
@@ -115,8 +117,8 @@ public class KuudraHandler extends MovableModule {
             new EspBox("§aSQUARE", -26.5, 126, -111.5, Color.GREEN),
             new EspBox("§dEQUAL", -106, 165, -101, Color.PINK),
             new EspBox("§cSLASH", -105, 157, -100, Color.RED),
-            new EspBox("§5X-Canon", -102, 160, -110, Color.MAGENTA),
-            new EspBox("§5X", -112, 155, -107, Color.MAGENTA)
+            new EspBox("§5X", -102, 160, -110, Color.MAGENTA),
+            new EspBox("§5X-Canon", -112, 155, -107, Color.MAGENTA)
     };
 
     // Outer Esp Boxes with labels and coordinates
@@ -127,8 +129,8 @@ public class KuudraHandler extends MovableModule {
             new EspBox("§aSQUARE", -140.5, 78, -90.5, Color.GREEN),
             new EspBox("§dEQUAL", -65.5, 76, -87.5, Color.PINK),
             new EspBox("§cSLASH", -113.5, 77, -68.5, Color.RED),
-            new EspBox("§5X-Canon", -134.5, 77, -138.5, Color.MAGENTA),
-            new EspBox("§5X", -130.5, 79, -113.5, Color.MAGENTA)
+            new EspBox("§5X", -134.5, 77, -138.5, Color.MAGENTA),
+            new EspBox("§5X-Canon", -130.5, 79, -113.5, Color.MAGENTA)
     };
 
     @SideOnly(Side.CLIENT)
@@ -145,7 +147,9 @@ public class KuudraHandler extends MovableModule {
                     if (Configs.FreshDisplay && timeSinceFresh > 0) {
                         RealRenderUtils.render3dString("§c" + MathUtils.formatTicks(timeSinceFresh - System.currentTimeMillis()), entity.posX, entity.posY, entity.posZ, 0x00FF00, 15, e.partialTicks);
                     }
-
+                    buildingPhase = true;
+                } else {
+                    buildingPhase = false;
                 }
             }
         }
@@ -196,7 +200,7 @@ public class KuudraHandler extends MovableModule {
         if (!Configs.BoxKuudra || !SkyblockUtils.isInKuudra()) return;
         if (e.entity instanceof EntityMagmaCube) {
             EntityMagmaCube mg = (EntityMagmaCube) e.entity;
-            if (mg.getSlimeSize() >= 25) OutlineUtils.outlineEntity(e, Color.RED, Configs.BoxKuudraSize + 2);
+            if (mg.getSlimeSize() >= 25) OutlineUtils.outlineEntity(e, Color.PINK, Configs.BoxKuudraSize + 2);
         }
     }
 
@@ -234,7 +238,7 @@ public class KuudraHandler extends MovableModule {
             RealRenderUtils.render3dString("§4CRATE", x, 74.5, z, 1, 1.25f, partialTicks);
             if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 72, z, 0xcbed4e, 0.8f, partialTicks, true);*/
 
-            RealRenderUtils.renderCustomBeacon("Supply", new Vec3(x, 74, z), Color.YELLOW, Configs.SuppliesWaypointsBeacon, partialTicks, true);
+            RealRenderUtils.renderCustomBeacon("Supply", new Vec3(x, 74, z), Color.YELLOW, Configs.SuppliesWaypointsBeacon, partialTicks, false);
 
         }
 
@@ -332,6 +336,7 @@ public class KuudraHandler extends MovableModule {
         teammates.clear();
         pickSupplies.clear();
         suppliesPicked = 0;
+        KuudraHandler.buildingPhase = false;
     }
 
     public class EspBox {

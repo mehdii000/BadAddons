@@ -40,40 +40,43 @@ public class Config {
     }
 
     public static ArrayList collect(Class var0) {
-        Field[] var1 = var0.getDeclaredFields();
-        ArrayList var2 = new ArrayList();
-        Field[] var3 = var1;
-        int var4 = var1.length;
+        Field[] declaredFields = var0.getDeclaredFields();
+        ArrayList arrayList = new ArrayList();
+        Field[] fields = declaredFields;
+        int var4 = declaredFields.length;
 
-        for (int var5 = 0; var5 < var4; ++var5) {
-            Field var6 = var3[var5];
-            Property var7 = var6.getAnnotation(Property.class);
-            if (var7 != null) {
-                switch (var7.type()) {
+        for (int i = 0; i < var4; ++i) {
+            Field field = fields[i];
+            Property property = field.getAnnotation(Property.class);
+            if (property != null) {
+                switch (property.type()) {
                     case BOOLEAN:
-                        var2.add(new BooleanSetting(var7, var6, var7.type()));
+                        arrayList.add(new BooleanSetting(property, field, property.type()));
+                        break;
+                    case COLOR:
+                        arrayList.add(new ColorSetting(property, field));
                         break;
                     case NUMBER:
-                        var2.add(new NumberSetting(var7, var6));
+                        arrayList.add(new NumberSetting(property, field));
                         break;
                     case SELECT:
-                        var2.add(new SelectSetting(var7, var6));
+                        arrayList.add(new SelectSetting(property, field));
                         break;
                     case FOLDER:
-                        var2.add(new FolderSetting(var7, var6));
+                        arrayList.add(new FolderSetting(property, field));
                         break;
                     case TEXT:
-                        var2.add(new TextSetting(var7, var6));
+                        arrayList.add(new TextSetting(property, field));
                 }
             }
         }
 
-        Iterator var8 = var2.iterator();
+        Iterator arrayIterator = arrayList.iterator();
 
-        while (var8.hasNext()) {
-            Setting var10 = (Setting) var8.next();
+        while (arrayIterator.hasNext()) {
+            Setting var10 = (Setting) arrayIterator.next();
             if (!var10.annotation.parent().equals("")) {
-                var10.parent = getSetting(var10.annotation.parent(), var2);
+                var10.parent = getSetting(var10.annotation.parent(), arrayList);
                 if (var10.parent != null) {
                     var10.parent.sons.add(var10);
                 }
@@ -81,7 +84,7 @@ public class Config {
         }
 
         ArrayList var9 = new ArrayList();
-        Iterator var11 = var2.iterator();
+        Iterator var11 = arrayList.iterator();
 
         while (var11.hasNext()) {
             Setting var12 = (Setting) var11.next();

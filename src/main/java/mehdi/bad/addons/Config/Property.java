@@ -8,6 +8,8 @@ import java.lang.annotation.*;
 public @interface Property {
     int step() default 1;
 
+    int color() default 1;
+
     String parent() default "";
 
     String suffix() default "";
@@ -32,14 +34,14 @@ public @interface Property {
 
         BOOLEAN,
 
+        COLOR,
+
         NUMBER,
 
         SELECT,
 
         FOLDER,
 
-        TEXT,
-        
-        COLOR
+        TEXT
     }
 }

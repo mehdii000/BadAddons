@@ -315,6 +315,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "BetterBallistaBuilding",
+            description = "Makes building the ballista a little easier and clearer.",
+            parent = "KuudraGameplay"
+    )
+    public static boolean BetterBallistaBuilding = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "KuudraPreDetection",
             description = "Marks and highilghts your current & last pre!",
             parent = "KuudraGameplay"

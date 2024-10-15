@@ -1,10 +1,10 @@
 package mehdi.bad.addons.Config.Setting;
 
+import mehdi.bad.addons.Config.Property;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import mehdi.bad.addons.Config.Property;
 
 public class Setting {
 
@@ -30,12 +30,12 @@ public class Setting {
 
     public int x = -1;
 
-    public Setting(Property var1, Field var2) {
-        this.annotation = var1;
-        this.field = var2;
-        this.name = var1.name();
-        this.illegal = var1.illegal();
-        this.description = var1.description();
+    public Setting(Property property, Field field) {
+        this.annotation = property;
+        this.field = field;
+        this.name = property.name();
+        this.illegal = property.illegal();
+        this.description = property.description();
     }
 
     public int hashCode() {
@@ -54,9 +54,9 @@ public class Setting {
         return var2.parent != null ? var2.getIndent(var1 + 10, var2.parent) : var1;
     }
 
-    public boolean set(Object var1) {
+    public boolean set(Object object) {
         try {
-            this.field.set(var1.getClass(), var1);
+            this.field.set(object.getClass(), object);
             return true;
         } catch (Exception var3) {
             return false;

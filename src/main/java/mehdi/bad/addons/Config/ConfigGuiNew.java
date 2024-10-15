@@ -1,23 +1,11 @@
 package mehdi.bad.addons.Config;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentLinkedDeque;
-
-import org.lwjgl.input.Mouse;
-
 import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Config.ButtonsNew.Button;
 import mehdi.bad.addons.Config.ButtonsNew.ClearTextButton;
 import mehdi.bad.addons.Config.ButtonsNew.CloseButton;
 import mehdi.bad.addons.Config.ButtonsNew.TextInput;
-import mehdi.bad.addons.Config.Setting.BooleanSetting;
-import mehdi.bad.addons.Config.Setting.FolderSetting;
-import mehdi.bad.addons.Config.Setting.Setting;
-import mehdi.bad.addons.Config.Setting.TextSetting;
+import mehdi.bad.addons.Config.Setting.*;
 import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.GuiUtils;
 import mehdi.bad.addons.utils.MathUtils;
@@ -28,6 +16,14 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class ConfigGuiNew extends GuiScreen {
 
@@ -62,11 +58,11 @@ public class ConfigGuiNew extends GuiScreen {
     private int thirdScroll = 0;
     private int maxThirdScroll = 0;
     private int lastWidth;
-    
+
     public static int smoothingAmount = 10;
 
     public ConfigGuiNew(int var1) {
-    	Config.load();
+        Config.load();
         this.lastWidth = this.width;
         this.lastHeight = this.height;
         getSettings();
@@ -162,17 +158,17 @@ public class ConfigGuiNew extends GuiScreen {
 
             if (!(var11 instanceof FolderSetting) && (this.isInThirdCategory(var11.y) || this.isInThirdCategory(var11.y + var11.height))) {
                 //this.drawGradientRect(var11.x, Math.max(var11.y, this.getStartY() + 30 + 23 + 5), var11.x + var11.width, Math.min(var11.y + var11.height, this.getStartY() + 260), (new Color(25, 25, 25, 95)).getRGB(), (new Color(25, 25, 25, 85)).getRGB());
-            	
-            	if (var11 instanceof BooleanSetting) {
-            		if ((Boolean) var11.get(Boolean.class)) {
-                    	RoundedUtils.drawRoundedRect(var11.x, Math.max(var11.y, this.getStartY() + 30 + 23 + 5), var11.x + var11.width, Math.min(var11.y + var11.height, this.getStartY() + 260), 8, new Color(0, 180 - ( (mouseX >= var11.x && mouseX <= var11.x + var11.width && mouseY >= Math.max(var11.y, this.getStartY() + 30 + 23 + 5) && mouseY <= Math.min(var11.y + var11.height, this.getStartY() + 260)) ? smoothingAmount : 0 ) , 40, 80).getRGB());
-            		} else {
-                    	RoundedUtils.drawRoundedRect(var11.x, Math.max(var11.y, this.getStartY() + 30 + 23 + 5), var11.x + var11.width, Math.min(var11.y + var11.height, this.getStartY() + 260) , 8, new Color(0, ( (mouseX >= var11.x && mouseX <= var11.x + var11.width && mouseY >= Math.max(var11.y, this.getStartY() + 30 + 23 + 5) && mouseY <= Math.min(var11.y + var11.height, this.getStartY() + 260)) ? smoothingAmount : 0 ), 0, 80).getRGB());
-            		}
-            	} else {
-                	RoundedUtils.drawRoundedRect(var11.x, Math.max(var11.y, this.getStartY() + 30 + 23 + 5), var11.x + var11.width, Math.min(var11.y + var11.height, this.getStartY() + 260), 8, new Color(30, 0, 30, 80).getRGB());
-            	}
-            	
+
+                if (var11 instanceof BooleanSetting) {
+                    if ((Boolean) var11.get(Boolean.class)) {
+                        RoundedUtils.drawRoundedRect(var11.x, Math.max(var11.y, this.getStartY() + 30 + 23 + 5), var11.x + var11.width, Math.min(var11.y + var11.height, this.getStartY() + 260), 8, new Color(0, 180 - ( (mouseX >= var11.x && mouseX <= var11.x + var11.width && mouseY >= Math.max(var11.y, this.getStartY() + 30 + 23 + 5) && mouseY <= Math.min(var11.y + var11.height, this.getStartY() + 260)) ? smoothingAmount : 0 ) , 40, 80).getRGB());
+                    } else {
+                        RoundedUtils.drawRoundedRect(var11.x, Math.max(var11.y, this.getStartY() + 30 + 23 + 5), var11.x + var11.width, Math.min(var11.y + var11.height, this.getStartY() + 260) , 8, new Color(0, ( (mouseX >= var11.x && mouseX <= var11.x + var11.width && mouseY >= Math.max(var11.y, this.getStartY() + 30 + 23 + 5) && mouseY <= Math.min(var11.y + var11.height, this.getStartY() + 260)) ? smoothingAmount : 0 ), 0, 80).getRGB());
+                    }
+                } else {
+                    RoundedUtils.drawRoundedRect(var11.x, Math.max(var11.y, this.getStartY() + 30 + 23 + 5), var11.x + var11.width, Math.min(var11.y + var11.height, this.getStartY() + 260), 8, new Color(30, 0, 30, 80).getRGB());
+                }
+
             }
 
             String var12 = var11.name;
@@ -454,10 +450,10 @@ public class ConfigGuiNew extends GuiScreen {
         int var5 = this.getStartY();
         //this.drawGradientRect(var4, var5, var4 + 500, var5 + 260, (new Color(25, 25, 25, 65)).getRGB(), (new Color(25, 25, 25, 100)).getRGB());
         //this.drawGradientRect(var4, var5, var4 + 500, var5 + 30, (new Color(15, 15, 15, 180)).getRGB(), (new Color(15, 15, 15, 170)).getRGB());
-        
+
         //this.drawGradientRect(var4, var5, var4 + 500, var5 + 260, (new Color(15, 15, 15, 110)).getRGB(), (new Color(15, 15, 15, 100)).getRGB());
         RoundedUtils.drawRoundedRect(var4, var5, var4 + 500, var5 + 260, 16, new Color(15, 15, 15, 100).getRGB());
-        
+
         //drawRect(var4, var5 + 30, var4 + 500, var5 + 30 + 1, Colors.TRANSPARENT.getRGB());
         //this.drawGradientRect(var4, var5 + 30 + 1, var4 + 500, var5 + 30 + 23, (new Color(15, 15, 15, 120)).getRGB(), (new Color(15, 15, 15, 110)).getRGB());
         drawRect(var4, var5 + 30 + 23, var4 + 500, var5 + 30 + 23 + 1, Colors.TRANSPARENT.getRGB());
@@ -473,14 +469,14 @@ public class ConfigGuiNew extends GuiScreen {
         this.drawSettings(var1, var2);
         this.drawButtons(this.mc, var1, var2);
         Iterator var8 = this.textInputs.iterator();
-        
+
         //GuiUtils.drawGradientRoundedRect(0, 0, 32, 128, Color.GREEN.getRGB(), Color.BLUE.getRGB(), 4);
-        
+
         while (var8.hasNext()) {
             TextInput var9 = (TextInput) var8.next();
             var9.draw();
         }
-        
+
         // SMOOTHING
         smoothingAmount = (int) MathUtils.lerp(smoothingAmount, 0, 0.1f);
 

@@ -49,7 +49,7 @@ public class CombatXPTracker extends MovableModule {
 
             xpEta = ":DIAMOND_SWORD: §7Xp: §b+" + AuctionUtils.formatPrice(parsedXp - initialXp);
         } else {
-            xpEta = "§c[ §c/tab §7-> §cSkills §c]";
+            xpEta = ":BARRIER:  §c/tab §7-> §cSkills §7-> §cCombatXP";
         }
     }
 

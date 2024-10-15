@@ -28,13 +28,11 @@ import java.awt.*;
 
 public class OutlineUtils {
     public static void outlineEntity(ModelBase model, Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch, float scaleFactor, Color color, int outlineWidth) {
-        boolean fancyGraphics = BadAddons.mc.gameSettings.fancyGraphics;
         float gamma = BadAddons.mc.gameSettings.gammaSetting;
-        BadAddons.mc.gameSettings.fancyGraphics = false;
-        //BadAddons.mc.gameSettings.gammaSetting = Float.MAX_VALUE;
+        BadAddons.mc.gameSettings.gammaSetting = Float.MAX_VALUE;
         GlStateManager.resetColor();
         OutlineUtils.setColor(color);
-        //GlStateManager.enableDepth();
+        GlStateManager.disableDepth();
         OutlineUtils.renderOne(outlineWidth);
         model.render(entity, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scaleFactor);
         OutlineUtils.setColor(color);
@@ -49,8 +47,7 @@ public class OutlineUtils {
         OutlineUtils.setColor(color);
         OutlineUtils.renderFive();
         OutlineUtils.setColor(Color.WHITE);
-        //GlStateManager.disableDepth();
-        BadAddons.mc.gameSettings.fancyGraphics = fancyGraphics;
+        GlStateManager.enableDepth();
         BadAddons.mc.gameSettings.gammaSetting = gamma;
     }
 

@@ -92,9 +92,10 @@ public class PreSupplyDetection extends MovableModule {
     @SubscribeEvent
     public void onWorldRender(RenderWorldLastEvent e) {
         if (!SkyblockUtils.isInKuudra()) return;
+        if (BadAddons.mc.thePlayer.posY < 65) return;
         if (Configs.KuudraPreDetection && currentPreSpot != null) {
             Vec3 pos = currentPreSpot.getInitialPos();
-            GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord, pos.yCoord, pos.zCoord), Color.WHITE, 12);
+            GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord - 6, pos.yCoord, pos.zCoord - 6), Color.WHITE, 10);
         }
     }
 
