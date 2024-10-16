@@ -6,7 +6,6 @@ import mehdi.bad.addons.Config.modules.MovableModule;
 import mehdi.bad.addons.Events.RenderEntityModelEvent;
 import mehdi.bad.addons.Events.SlotClickEvent;
 import mehdi.bad.addons.Events.TickEndEvent;
-import mehdi.bad.addons.Objects.NotificationManager;
 import mehdi.bad.addons.utils.*;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiChest;
@@ -46,9 +45,10 @@ public class KuudraHandler extends MovableModule {
     private long timeSinceFresh = 0;
     private List<String> teammates = new ArrayList<String>();
     private HashMap<String, Integer> pickSupplies = new HashMap<String, Integer>();
-    private int suppliesPicked = 0;
+    public static int suppliesPicked = 0;
 
     public static boolean buildingPhase = false;
+    public static long freshTimeFromBuildStart = 0;
 
     private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
 
@@ -58,7 +58,9 @@ public class KuudraHandler extends MovableModule {
 
     @SubscribeEvent
     public void onChatStuff(ClientChatReceivedEvent event) {
-        String message = event.message.getUnformattedText();
+        if (event.type != 0) return;
+        if (!SkyblockUtils.isInKuudra()) return;
+        String message = StringUtils.stripControlCodes(event.message.getUnformattedText());
 
         if (message.contains("recovered one of Elle's supplies! ") && Configs.SupplyCount) {
             Pattern pattern = Pattern.compile(SUPPLY_REGEX);
@@ -89,15 +91,28 @@ public class KuudraHandler extends MovableModule {
             timeSinceFresh = System.currentTimeMillis() + 10000;
             BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
             String freshDisplayMessage = "§a" + Configs.FreshDisplayString.replace("&", "§");
-            if (Configs.FreshDisplayType == 0)
-                BadAddons.mc.ingameGUI.displayTitle(freshDisplayMessage, "", 0, 2500, 0);
-            else
-                NotificationManager.pushNotification(freshDisplayMessage, "", 2500);
+            BadAddons.mc.ingameGUI.displayTitle(freshDisplayMessage, "", 0, 2500, 0);
+            BadAddons.mc.thePlayer.sendChatMessage("FRESHED! After " + MathUtils.detailedFormatTicks(System.currentTimeMillis() - freshTimeFromBuildStart));
+        }
+
+        if (message.contains("Elle: OMG! Great work collecting my supplies!")) {
+            ChatLib.chat("§e[BA] §bBuild-Phase started!");
+            freshTimeFromBuildStart = System.currentTimeMillis();
+            buildingPhase = true;
+        }
+        if (message.contains("The Ballista is finally ready!") && message.contains("Elle")) {
+            ChatLib.chat("§e[BA] §bBuild-Phase ended!");
+            freshTimeFromBuildStart = 0;
+            buildingPhase = false;
         }
 
         if (message.contains(" destroyed one of Kuudra")) {
-            BadAddons.mc.ingameGUI.displayTitle("§c§lATTACK", "", 0, 2500, 0);
+            BadAddons.mc.ingameGUI.displayTitle("§c§lATTACK", "§cBadAddons On Top", 0, 2500, 0);
             timeOfStunning = System.currentTimeMillis();
+        }
+
+        if (Configs.HideElleMessages && message.contains("[NPC] Elle")) {
+            event.setCanceled(true);
         }
 
     }
@@ -143,13 +158,9 @@ public class KuudraHandler extends MovableModule {
                 if (entity instanceof EntityArmorStand && entity.getDisplayName().getUnformattedText().contains("Building Progress ")) {
                     String progress = entity.getDisplayName().getUnformattedText().split("Building Progress ")[1].split("%")[0] + "%";
                     RealRenderUtils.render3dString("§e" + progress, entity.posX, entity.posY + (timeSinceFresh > 0 ? 3 : 1), entity.posZ, 0x00FF00, 21, e.partialTicks);
-
                     if (Configs.FreshDisplay && timeSinceFresh > 0) {
                         RealRenderUtils.render3dString("§c" + MathUtils.formatTicks(timeSinceFresh - System.currentTimeMillis()), entity.posX, entity.posY, entity.posZ, 0x00FF00, 15, e.partialTicks);
                     }
-                    buildingPhase = true;
-                } else {
-                    buildingPhase = false;
                 }
             }
         }
@@ -238,7 +249,7 @@ public class KuudraHandler extends MovableModule {
             RealRenderUtils.render3dString("§4CRATE", x, 74.5, z, 1, 1.25f, partialTicks);
             if (Configs.SuppliesWaypointsBeacon) RealRenderUtils.renderBeaconBeamFloat(x, 72, z, 0xcbed4e, 0.8f, partialTicks, true);*/
 
-            RealRenderUtils.renderCustomBeacon("Supply", new Vec3(x, 74, z), Color.YELLOW, Configs.SuppliesWaypointsBeacon, partialTicks, false);
+            V2RenderUtils.renderCustomBeacon("Supply", new Vec3(x, 74.5, z), Color.YELLOW, Configs.SuppliesWaypointsBeacon, partialTicks);
 
         }
 
@@ -336,6 +347,8 @@ public class KuudraHandler extends MovableModule {
         teammates.clear();
         pickSupplies.clear();
         suppliesPicked = 0;
+        buildingPhase = false;
+        freshTimeFromBuildStart = 0;
         KuudraHandler.buildingPhase = false;
     }
 

@@ -54,6 +54,14 @@ public class MathUtils {
         return seconds + "s";
     }
 
+    public static String detailedFormatTicks(long ticks) {
+        // Convert ticks to seconds as a double (1 tick = 1 millisecond)
+        double seconds = ticks / 1000.0;
+
+        // Format the output with two decimal places
+        return String.format("%.2fs", seconds);
+    }
+
     public static int intLerp(int start, int end, float t) {
         if (t <= 0.0f) {
             return start;

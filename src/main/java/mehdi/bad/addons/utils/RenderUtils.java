@@ -134,18 +134,6 @@ public class RenderUtils {
 
     }
 
-    public static void rotate(float var0) {
-        GL11.glRotatef(var0, 0.0F, 0.0F, 1.0F);
-    }
-
-    public static void scale(float var0, float var1) {
-        GlStateManager.scale(var0, var1, 1.0F);
-    }
-
-    public static void end() {
-        GlStateManager.popMatrix();
-    }
-
     public static void drawScaledCenteredString(String text, int x, int y, float scale) {
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, scale);
@@ -154,10 +142,6 @@ public class RenderUtils {
         int centerY = Math.round(y / scale - BadAddons.mc.fontRendererObj.FONT_HEIGHT / 2);
         BadAddons.mc.fontRendererObj.drawStringWithShadow(text, centerX, centerY, 1);
         GL11.glPopMatrix();
-    }
-    
-    public static int getScreenWidth() {
-        return (new ScaledResolution(BadAddons.mc)).getScaledWidth();
     }
 
     public static void finishDraw() {
@@ -169,14 +153,6 @@ public class RenderUtils {
         }
 
     }
-
-	public static void drawScaledString(String string, int i, int j, int l) {
-		GlStateManager.enableBlend();
-        GlStateManager.scale(l, l, l);
-        BadAddons.mc.fontRendererObj.drawStringWithShadow(string, i, j, 1);
-        GlStateManager.disableBlend();
-        finishDraw();
-	}
 
     public static int getStringWidthWithItem(String s) {
         String modifiedString = s.replaceAll(":[^:]*:", "_");

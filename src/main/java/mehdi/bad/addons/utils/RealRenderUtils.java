@@ -1,6 +1,5 @@
 package mehdi.bad.addons.utils;
 
-import mehdi.bad.addons.BadAddons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,7 +11,6 @@ import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 
 import javax.vecmath.Vector3f;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -376,11 +374,4 @@ public class RealRenderUtils {
         tessellator.draw();
     }
 
-	public static void renderCustomBeacon(String str, Vec3 pos, Color color, boolean renderBeacon, float partialTicks, boolean depth) {
-		double dist = pos.distanceTo(BadAddons.mc.thePlayer.getPositionVector());
-		GuiUtils.drawBoxAt(pos.xCoord + 0.5, pos.yCoord, pos.zCoord + 0.5, color.getRed(), color.getGreen(), color.getBlue(), 1, 0.25f, 0.5f);
-		if (renderBeacon) {
-			renderBeaconBeamFloat(pos.xCoord, pos.yCoord + 1, pos.zCoord, color.getRGB(), 0.9f, partialTicks, depth);
-		}
-	}
 }

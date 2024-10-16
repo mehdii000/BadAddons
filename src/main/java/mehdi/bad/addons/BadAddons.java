@@ -13,6 +13,7 @@ import mehdi.bad.addons.Features.Dungeons.DungeonRoomDetection;
 import mehdi.bad.addons.Features.Dungeons.RoomLoader;
 import mehdi.bad.addons.Features.Dungeons.solvers.WaterboardSolver;
 import mehdi.bad.addons.Features.General.*;
+import mehdi.bad.addons.Features.Kuudra.AIPearlWaypoints;
 import mehdi.bad.addons.Features.Lowballing.TradesTracker;
 import mehdi.bad.addons.Objects.*;
 import mehdi.bad.addons.utils.AuctionUtils;
@@ -111,6 +112,7 @@ public class BadAddons {
         MinecraftForge.EVENT_BUS.register(new DungeonRoomDetection());
         MinecraftForge.EVENT_BUS.register(new WaterboardSolver());
         MinecraftForge.EVENT_BUS.register(new WaypointFetcher());
+        MinecraftForge.EVENT_BUS.register(new AIPearlWaypoints());
     }
 	
 }

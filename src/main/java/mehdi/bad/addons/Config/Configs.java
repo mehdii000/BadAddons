@@ -25,6 +25,13 @@ public class Configs {
 
     @Property(
             type = Property.Type.FOLDER,
+            name = "CoolStuff",
+            parent = "Misc & Visual"
+    )
+    public static boolean CoolStuffFolder = false;
+
+    @Property(
+            type = Property.Type.FOLDER,
             name = "Trackers",
             parent = "Misc & Visual"
     )
@@ -36,6 +43,14 @@ public class Configs {
             parent = "Misc & Visual"
     )
     public static boolean GuiLocationsUslessFolder = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "TimerCommand",
+            description = "allows you or your party to use @timer <seconds> to set a timer!",
+            parent = "CoolStuff"
+    )
+    public static boolean SetTimerCommand = false;
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -271,11 +286,6 @@ public class Configs {
     )
     public static String FreshDisplayString = "FRESH";
 
-    @Property(type = Property.Type.SELECT, name = "FreshDisplayType", parent = "FreshHighlight",
-            options = {"§aTitle", "§bNotification"},
-            description = "Select a rendering type for fresh tools.")
-    public static int FreshDisplayType = 0;
-
     @Property(
             type = Property.Type.BOOLEAN,
             name = "PresWaypoints",
@@ -315,19 +325,19 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "BetterBallistaBuilding",
-            description = "Makes building the ballista a little easier and clearer.",
-            parent = "KuudraGameplay"
-    )
-    public static boolean BetterBallistaBuilding = false;
-
-    @Property(
-            type = Property.Type.BOOLEAN,
             name = "KuudraPreDetection",
             description = "Marks and highilghts your current & last pre!",
             parent = "KuudraGameplay"
     )
     public static boolean KuudraPreDetection = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "HideElleMessages",
+            description = "Hides elle messages in kuudra. sorry mommey elle",
+            parent = "KuudraGameplay"
+    )
+    public static boolean HideElleMessages = false;
 
     @Property(
             type = Property.Type.BOOLEAN,
