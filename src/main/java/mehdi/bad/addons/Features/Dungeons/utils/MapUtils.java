@@ -18,6 +18,7 @@
 
 package mehdi.bad.addons.Features.Dungeons.utils;
 
+import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.utils.multistorage.Triple;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.Minecraft;
@@ -52,6 +53,7 @@ public class MapUtils {
      * @return null if map not found, otherwise 128x128 Array of the RGB Integer colors of each point on the map
      */
     public static Integer[][] updatedMap() {
+        if (BadAddons.mc.theWorld == null) return null;
         if (!mapExists()) return null; //make sure map exists
         Minecraft mc = Minecraft.getMinecraft();
         ItemStack mapSlot = mc.thePlayer.inventory.getStackInSlot(8); //get map ItemStack
