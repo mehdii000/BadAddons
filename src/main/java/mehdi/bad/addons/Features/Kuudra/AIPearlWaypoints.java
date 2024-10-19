@@ -4,6 +4,7 @@ import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.utils.ChatLib;
+import mehdi.bad.addons.utils.RealRenderUtils;
 import mehdi.bad.addons.utils.SkyblockUtils;
 import mehdi.bad.addons.utils.V2RenderUtils;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AIPearlWaypoints {
 
@@ -49,6 +51,7 @@ public class AIPearlWaypoints {
                             ChatLib.chat("§e[BA] §bStarted a " + number + "s timer.");
                             BadAddons.mc.thePlayer.sendChatMessage("[BA] Started a " + number + "s timer.");
                             settedTimer = System.currentTimeMillis() + (1000L * number);
+                            timerExist = true;
                         } else {
                             ChatLib.chat("§e[BA] §cCan't set an empty or invalid timer!");
                         }
@@ -84,19 +87,33 @@ public class AIPearlWaypoints {
 
             for (Vec3 supply : suppliesPlacing) {
                 if (isSupplyAvailable(supply.addVector(0, 1, 0))) {
-                    V2RenderUtils.drawPixelBox(supply.addVector(0, 1.5, 0), Color.GREEN, 0.8, event.partialTicks);
+                    V2RenderUtils.drawPixelBox(supply.addVector(0, 1, 0), Color.GREEN, 0.8, event.partialTicks);
                 }
             }
 
         } else if (KuudraHandler.buildingPhase) {
             for (Vec3 supply : suppliesPlacing) {
                 if (isSupplyDone(supply.addVector(0, 1, 0))) {
-                    V2RenderUtils.drawPixelBox(supply.addVector(0, 1.4, 0), Color.GREEN, 0.6, event.partialTicks);
+                    V2RenderUtils.drawPixelBox(supply.addVector(0, 1.4, 0), Color.GREEN, 0.8, event.partialTicks);
                 } else {
                     V2RenderUtils.drawPixelBox(supply.addVector(0, 1.4, 0), Color.RED, 0.9, event.partialTicks);
+                    RealRenderUtils.render3dString(getPileProgress(supply), supply.xCoord + 0.45, supply.yCoord + 2, supply.zCoord + 0.45, 1, 1.5f, event.partialTicks);
                 }
             }
         }
+    }
+
+    private String getPileProgress(Vec3 supply) {
+        AtomicReference<String> returnValue = new AtomicReference<String>("§40%");
+        BadAddons.mc.thePlayer.worldObj.getEntitiesWithinAABB(EntityArmorStand.class,
+                        new AxisAlignedBB(supply.xCoord - 2, supply.yCoord - 3, supply.zCoord + 2, supply.xCoord + 2, supply.yCoord + 3, supply.zCoord - 2))
+                .forEach(stand -> {
+                    String name = stand.getName().replaceAll("§.", "");
+                    if (name.contains("PROGRESS")) {
+                        returnValue.set("§c" + name.split("PROGRESS")[1]);
+                    }
+                });
+        return returnValue.get();
     }
 
     private boolean isSupplyDone(Vec3 supply) {
@@ -107,6 +124,8 @@ public class AIPearlWaypoints {
                     String name = stand.getName().replaceAll("§.", "");
                     if (name.contains("COMPLETE") && name.contains("PROGRESS")) {
                         returnValue.set(true);
+                    } else {
+                        stand.setInvisible(true);
                     }
                 });
         return returnValue.get();
@@ -123,6 +142,16 @@ public class AIPearlWaypoints {
                     }
                 });
         return returnValue.get();
+    }
+
+    public int reverse(int x) {
+        int len = (int) Math.log10(Math.abs(x)) + 1;
+        for (int i = 1; i < len; i++) {
+            int last = x % 10;
+            x /= 10;
+            x += last * len * 10;
+        }
+        return x;
     }
 
 }

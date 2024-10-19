@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.*;
+import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 
@@ -981,6 +982,69 @@ public class V2RenderUtils {
         drawPixelBox(pos.addVector(0, 1, 0), color, 0.6, partialTicks);
         if (renderBeacon) {
             renderBeacon(pos.xCoord, pos.yCoord + 1, pos.zCoord, color.getRGB(), 1f, partialTicks);
+        }
+    }
+
+    public static void drawLineMultipleParticles(EnumParticleTypes particle, List<BlockPos> locations) {
+        if(locations == null) {
+            return;
+        }
+        if(locations.size() >= 2) {
+            BlockPos lastLoc = null;
+            for (BlockPos loc : locations) {
+                if (lastLoc == null) {
+                    lastLoc = loc;
+                    continue;
+                }
+
+                drawLineParticles(lastLoc, loc, particle);
+                lastLoc = loc;
+            }
+        }
+    }
+
+    public static void drawLineParticles(BlockPos loc1, BlockPos loc2, EnumParticleTypes particle) {
+        double distanceX = loc2.getX() - loc1.getX();
+        double distanceY = loc2.getY() - loc1.getY();
+        double distanceZ = loc2.getZ() - loc1.getZ();
+
+        double maxDistance = Math.max(Math.abs(distanceX), Math.abs(distanceZ));
+        int maxPoints = (int) Math.ceil(maxDistance * 1);
+
+        double deltaX = distanceX / (double) maxPoints;
+        double deltaY = distanceY / (double) maxPoints;
+        double deltaZ = distanceZ / (double) maxPoints;
+
+        double x = loc1.getX();
+        double y = loc1.getY();
+        double z = loc1.getZ();
+
+        for (int i = 0; i <= maxPoints; i++) {
+            //double offsetRot = Math.atan2 (distanceX, distanceY);
+            //double offsetX = Math.cos(offsetRot)*0.25;
+            //double offsetZ = Math.sin(offsetRot)*0.25;
+
+            spawnParticleAtLocation(new BlockPos(x, y, z), new BlockPos(0, 0, 0), particle);
+
+            x += deltaX;
+            y += deltaY;
+            z += deltaZ;
+        }
+    }
+
+    public static void spawnParticleAtLocation(BlockPos loc, BlockPos offset, EnumParticleTypes particle) {
+        World world = Minecraft.getMinecraft().theWorld;
+
+        if (world != null) {
+            double x = loc.getX() + 0.5;
+            double y = loc.getY() + 0.5;
+            double z = loc.getZ() + 0.5;
+
+            double offsetX = offset.getX();
+            double offsetY = offset.getY();
+            double offsetZ = offset.getZ();
+
+            world.spawnParticle(particle, x, y, z, offsetX, offsetY, offsetZ);
         }
     }
 

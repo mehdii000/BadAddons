@@ -39,15 +39,14 @@ public class PreSupplyDetection extends MovableModule {
     public static PreSpot currentPreSpot = null;
     private final String preRegex = "[NPC] Elle: Head over to the main platform, I will join you when I get a bite!";
     private final String spawnRegex = "[NPC] Elle: Not again!";
-    private long startPreTime = -1;
+    public static long startPreTime = 0;
 
     @SubscribeEvent
     public void onChatStuff(ClientChatReceivedEvent  event) {
         if (!SkyblockUtils.isInKuudra()) return;
-        if (!Configs.KuudraPreDetection) return;
         if (event.type == 0) {
             String message = StringUtils.stripControlCodes(event.message.getUnformattedText());
-            if (message.contains(preRegex) && Configs.KuudraPreDetection) {
+            if (message.contains(preRegex)) {
                 ChatLib.chat("§e[BA] §bKuudra fight begins.");
                 startPreTime = System.currentTimeMillis();
                 currentPreSpot = checkForPre(BadAddons.mc.thePlayer.getPosition());

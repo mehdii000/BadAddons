@@ -159,19 +159,16 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "SingleFlowSolver",
-            description = "Solves all 40 Water Board layouts in a single water flow. §l§4[WIP]",
+            name = "DungeonRoutes",
+            description = "they call me a §ccommunist",
             parent = "Dungeons"
     )
-    public static boolean SingleFlowSolver = false;
-	
-	@Property(
-            type = Property.Type.BOOLEAN,
-            name = "Potential Flip Highlight",
-            description = "You must have cofl for this to work, makes life harder like me \n§l§4[COMING SOON]",
-            parent = "Flipping"
-    )
-    public static boolean BroadcastPotentialFlips = false;
+    public static boolean DungeonRoutes = false;
+
+    @Property(type = Property.Type.SELECT, name = "RoutesType", parent = "DungeonRoutes",
+            options = {"§bLine", "§6Particles"},
+            description = "Select a rendering type for the routes.")
+    public static int DungeonRoutesType = 0;
 	
 	// BLOCKS 
     @Property(
@@ -279,6 +276,14 @@ public class Configs {
     public static boolean FreshDisplay = false;
 
     @Property(
+            type = Property.Type.BOOLEAN,
+            name = "FreshMessage",
+            description = "Sends a message in chat to notify others that u freshed.",
+            parent = "FreshHighlight"
+    )
+    public static boolean FreshChatMessage = false;
+
+    @Property(
             type = Property.Type.TEXT,
             name = "FreshText",
             description = "Custom message that appears when u fresh",
@@ -333,11 +338,11 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
-            name = "HideElleMessages",
-            description = "Hides elle messages in kuudra. sorry mommey elle",
+            name = "BetterPickupMessage",
+            description = "Replaces the message you get when you place a supply.",
             parent = "KuudraGameplay"
     )
-    public static boolean HideElleMessages = false;
+    public static boolean BetterPickupSupplyMessage = false;
 
     @Property(
             type = Property.Type.BOOLEAN,

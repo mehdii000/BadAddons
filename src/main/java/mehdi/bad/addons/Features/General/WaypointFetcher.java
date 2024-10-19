@@ -3,8 +3,7 @@ package mehdi.bad.addons.Features.General;
 import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.MathUtils;
-import mehdi.bad.addons.utils.RealRenderUtils;
-import net.minecraft.util.BlockPos;
+import mehdi.bad.addons.utils.V2RenderUtils;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -12,8 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.vecmath.Vector3f;
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,12 +33,15 @@ public class WaypointFetcher {
     public void onWorldRender(RenderWorldLastEvent e) {
         if (waypointToRender == null) return;
         if (timeOfRendering > System.currentTimeMillis()) {
-            String time = MathUtils.formatTicks(timeOfRendering - System.currentTimeMillis());
-            ArrayList<String> txt = new ArrayList<>();
+            String time = MathUtils.detailedFormatTicks(timeOfRendering - System.currentTimeMillis());
+            /*ArrayList<String> txt = new ArrayList<>();
             txt.add("§4WAYPOINT");
             txt.add("§7LEFT: §b" + time);
             RealRenderUtils.renderBeaconBeam(new BlockPos(waypointToRender[0], waypointToRender[1], waypointToRender[2]), 0xe07588, 1f, e.partialTicks, true);
             RealRenderUtils.renderWayPoint(txt, new Vector3f(waypointToRender[0], waypointToRender[1] + 1, waypointToRender[2]), e.partialTicks, false);
+            */
+            V2RenderUtils.renderBeacon(waypointToRender[0], waypointToRender[1], waypointToRender[2], Color.RED.getRGB(), 0.9f, e.partialTicks);
+            V2RenderUtils.renderWaypointText("§eWAYPOINT §7" + time, waypointToRender[0], waypointToRender[1], waypointToRender[2], e.partialTicks);
         } else {
             waypointToRender = null;
         }

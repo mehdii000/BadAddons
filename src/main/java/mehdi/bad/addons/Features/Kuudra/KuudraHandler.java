@@ -72,6 +72,10 @@ public class KuudraHandler extends MovableModule {
                     this.pickSupplies.put(picker, Integer.valueOf(this.pickSupplies.getOrDefault(picker, Integer.valueOf(0)).intValue() + 1));
                     suppliesPicked++;
                 }
+                if (Configs.BetterPickupSupplyMessage) {
+                    event.setCanceled(true);
+                    ChatLib.chat("§a" + picker + " got supply after §c" + MathUtils.detailedFormatTicks(System.currentTimeMillis()-PreSupplyDetection.startPreTime));
+                }
             }
         }
 
@@ -92,7 +96,7 @@ public class KuudraHandler extends MovableModule {
             BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
             String freshDisplayMessage = "§a" + Configs.FreshDisplayString.replace("&", "§");
             BadAddons.mc.ingameGUI.displayTitle(freshDisplayMessage, "", 0, 2500, 0);
-            BadAddons.mc.thePlayer.sendChatMessage("FRESHED! After " + MathUtils.detailedFormatTicks(System.currentTimeMillis() - freshTimeFromBuildStart));
+            if (Configs.FreshChatMessage) BadAddons.mc.thePlayer.sendChatMessage("FRESHED! After " + MathUtils.detailedFormatTicks(System.currentTimeMillis() - freshTimeFromBuildStart));
         }
 
         if (message.contains("Elle: OMG! Great work collecting my supplies!")) {
@@ -109,10 +113,6 @@ public class KuudraHandler extends MovableModule {
         if (message.contains(" destroyed one of Kuudra")) {
             BadAddons.mc.ingameGUI.displayTitle("§c§lATTACK", "§cBadAddons On Top", 0, 2500, 0);
             timeOfStunning = System.currentTimeMillis();
-        }
-
-        if (Configs.HideElleMessages && message.contains("[NPC] Elle")) {
-            event.setCanceled(true);
         }
 
     }
@@ -293,7 +293,7 @@ public class KuudraHandler extends MovableModule {
         if (e.guiContainer.inventorySlots instanceof ContainerChest) {
             ContainerChest chest = (ContainerChest) e.guiContainer.inventorySlots;
             if (chest.getLowerChestInventory().getName().contains("Perk Menu") && GuiUtils.isSlotContainsItem(chest, 5, 2, Item.getItemFromBlock(Blocks.crafting_table)) && GuiUtils.isSlotWithin(e.slot, chest, 4, 2, 6, 3)) {
-                ChatLib.chat("§e[BA] Clicking " + chest.getSlot(13).getStack().toString());
+                if (Configs.debugShowScanning) ChatLib.chat("§e[BA] Clicking " + chest.getSlot(13).getStack().toString());
                 e.setCanceled(true);
                 GuiUtils.sendMouseClick(chest.windowId, 13);
             }
@@ -348,6 +348,7 @@ public class KuudraHandler extends MovableModule {
         pickSupplies.clear();
         suppliesPicked = 0;
         buildingPhase = false;
+        PreSupplyDetection.startPreTime = 0;
         freshTimeFromBuildStart = 0;
         KuudraHandler.buildingPhase = false;
     }

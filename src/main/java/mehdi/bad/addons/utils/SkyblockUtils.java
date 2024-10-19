@@ -218,7 +218,7 @@ public class SkyblockUtils {
 		}
 
 		public static boolean isInDungeon() {
-			return currentMap.equals("The Catacombs");
+			return currentMap.contains("The Catacombs");
 		}
 
 		public static boolean isInMist() {
