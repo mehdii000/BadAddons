@@ -186,7 +186,7 @@ public class Room {
 
             if(Configs.DungeonRoutesType == 0) {
                 //Add tick delay
-                if(c<20){
+                if(c<2000){
                     c++;
                     return;
                 }

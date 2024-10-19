@@ -1,5 +1,6 @@
 package mehdi.bad.addons.utils;
 
+import mehdi.bad.addons.utils.multistorage.Triple;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -1046,6 +1047,67 @@ public class V2RenderUtils {
 
             world.spawnParticle(particle, x, y, z, offsetX, offsetY, offsetZ);
         }
+    }
+
+    public static void drawMultipleNormalLines(List<Triple<Double, Double, Double>> locations, float partialTicks, Color color, int width) {
+        if(locations == null) {
+            return;
+        }
+        if(locations.size() >= 2) {
+            Triple<Double, Double, Double> lastLoc = null;
+            for (Triple<Double, Double, Double> loc : locations) {
+                if (lastLoc == null) {
+                    lastLoc = loc;
+                    continue;
+                }
+
+                drawNormalLine(lastLoc.getOne(), lastLoc.getTwo(), lastLoc.getThree(), loc.getOne(), loc.getTwo(), loc.getThree(), color, partialTicks, true, width);
+                lastLoc = loc;
+            }
+        }
+    }
+
+    public static void drawNormalLine(double x1, double y1, double z1, double x2, double y2, double z2, Color colour, float partialTicks, boolean depth, int width) {
+        Entity render = Minecraft.getMinecraft().getRenderViewEntity();
+        WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+
+        double realX = render.lastTickPosX + (render.posX - render.lastTickPosX) * partialTicks;
+        double realY = render.lastTickPosY + (render.posY - render.lastTickPosY) * partialTicks;
+        double realZ = render.lastTickPosZ + (render.posZ - render.lastTickPosZ) * partialTicks;
+
+        GlStateManager.pushAttrib();
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(-realX, -realY, -realZ);
+        GlStateManager.disableTexture2D();
+        if (!depth) {
+            GlStateManager.disableDepth();
+            GlStateManager.depthMask(false);
+        }
+        GlStateManager.disableLighting();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GL11.glLineWidth(width);
+        GlStateManager.color(colour.getRed() / 255f, colour.getGreen() / 255f, colour.getBlue()/ 255f, colour.getAlpha() / 255f);
+        worldRenderer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+        worldRenderer.pos(x1, y1, z1).endVertex();
+        worldRenderer.pos(x2, y2, z2).endVertex();
+        Tessellator.getInstance().draw();
+
+        GlStateManager.translate(realX, realY, realZ);
+        GlStateManager.disableBlend();
+        if (!depth) {
+            GlStateManager.enableDepth();
+            GlStateManager.depthMask(true);
+        }
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableLighting();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.popMatrix();
+        GlStateManager.popAttrib();
     }
 
 }

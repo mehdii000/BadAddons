@@ -8,12 +8,17 @@ import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.Config.modules.MovableConfigManager;
 import mehdi.bad.addons.Config.modules.MovableListener;
 import mehdi.bad.addons.Config.modules.MovablesManager;
+import mehdi.bad.addons.Events.PacketEvent;
 import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.Features.Dungeons.DungeonRooms;
+import mehdi.bad.addons.Features.Dungeons.OnItemPickedUp;
+import mehdi.bad.addons.Features.Dungeons.OnPlayerTick;
+import mehdi.bad.addons.Features.Dungeons.OnWorldRender;
 import mehdi.bad.addons.Features.Dungeons.catacombs.DungeonManager;
 import mehdi.bad.addons.Features.Dungeons.catacombs.RoomDetection;
 import mehdi.bad.addons.Features.Dungeons.catacombs.Waypoints;
 import mehdi.bad.addons.Features.Dungeons.utils.PacketHandler;
+import mehdi.bad.addons.Features.Dungeons.utils.Room;
 import mehdi.bad.addons.Features.General.*;
 import mehdi.bad.addons.Features.Kuudra.AIPearlWaypoints;
 import mehdi.bad.addons.Features.Lowballing.TradesTracker;
@@ -23,6 +28,9 @@ import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.SkyblockUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.network.play.server.S0DPacketCollectItem;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,6 +40,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.commons.compress.utils.IOUtils;
 
@@ -48,13 +57,15 @@ import java.util.Iterator;
 @Mod(modid = BadAddons.MODID, version = BadAddons.VERSION, acceptedMinecraftVersions = "[1.8.9]")
 public class BadAddons {
 
-    public static final String VERSION = "1.4.2";
+    public static final String VERSION = "1.5";
     public static final String MODID = "badaddons";
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static ArrayList settings = Config.collect(Configs.class);
     public static GuiScreen guiToOpen = null;
     private boolean checkForUpdate = false;
     public static float partialTicks = 0;
+
+    public static Room currentRoom = null;
 
     public static final String ROUTES_PATH = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + File.separator + "config" + File.separator + "BadAddons"+ File.separator+"routes";
 
@@ -115,6 +126,13 @@ public class BadAddons {
             ClientRegistry.registerKeyBinding(key.mcKeyBinding());
         }
 
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        DungeonRooms.init();
+        checkRoutesData();
+
         MinecraftForge.EVENT_BUS.register(new MovableListener());
 
         ClientCommandHandler.instance.registerCommand(commandManager);
@@ -135,14 +153,10 @@ public class BadAddons {
         MinecraftForge.EVENT_BUS.register(new DungeonManager());
         MinecraftForge.EVENT_BUS.register(new RoomDetection());
         MinecraftForge.EVENT_BUS.register(new Waypoints());
+        MinecraftForge.EVENT_BUS.register(new OnWorldRender());
+        MinecraftForge.EVENT_BUS.register(new OnPlayerTick());
+        MinecraftForge.EVENT_BUS.register(new OnItemPickedUp());
 
-
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        DungeonRooms.init();
-        checkRoutesData();
     }
 
     public static void checkRoutesData() {
@@ -194,6 +208,32 @@ public class BadAddons {
         if (mc.getCurrentServerData() == null) return;
         if (mc.getCurrentServerData().serverIP.toLowerCase().contains("hypixel.")) {
             event.manager.channel().pipeline().addBefore("packet_handler", "secretroutes_packet_handler", new PacketHandler());
+        }
+    }
+
+    @SubscribeEvent
+    public void onRecievePacket(PacketEvent.ReceiveEvent e) {
+        try {
+            if (e.packet instanceof S0DPacketCollectItem) { // Note to Hypixel: This is not manipulating packets, it is simply listening and checking for the collect item packet. If that is the correct packet, it simulates creating an itempickedup event client-side
+                S0DPacketCollectItem packet = (S0DPacketCollectItem) e.packet;
+                Entity entity = Minecraft.getMinecraft().theWorld.getEntityByID(packet.getCollectedItemEntityID());
+
+                if(entity instanceof EntityItem) {
+                    EntityItem item = (EntityItem) entity;
+                    entity = Minecraft.getMinecraft().theWorld.getEntityByID(packet.getEntityID());
+                    if(entity == null) {
+                        return;
+                    }
+                    if(!entity.getCommandSenderEntity().getName().equals(Minecraft.getMinecraft().thePlayer.getName())) {
+                        return;
+                    }
+
+                    PlayerEvent.ItemPickupEvent itemPickupEvent = new PlayerEvent.ItemPickupEvent(Minecraft.getMinecraft().thePlayer, item);
+                    new OnItemPickedUp().onPickupItem(itemPickupEvent);
+                }
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
         }
     }
 

@@ -1,5 +1,6 @@
 package mehdi.bad.addons.utils;
 
+import mehdi.bad.addons.Config.Configs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.event.ClickEvent;
@@ -173,5 +174,9 @@ public class ChatLib {
             Matcher var2 = var1.matcher(var0);
             return var2.find() ? var2.group(0) : "&r";
         }
+    }
+
+    public static void debug(String s) {
+        if (Configs.debugShowScanning) chat("§cBA> §r" + s);
     }
 }
