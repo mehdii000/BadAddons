@@ -157,10 +157,18 @@ public class Configs {
     )
     public static boolean DungeonRoutes = false;
 
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Draw Text",
+            description = "Draws a text above the waypoints indicating type.",
+            parent = "CoolStuff"
+    )
+    public static boolean DungeonRoutesText = true;
+
     @Property(type = Property.Type.SELECT, name = "RoutesType", parent = "CoolStuff",
-            options = {"§bLine", "§6Particles"},
+            options = {"§6Particles", "§bLine"},
             description = "Select a rendering type for the routes.")
-    public static int DungeonRoutesType = 0;
+    public static int DungeonRoutesType = 1;
 	
 	// BLOCKS 
     @Property(

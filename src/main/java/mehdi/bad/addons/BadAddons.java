@@ -21,7 +21,9 @@ import mehdi.bad.addons.Features.Dungeons.utils.Room;
 import mehdi.bad.addons.Features.General.*;
 import mehdi.bad.addons.Features.Kuudra.AIPearlWaypoints;
 import mehdi.bad.addons.Features.Lowballing.TradesTracker;
-import mehdi.bad.addons.Objects.*;
+import mehdi.bad.addons.Objects.NotificationManager;
+import mehdi.bad.addons.Objects.ScoreBoard;
+import mehdi.bad.addons.Objects.UpdateCheck;
 import mehdi.bad.addons.utils.AuctionUtils;
 import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.SkyblockUtils;
@@ -33,7 +35,6 @@ import net.minecraft.network.play.server.S0DPacketCollectItem;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -51,7 +52,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 @Mod(modid = BadAddons.MODID, version = BadAddons.VERSION, acceptedMinecraftVersions = "[1.8.9]")
 public class BadAddons {
@@ -119,13 +119,6 @@ public class BadAddons {
         MovableConfigManager.load();
         MovableConfigManager.save();
 
-        AuctionUtils.initItemsPrices();
-        Iterator keyBinds = KeyBindUtils.keyBinds.iterator();
-        while (keyBinds.hasNext()) {
-            KeyBind key = (KeyBind) keyBinds.next();
-            ClientRegistry.registerKeyBinding(key.mcKeyBinding());
-        }
-
     }
 
     @EventHandler
@@ -157,6 +150,7 @@ public class BadAddons {
         MinecraftForge.EVENT_BUS.register(new OnPlayerTick());
         MinecraftForge.EVENT_BUS.register(new OnItemPickedUp());
 
+        AuctionUtils.initItemsPrices();
     }
 
     public static void checkRoutesData() {

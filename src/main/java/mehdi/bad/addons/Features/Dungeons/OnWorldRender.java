@@ -48,8 +48,6 @@ import java.util.List;
 
 public class OnWorldRender {
 
-    private final static String verboseTAG = "Rendering";
-
     @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
         if (!Configs.DungeonRoutes) return;
@@ -91,7 +89,7 @@ public class OnWorldRender {
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(etherwarpLocation.get(0).getAsInt(), etherwarpLocation.get(1).getAsInt(), etherwarpLocation.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
 
                 etherwarpPositions.add(pos);
-                GuiUtils.drawSelectionFilledBoxAtBlock(pos, Color.MAGENTA, 100);
+                GuiUtils.drawSelectionFilledBoxAtBlock(pos, Color.MAGENTA, 50);
             }
         }
 
@@ -218,37 +216,39 @@ public class OnWorldRender {
             BlockPos pos = MapUtils.relativeToActual(new BlockPos(location.get(0).getAsInt(), location.get(1).getAsInt(), location.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
 
             if (type.equals("interact")) {
-
-                RealRenderUtils.render3dString("§bInteract", pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 1, 1, event.partialTicks);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§bInteract", pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 1, event.partialTicks);
                 V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 1, event.partialTicks);
-
             } else if (type.equals("item")) {
-                RealRenderUtils.render3dString("§bItem",pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 1, 1, event.partialTicks);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§bItem",pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 1, event.partialTicks);
                 V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 0.5f, event.partialTicks);
             } else if (type.equals("bat")) {
-                RealRenderUtils.render3dString("§bBAT", pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 1, 1, event.partialTicks);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§bBAT", pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 1, event.partialTicks);
                 V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 0.5f, event.partialTicks);
+            }
+
+            if (BadAddons.mc.thePlayer.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) <= 3 && BadAddons.mc.thePlayer.isSneaking()) {
+                BadAddons.currentRoom.nextSecret();
             }
 
             int ew = 0;
             for (BlockPos etherwarpPos : etherwarpPositions) {
                 ew++;
-                String text = "§bWARP " + ew;
-                RealRenderUtils.render3dString(text, etherwarpPos.getX() + 0.5, etherwarpPos.getY() + 1.5, etherwarpPos.getZ() + 0.5, 1, 3, event.partialTicks);
+                String text = "§dWARP " + ew;
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString(text, etherwarpPos.getX() + 0.5, etherwarpPos.getY() + 1.5, etherwarpPos.getZ() + 0.5, 1, 3, event.partialTicks);
             }
 
             for (BlockPos minePos : minesPositions) {
-                RealRenderUtils.render3dString("§6MINE", minePos.getX() + 0.5, minePos.getY() + 0.5, minePos.getZ() + 0.5, 1, 0.8f, event.partialTicks);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§cMINE", minePos.getX() + 0.5, minePos.getY() + 0.5, minePos.getZ() + 0.5, 1, 0.5f, event.partialTicks);
             }
 
 
             for (BlockPos superboomPos : superboomsPositions) {
-                RealRenderUtils.render3dString("§cBOOM", superboomPos.getX() + 0.5, superboomPos.getY() + 1, superboomPos.getZ() + 0.5, 1, 2, event.partialTicks);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§cBOOM", superboomPos.getX() + 0.5, superboomPos.getY() + 1, superboomPos.getZ() + 0.5, 1, 2, event.partialTicks);
             }
 
 
             for (Triple<Double, Double, Double> enderpearlPos : enderpearlPositons) {
-                RealRenderUtils.render3dString("§2PEARL", enderpearlPos.getOne() + 0.5, enderpearlPos.getTwo() + 1, enderpearlPos.getThree() + 0.5, 1, 2, event.partialTicks);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§2PEARL", enderpearlPos.getOne() + 0.5, enderpearlPos.getTwo() + 1, enderpearlPos.getThree() + 0.5, 1, 2, event.partialTicks);
 
             }
         }
@@ -308,7 +308,5 @@ public class OnWorldRender {
             }
         }
     }
-
-
 
 }
