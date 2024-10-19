@@ -16,7 +16,6 @@ import mehdi.bad.addons.Features.Dungeons.OnPlayerTick;
 import mehdi.bad.addons.Features.Dungeons.OnWorldRender;
 import mehdi.bad.addons.Features.Dungeons.catacombs.DungeonManager;
 import mehdi.bad.addons.Features.Dungeons.catacombs.RoomDetection;
-import mehdi.bad.addons.Features.Dungeons.catacombs.Waypoints;
 import mehdi.bad.addons.Features.Dungeons.utils.PacketHandler;
 import mehdi.bad.addons.Features.Dungeons.utils.Room;
 import mehdi.bad.addons.Features.General.*;
@@ -66,6 +65,7 @@ public class BadAddons {
     public static float partialTicks = 0;
 
     public static Room currentRoom = null;
+    public static ArrayList<Room> visitedRooms = new ArrayList<Room>();
 
     public static final String ROUTES_PATH = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + File.separator + "config" + File.separator + "BadAddons"+ File.separator+"routes";
 
@@ -152,7 +152,7 @@ public class BadAddons {
         MinecraftForge.EVENT_BUS.register(new DungeonRooms());
         MinecraftForge.EVENT_BUS.register(new DungeonManager());
         MinecraftForge.EVENT_BUS.register(new RoomDetection());
-        MinecraftForge.EVENT_BUS.register(new Waypoints());
+        //MinecraftForge.EVENT_BUS.register(new Waypoints());
         MinecraftForge.EVENT_BUS.register(new OnWorldRender());
         MinecraftForge.EVENT_BUS.register(new OnPlayerTick());
         MinecraftForge.EVENT_BUS.register(new OnItemPickedUp());

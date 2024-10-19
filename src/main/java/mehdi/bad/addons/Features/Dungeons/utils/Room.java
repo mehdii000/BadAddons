@@ -52,6 +52,7 @@ public class Room {
     public JsonArray currentSecretRoute;
     public int currentSecretIndex = 0;
     public JsonObject currentSecretWaypoints;
+    public boolean roomDone = false;
 
     public Room(String roomName) {
         currentSecretIndex = 0;
@@ -113,6 +114,7 @@ public class Room {
         if(!(currentSecretIndex >= currentSecretRoute.size())) {
             currentSecretWaypoints = currentSecretRoute.get(currentSecretIndex).getAsJsonObject();
         } else {
+            roomDone = true;
             currentSecretWaypoints = null;
         }
     }
@@ -186,7 +188,7 @@ public class Room {
 
             if(Configs.DungeonRoutesType == 0) {
                 //Add tick delay
-                if(c<2000){
+                if(c<10){
                     c++;
                     return;
                 }

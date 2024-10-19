@@ -20,11 +20,11 @@ package mehdi.bad.addons.Features.Dungeons.catacombs;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Events.PacketEvent;
 import mehdi.bad.addons.Features.Dungeons.DungeonRooms;
 import mehdi.bad.addons.Features.Dungeons.utils.MapUtils;
 import mehdi.bad.addons.utils.SkyblockUtils;
-import mehdi.bad.addons.utils.V2RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -36,7 +36,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S0DPacketCollectItem;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StringUtils;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -168,7 +167,7 @@ public class Waypoints {
                     GlStateManager.disableDepth();
                     GlStateManager.disableCull();
                     if (showBoundingBox && frustum.isBoxInFrustum(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1)) {
-                        V2RenderUtils.drawPixelBox(new Vec3(x, y, z), Color.GREEN, 1, event.partialTicks);
+                        //V2RenderUtils.drawPixelBox(new Vec3(x, y, z), Color.GREEN, 1, event.partialTicks);
                     }
                     GlStateManager.disableTexture2D();
                     //if (showBeacon && distSq > 5*5) WaypointUtils.renderBeaconBeam(x, y + 1, z, color.getRGB(), 0.25f, event.partialTicks);
@@ -204,6 +203,7 @@ public class Waypoints {
                     int totalSecrets = Integer.parseInt(splitSecrets[1].replaceAll("[^0-9]", ""));
 
                     allFound = (totalSecrets == secretNum && completedSecrets == secretNum);
+                    BadAddons.currentRoom.roomDone = allFound;
                     break;
                 }
             }

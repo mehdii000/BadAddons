@@ -150,22 +150,14 @@ public class Configs {
     public static boolean HighlightGraceItems = false;
 
     @Property(
-            type = Property.Type.FOLDER,
-            name = "Dungeons",
-            description = "Highly Complex Dungeon Features @_@",
-            parent = "General"
-    )
-    public static boolean DungeonsFolder = false;
-
-    @Property(
             type = Property.Type.BOOLEAN,
-            name = "DungeonRoutes",
-            description = "they call me a §ccommunist",
-            parent = "Dungeons"
+            name = "Dungeon Routes",
+            description = "they call me a §ccommunist, pretty self explanatory",
+            parent = "CoolStuff"
     )
     public static boolean DungeonRoutes = false;
 
-    @Property(type = Property.Type.SELECT, name = "RoutesType", parent = "DungeonRoutes",
+    @Property(type = Property.Type.SELECT, name = "RoutesType", parent = "CoolStuff",
             options = {"§bLine", "§6Particles"},
             description = "Select a rendering type for the routes.")
     public static int DungeonRoutesType = 0;

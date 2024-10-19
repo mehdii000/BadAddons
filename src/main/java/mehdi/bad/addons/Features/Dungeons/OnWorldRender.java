@@ -52,6 +52,7 @@ public class OnWorldRender {
 
     @SubscribeEvent
     public void onRenderWorld(RenderWorldLastEvent event) {
+        if (!Configs.DungeonRoutes) return;
         if (BadAddons.currentRoom == null || !SkyblockUtils.isInDungeon()) return;
 
         try {
@@ -90,7 +91,7 @@ public class OnWorldRender {
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(etherwarpLocation.get(0).getAsInt(), etherwarpLocation.get(1).getAsInt(), etherwarpLocation.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
 
                 etherwarpPositions.add(pos);
-                GuiUtils.drawSelectionFilledBoxAtBlock(pos, Color.PINK);
+                GuiUtils.drawSelectionFilledBoxAtBlock(pos, Color.MAGENTA, 100);
             }
         }
 
@@ -116,13 +117,13 @@ public class OnWorldRender {
                 DungeonRooms.checkRoomData();
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(interactLocation.get(0).getAsInt(), interactLocation.get(1).getAsInt(), interactLocation.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
                 interactsPositions.add(pos);
-                GuiUtils.drawBoundingBoxAtBlock(pos, Color.GREEN);
+                GuiUtils.drawBoundingBoxAtBlock(pos, Color.CYAN);
 
             }
         }
 
         // Render the tnts
-        if (currentSecretWaypoints != null && currentSecretWaypoints.get("tnts") != null && index2 == BadAddons.currentRoom.currentSecretIndex) {
+        /*if (currentSecretWaypoints != null && currentSecretWaypoints.get("tnts") != null && index2 == BadAddons.currentRoom.currentSecretIndex) {
             JsonArray tntLocations = currentSecretWaypoints.get("tnts").getAsJsonArray();
             for (JsonElement tntLocationElement : tntLocations) {
                 JsonArray tntLocation = tntLocationElement.getAsJsonArray();
@@ -132,7 +133,7 @@ public class OnWorldRender {
                 superboomsPositions.add(pos);
                 GuiUtils.drawBoundingBoxAtBlock(pos, Color.RED);
             }
-        }
+        }*/
         // Render normal lines if config says so
         if (currentSecretWaypoints != null && currentSecretWaypoints.get("locations") != null && Configs.DungeonRoutesType == 1  && index2 == BadAddons.currentRoom.currentSecretIndex) {
             GlStateManager.enableDepth();
@@ -203,7 +204,7 @@ public class OnWorldRender {
                 double newZ = posZ + z * length + 0.25;
                 //sendVerboseMessage("Origin: (" + (posX +0.25f)+ ", " + (posY +1.62f) + ", " + posZ +(0.25)+") to End: (" + newX + ", " + newY + ", " + newZ + ") with a angles of ("+yaw+", "+pitch+") -> ("+yawRadians+", "+pitchRadians+")", verboseTAG);
                 //SecretRoutesRenderUtils.drawBoxAtBlock(newX, newY, newZ, SRMConfig.enderpearls, 0.03125, 0.03125);
-                V2RenderUtils.drawNormalLine(posX + 0.25F, posY + 1.62F, posZ + 0.25F, newX, newY, newZ, Color.PINK, event.partialTicks, true, 4);
+                V2RenderUtils.drawNormalLine(posX + 0.25F, posY + 1.62F, posZ + 0.25F, newX, newY, newZ, Color.RED, event.partialTicks, true, 3);
                 enderpearlPositons.add(new Triple<>(posX, posY, posZ));
                 index++;
             }
@@ -218,36 +219,36 @@ public class OnWorldRender {
 
             if (type.equals("interact")) {
 
-                RealRenderUtils.render3dString("§bInteract", pos.getX() - 0.5, pos.getY() + 1, pos.getZ() - 0.5, 1, 1, event.partialTicks);
+                RealRenderUtils.render3dString("§bInteract", pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 1, 1, event.partialTicks);
                 V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 1, event.partialTicks);
 
             } else if (type.equals("item")) {
-                RealRenderUtils.render3dString("§eItem", pos.getX(), pos.getY() + 1, pos.getZ(), 1, 1, event.partialTicks);
-                V2RenderUtils.draw2D(pos, Color.YELLOW.getRGB(), Color.GRAY.getRGB());
+                RealRenderUtils.render3dString("§bItem",pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 1, 1, event.partialTicks);
+                V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 0.5f, event.partialTicks);
             } else if (type.equals("bat")) {
-                RealRenderUtils.render3dString("§eBAT", pos.getX(), pos.getY() + 1, pos.getZ(), 1, 1, event.partialTicks);
-                V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.RED, 0.6f, event.partialTicks);
+                RealRenderUtils.render3dString("§bBAT", pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 1, 1, event.partialTicks);
+                V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 0.5f, event.partialTicks);
             }
 
             int ew = 0;
             for (BlockPos etherwarpPos : etherwarpPositions) {
                 ew++;
-                String text = "§cWARP " + ew;
-                RealRenderUtils.render3dString(text, etherwarpPos.getX(), etherwarpPos.getY() + 2, etherwarpPos.getZ(), 1, 3, event.partialTicks);
+                String text = "§bWARP " + ew;
+                RealRenderUtils.render3dString(text, etherwarpPos.getX() + 0.5, etherwarpPos.getY() + 1.5, etherwarpPos.getZ() + 0.5, 1, 3, event.partialTicks);
             }
 
             for (BlockPos minePos : minesPositions) {
-                RealRenderUtils.render3dString("§6MINE", minePos.getX(), minePos.getY() + 1, minePos.getZ(), 1, 0.8f, event.partialTicks);
+                RealRenderUtils.render3dString("§6MINE", minePos.getX() + 0.5, minePos.getY() + 0.5, minePos.getZ() + 0.5, 1, 0.8f, event.partialTicks);
             }
 
 
             for (BlockPos superboomPos : superboomsPositions) {
-                RealRenderUtils.render3dString("§cBOOM", superboomPos.getX(), superboomPos.getY() + 1, superboomPos.getZ(), 1, 2, event.partialTicks);
+                RealRenderUtils.render3dString("§cBOOM", superboomPos.getX() + 0.5, superboomPos.getY() + 1, superboomPos.getZ() + 0.5, 1, 2, event.partialTicks);
             }
 
 
             for (Triple<Double, Double, Double> enderpearlPos : enderpearlPositons) {
-                RealRenderUtils.render3dString("§2PEARL", enderpearlPos.getOne(), enderpearlPos.getTwo() + 1, enderpearlPos.getThree(), 1, 2, event.partialTicks);
+                RealRenderUtils.render3dString("§2PEARL", enderpearlPos.getOne() + 0.5, enderpearlPos.getTwo() + 1, enderpearlPos.getThree() + 0.5, 1, 2, event.partialTicks);
 
             }
         }
@@ -265,7 +266,7 @@ public class OnWorldRender {
                 // Render the text
                 Vec3 eyePos = BadAddons.mc.thePlayer.getPositionEyes(event.partialTicks);
                 V2RenderUtils.drawNormalLine(eyePos.xCoord, eyePos.yCoord, eyePos.zCoord, pos.getX(), pos.getY(), pos.getZ(), Color.GREEN, event.partialTicks, false, 2);
-                RealRenderUtils.render3dString("§aSTART!", pos.getX(), pos.getY(), pos.getZ(), 1, 2, event.partialTicks);
+                RealRenderUtils.render3dString("§aSTART", pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, 1, 2, event.partialTicks);
 
             }
             if (index2 == BadAddons.currentRoom.currentSecretRoute.getAsJsonArray().size() - 1) {
@@ -275,9 +276,8 @@ public class OnWorldRender {
 
                 DungeonRooms.checkRoomData();
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(location.get(0).getAsInt(), location.get(1).getAsInt(), location.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
-
                 // Render the text
-                RealRenderUtils.render3dString("§4EXIT!", pos.getX(), pos.getY(), pos.getZ(), 1, 2, event.partialTicks);
+                RealRenderUtils.render3dString("§4EXIT", pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, 1, 2, event.partialTicks);
 
             }
         }

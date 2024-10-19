@@ -7,6 +7,7 @@ import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.utils.AuctionUtils;
 import mehdi.bad.addons.utils.MinecraftUtils;
 import mehdi.bad.addons.utils.RenderUtils;
+import mehdi.bad.addons.utils.SkyblockUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -23,6 +24,7 @@ public class CombatXPTracker extends MovableModule {
     @SubscribeEvent
     public void onTickEnd(TickEndEvent e) {
         if (!Configs.CombatXPTracker) return;
+        if (SkyblockUtils.isInDungeon()) return;
 
         // Fetching tab list from Minecraft
         String[] tabList = MinecraftUtils.fetchTabList();
@@ -64,7 +66,7 @@ public class CombatXPTracker extends MovableModule {
     @Override
     public void render() {
         if (!Configs.CombatXPTracker) return;
-
+        if (SkyblockUtils.isInDungeon()) return;
         int textWidth = RenderUtils.getStringWidthWithItem(xpEta);
         int textHeight = BadAddons.mc.fontRendererObj.FONT_HEIGHT;
 

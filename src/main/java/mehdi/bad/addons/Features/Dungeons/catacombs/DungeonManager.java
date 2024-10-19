@@ -18,6 +18,7 @@
 
 package mehdi.bad.addons.Features.Dungeons.catacombs;
 
+import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Features.Dungeons.utils.MapUtils;
 import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.SkyblockUtils;
@@ -115,6 +116,8 @@ public class DungeonManager {
         entranceMapCorners = null;
         entrancePhysicalNWCorner = null;
         RoomDetection.entranceMapNullCount = 0;
+        BadAddons.visitedRooms.clear();
+        BadAddons.currentRoom = null;
 
         bloodTime = Long.MAX_VALUE;
 

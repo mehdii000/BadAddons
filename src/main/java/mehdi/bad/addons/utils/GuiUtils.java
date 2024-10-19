@@ -283,10 +283,10 @@ public class GuiUtils {
         GlStateManager.popMatrix();
     }
 
-    public static void drawSelectionFilledBoxAtBlock(BlockPos var0, Color var1) {
+    public static void drawSelectionFilledBoxAtBlock(BlockPos var0, Color var1, int alpha) {
         AxisAlignedBB var2 = BlockUtils.getAABBOfBlock(var0);
         if (var2 != null) {
-            drawFilledBoundingBoxRelative((float) var2.minX, (float) var2.minY, (float) var2.minZ, (float) var2.maxX, (float) var2.maxY, (float) var2.maxZ, var1.getRed(), var1.getGreen(), var1.getBlue(), var1.getAlpha());
+            drawFilledBoundingBoxRelative((float) var2.minX, (float) var2.minY, (float) var2.minZ, (float) var2.maxX, (float) var2.maxY, (float) var2.maxZ, var1.getRed(), var1.getGreen(), var1.getBlue(), alpha);
         }
     }
 

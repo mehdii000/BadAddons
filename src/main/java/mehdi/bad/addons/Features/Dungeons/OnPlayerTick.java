@@ -38,7 +38,10 @@ public class OnPlayerTick {
         //If all secrets in the room have been completed
         /*if(Waypoints.allFound) {
             Main.currentRoom = new Room(null);
+
         }*/
+
+        BadAddons.currentRoom.renderLines();
 
         if(BadAddons.currentRoom.getSecretType() == Room.SECRET_TYPES.BAT) {
             BlockPos pos = e.player.getPosition();

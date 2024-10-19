@@ -222,7 +222,6 @@ public class RoomDetection {
     }
 
     public static void resetCurrentRoom() {
-        ChatLib.chat("§cBA-Debug> §bRestarting current room data...");
         Waypoints.allFound = false;
 
         currentPhysicalSegments = null;
@@ -266,7 +265,7 @@ public class RoomDetection {
             }
 
             new DungeonRoomEnterEvent(new Room(roomName));
-            ChatLib.chat("§b[BA] §rEntered room: §a" + roomName);
+            ChatLib.debug("Entered room: §a" + roomName);
         }
     }
 
