@@ -165,10 +165,17 @@ public class Configs {
     )
     public static boolean DungeonRoutesText = true;
 
+    @Property(type = Property.Type.SELECT, name = "RoutesMethod", parent = "CoolStuff",
+            options = {"§dPearls", "§2AOTV"},
+            description = "Select a rendering type for the routes.")
+    public static int DungeonRoutesMethod = 1;
+
     @Property(type = Property.Type.SELECT, name = "RoutesType", parent = "CoolStuff",
             options = {"§6Particles", "§bLine"},
             description = "Select a rendering type for the routes.")
     public static int DungeonRoutesType = 1;
+
+
 	
 	// BLOCKS 
     @Property(

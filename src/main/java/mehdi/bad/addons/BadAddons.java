@@ -155,7 +155,12 @@ public class BadAddons {
 
     public static void checkRoutesData() {
         try {
-            String filePath = ROUTES_PATH+File.separator+ "routes.json";
+            String filePath;
+            if (Configs.DungeonRoutesMethod == 1) {
+                filePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";
+            } else {
+                filePath = BadAddons.ROUTES_PATH + File.separator + "pearlroutes.json";
+            }
 
             // Check if the config directory exists
             File configDir = new File(ROUTES_PATH);
@@ -175,7 +180,13 @@ public class BadAddons {
     public static void updateRoutes(File configFile) {
         try {
             ChatLib.chat("§e[BA] Downloading routes data...");
-            URL url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/routes.json");
+            URL url;
+            if (Configs.DungeonRoutesMethod == 1) {
+                url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/routes.json");
+            } else {
+                url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/pearlroutes.json");
+            }
+
             downloadFile(configFile, url);
 
         }catch(Exception e){

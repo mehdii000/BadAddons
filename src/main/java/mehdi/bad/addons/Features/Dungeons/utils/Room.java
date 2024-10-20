@@ -62,7 +62,11 @@ public class Room {
 
             if (roomName != null) {
                 String filePath;
-                filePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";
+                if (Configs.DungeonRoutesMethod == 1) {
+                    filePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";
+                } else {
+                    filePath = BadAddons.ROUTES_PATH + File.separator + "pearlroutes.json";
+                }
 
                 Gson gson = new GsonBuilder().create();
                 FileReader reader = new FileReader(filePath);
