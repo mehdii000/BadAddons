@@ -16,6 +16,10 @@
 
 Here're some of the project's best features:
 
+* Dungeon Features ->
+*   \- Dungeons Routes (like blc but its forge)
+*   \- Normal & Pearl routes.
+*   \- Dynamic Routes Mode
 *   Kuudra Features ->
 *   \- Supply Waypoints
 *   \- Pre Detection & Highlight
