@@ -23,6 +23,7 @@ import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.Features.Dungeons.DungeonRooms;
 import mehdi.bad.addons.Features.Dungeons.catacombs.RoomDetection;
+import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.V2RenderUtils;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
@@ -52,7 +53,10 @@ public class Room {
     public JsonArray currentSecretRoute;
     public int currentSecretIndex = 0;
     public JsonObject currentSecretWaypoints;
+
     public boolean roomDone = false;
+    public boolean startRoute = false;
+    public int currentEtherwarp = 0;
 
     public Room(String roomName) {
         currentSecretIndex = 0;
@@ -118,17 +122,18 @@ public class Room {
         if(!(currentSecretIndex >= currentSecretRoute.size())) {
             currentSecretWaypoints = currentSecretRoute.get(currentSecretIndex).getAsJsonObject();
         } else {
-            roomDone = true;
             currentSecretWaypoints = null;
         }
     }
 
     public void nextSecret() {
         currentSecretIndex++;
-
+        currentEtherwarp = 0;
         if(!(currentSecretIndex >= currentSecretRoute.size())) {
             currentSecretWaypoints = currentSecretRoute.get(currentSecretIndex).getAsJsonObject();
         } else {
+            roomDone = true;
+            ChatLib.debug(" Room Done! §8i think");
             currentSecretWaypoints = null;
         }
     }

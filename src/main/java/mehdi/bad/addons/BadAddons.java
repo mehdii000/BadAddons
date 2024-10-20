@@ -56,7 +56,7 @@ import java.util.ArrayList;
 @Mod(modid = BadAddons.MODID, version = BadAddons.VERSION, acceptedMinecraftVersions = "[1.8.9]")
 public class BadAddons {
 
-    public static final String VERSION = "1.5";
+    public static final String VERSION = "1.5.1";
     public static final String MODID = "badaddons";
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static ArrayList settings = Config.collect(Configs.class);
@@ -155,12 +155,8 @@ public class BadAddons {
 
     public static void checkRoutesData() {
         try {
-            String filePath;
-            if (Configs.DungeonRoutesMethod == 1) {
-                filePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";
-            } else {
-                filePath = BadAddons.ROUTES_PATH + File.separator + "pearlroutes.json";
-            }
+            String routesfilePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";;
+            String pearlRoutesPath =  BadAddons.ROUTES_PATH + File.separator + "pearlroutes.json";
 
             // Check if the config directory exists
             File configDir = new File(ROUTES_PATH);
@@ -168,10 +164,16 @@ public class BadAddons {
                 configDir.mkdirs();
             }
 
-            File configFile = new File(filePath);
+            File configFile = new File(routesfilePath);
             if (!configFile.exists()) {
                 updateRoutes(configFile);
             }
+
+            File pearlConfigFile = new File(pearlRoutesPath);
+            if (!pearlConfigFile.exists()) {
+                updatePearlRoutes(pearlConfigFile);
+            }
+
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -180,13 +182,18 @@ public class BadAddons {
     public static void updateRoutes(File configFile) {
         try {
             ChatLib.chat("§e[BA] Downloading routes data...");
-            URL url;
-            if (Configs.DungeonRoutesMethod == 1) {
-                url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/routes.json");
-            } else {
-                url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/pearlroutes.json");
-            }
+            URL url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/routes.json");
+            downloadFile(configFile, url);
 
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void updatePearlRoutes(File configFile) {
+        try {
+            ChatLib.chat("§e[BA] Downloading routes data...");
+            URL url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/pearlroutes.json");
             downloadFile(configFile, url);
 
         }catch(Exception e){

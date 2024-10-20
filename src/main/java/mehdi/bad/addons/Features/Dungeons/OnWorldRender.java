@@ -89,7 +89,7 @@ public class OnWorldRender {
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(etherwarpLocation.get(0).getAsInt(), etherwarpLocation.get(1).getAsInt(), etherwarpLocation.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
 
                 etherwarpPositions.add(pos);
-                GuiUtils.drawSelectionFilledBoxAtBlock(pos, Color.MAGENTA, 50);
+                GuiUtils.drawSelectionFilledBoxAtBlock(pos, Color.MAGENTA, Configs.DynamicDungeonRoutes ? 30 : 50);
             }
         }
 
@@ -121,7 +121,7 @@ public class OnWorldRender {
         }
 
         // Render the tnts
-        /*if (currentSecretWaypoints != null && currentSecretWaypoints.get("tnts") != null && index2 == BadAddons.currentRoom.currentSecretIndex) {
+        if (currentSecretWaypoints != null && currentSecretWaypoints.get("tnts") != null && index2 == BadAddons.currentRoom.currentSecretIndex) {
             JsonArray tntLocations = currentSecretWaypoints.get("tnts").getAsJsonArray();
             for (JsonElement tntLocationElement : tntLocations) {
                 JsonArray tntLocation = tntLocationElement.getAsJsonArray();
@@ -129,9 +129,10 @@ public class OnWorldRender {
                 DungeonRooms.checkRoomData();
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(tntLocation.get(0).getAsInt(), tntLocation.get(1).getAsInt(), tntLocation.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
                 superboomsPositions.add(pos);
-                GuiUtils.drawBoundingBoxAtBlock(pos, Color.RED);
+                //GuiUtils.drawBoundingBoxAtBlock(pos, Color.RED);
+                V2RenderUtils.renderBlockModel(pos, Blocks.tnt, event.partialTicks);
             }
-        }*/
+        }
         // Render normal lines if config says so
         if (currentSecretWaypoints != null && currentSecretWaypoints.get("locations") != null && Configs.DungeonRoutesType == 1  && index2 == BadAddons.currentRoom.currentSecretIndex) {
             GlStateManager.enableDepth();
@@ -231,10 +232,26 @@ public class OnWorldRender {
             }
 
             int ew = 0;
-            for (BlockPos etherwarpPos : etherwarpPositions) {
-                ew++;
-                String text = "§dWARP " + ew;
-                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString(text, etherwarpPos.getX() + 0.5, etherwarpPos.getY() + 1.5, etherwarpPos.getZ() + 0.5, 1, 3, event.partialTicks);
+            if (!Configs.DynamicDungeonRoutes) {
+                for (BlockPos etherwarpPos : etherwarpPositions) {
+                    ew++;
+                    String text = "§dWARP " + ew;
+                    if (Configs.DungeonRoutesText) RealRenderUtils.render3dString(text, etherwarpPos.getX() + 0.5, etherwarpPos.getY() + 1.5, etherwarpPos.getZ() + 0.5, 1, 3, event.partialTicks);
+                }
+            } else {
+
+                BlockPos currentEtherwarpPos = etherwarpPositions.get(BadAddons.currentRoom.currentEtherwarp);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§d§lWARP", currentEtherwarpPos.getX() + 0.5, currentEtherwarpPos.getY() + 1.5, currentEtherwarpPos.getZ() + 0.5, 1, 3, event.partialTicks);
+
+                Vec3 eyePos = BadAddons.mc.thePlayer.getPositionEyes(event.partialTicks);
+                V2RenderUtils.drawNormalLine(eyePos.xCoord, eyePos.yCoord, eyePos.zCoord, currentEtherwarpPos.getX()+0.5, currentEtherwarpPos.getY(), currentEtherwarpPos.getZ()+0.5, Color.MAGENTA, event.partialTicks, false, 2);
+
+
+                if (BadAddons.mc.thePlayer.getPosition().distanceSq(currentEtherwarpPos.getX()+0.5, currentEtherwarpPos.getY(), currentEtherwarpPos.getZ()+0.5) <= 2.5f && BadAddons.currentRoom.currentEtherwarp < etherwarpPositions.size()) {
+                    BadAddons.currentRoom.currentEtherwarp++;
+                    ChatLib.debug(" Warped! attempt next location...");
+                }
+
             }
 
             for (BlockPos minePos : minesPositions) {
@@ -264,10 +281,16 @@ public class OnWorldRender {
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(startCoords.get(0).getAsInt(), startCoords.get(1).getAsInt(), startCoords.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
 
                 // Render the text
-                Vec3 eyePos = BadAddons.mc.thePlayer.getPositionEyes(event.partialTicks);
-                V2RenderUtils.drawNormalLine(eyePos.xCoord, eyePos.yCoord, eyePos.zCoord, pos.getX(), pos.getY(), pos.getZ(), Color.GREEN, event.partialTicks, false, 2);
                 RealRenderUtils.render3dString("§aSTART", pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, 1, 2, event.partialTicks);
 
+                if (BadAddons.mc.thePlayer.getPosition().distanceSq(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5) <= 3 && !BadAddons.currentRoom.startRoute) {
+                    ChatLib.debug("§aBegin Route §7[§b" + BadAddons.currentRoom.name + "§7]");
+                    BadAddons.currentRoom.startRoute = true;
+                }
+                if (!BadAddons.currentRoom.startRoute) {
+                    Vec3 eyePos = BadAddons.mc.thePlayer.getPositionEyes(event.partialTicks);
+                    V2RenderUtils.drawNormalLine(eyePos.xCoord, eyePos.yCoord, eyePos.zCoord, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, Color.GREEN, event.partialTicks, false, 3);
+                }
             }
             if (index2 == BadAddons.currentRoom.currentSecretRoute.getAsJsonArray().size() - 1) {
                 JsonObject secret = currentSecretWaypoints.get("secret").getAsJsonObject();
@@ -276,7 +299,6 @@ public class OnWorldRender {
 
                 DungeonRooms.checkRoomData();
                 BlockPos pos = MapUtils.relativeToActual(new BlockPos(location.get(0).getAsInt(), location.get(1).getAsInt(), location.get(2).getAsInt()), RoomDetection.roomDirection, RoomDetection.roomCorner);
-                // Render the text
                 RealRenderUtils.render3dString("§4EXIT", pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, 1, 2, event.partialTicks);
 
             }

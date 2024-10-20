@@ -7,6 +7,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -1108,6 +1110,35 @@ public class V2RenderUtils {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();
+    }
+
+    public static void renderBlockModel(BlockPos blockPos, Block block, float partialTicks) {
+        Entity viewing_from = Minecraft.getMinecraft().getRenderViewEntity();
+
+        double x_fix = viewing_from.lastTickPosX + ((viewing_from.posX - viewing_from.lastTickPosX) * partialTicks);
+        double y_fix = viewing_from.lastTickPosY + ((viewing_from.posY - viewing_from.lastTickPosY) * partialTicks);
+        double z_fix = viewing_from.lastTickPosZ + ((viewing_from.posZ - viewing_from.lastTickPosZ) * partialTicks);
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(-x_fix, -y_fix, -z_fix);
+        GlStateManager.disableLighting();
+        GlStateManager.enableAlpha();
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+        GlStateManager.enableBlend();
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer vertexBuffer = tessellator.getWorldRenderer();
+        vertexBuffer.begin(7, DefaultVertexFormats.BLOCK);
+
+        BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+        blockrendererdispatcher.getBlockModelRenderer().renderModel(Minecraft.getMinecraft().theWorld,
+                blockrendererdispatcher.getBlockModelShapes().getModelForState(block.getDefaultState()),
+                Blocks.tnt.getDefaultState(), blockPos, vertexBuffer, false);
+        tessellator.draw();
+
+        GlStateManager.enableLighting();
+        GlStateManager.popMatrix();
     }
 
 }

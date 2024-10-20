@@ -159,6 +159,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "DynamicRoutesMode",
+            description = "Basically same thing but its a little bit smarter, unlike me.",
+            parent = "CoolStuff"
+    )
+    public static boolean DynamicDungeonRoutes = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Draw Text",
             description = "Draws a text above the waypoints indicating type.",
             parent = "CoolStuff"
