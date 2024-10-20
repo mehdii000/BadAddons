@@ -11,10 +11,7 @@ public class DungeonRoomEnterEvent extends Event {
     public final Room room;
 
     public DungeonRoomEnterEvent(Room room) {
-        if (!BadAddons.visitedRooms.contains(room)) {
-            BadAddons.currentRoom = room;
-            BadAddons.visitedRooms.add(room);
-        }
+        BadAddons.currentRoom = room;
         this.room = room;
     }
 

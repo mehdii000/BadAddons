@@ -259,11 +259,6 @@ public class RoomDetection {
             }
             Waypoints.secretsList = Waypoints.allSecretsMap.get(roomName);
 
-            //update GUI text
-            if (guiToggled) {
-                //
-            }
-
             new DungeonRoomEnterEvent(new Room(roomName));
             ChatLib.debug("Entered room: §a" + roomName);
         }

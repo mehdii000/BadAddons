@@ -1126,6 +1126,7 @@ public class V2RenderUtils {
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
         GlStateManager.enableBlend();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 0.6F);
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer vertexBuffer = tessellator.getWorldRenderer();

@@ -35,6 +35,7 @@ import java.util.List;
 
 public class Room {
     int c = 0;
+
     public enum WAYPOINT_TYPES {
         LOCATIONS,
         ETHERWARPS,
@@ -113,19 +114,6 @@ public class Room {
         }
     }
 
-    public void lastSecretKeybind() {
-
-        if(currentSecretIndex > 0) {
-            currentSecretIndex--;
-        }
-
-        if(!(currentSecretIndex >= currentSecretRoute.size())) {
-            currentSecretWaypoints = currentSecretRoute.get(currentSecretIndex).getAsJsonObject();
-        } else {
-            currentSecretWaypoints = null;
-        }
-    }
-
     public void nextSecret() {
         currentSecretIndex++;
         currentEtherwarp = 0;
@@ -135,20 +123,6 @@ public class Room {
             roomDone = true;
             ChatLib.debug(" Room Done! §8i think");
             currentSecretWaypoints = null;
-        }
-    }
-
-    public void nextSecretKeybind() {
-        if(currentSecretRoute != null) {
-            if(currentSecretIndex < currentSecretRoute.size() - 1) {
-                currentSecretIndex++;
-            }
-
-            if (!(currentSecretIndex >= currentSecretRoute.size())) {
-                currentSecretWaypoints = currentSecretRoute.get(currentSecretIndex).getAsJsonObject();
-            } else {
-                currentSecretWaypoints = null;
-            }
         }
     }
 

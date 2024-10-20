@@ -20,7 +20,6 @@ package mehdi.bad.addons.Features.Dungeons.catacombs;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Events.PacketEvent;
 import mehdi.bad.addons.Features.Dungeons.DungeonRooms;
 import mehdi.bad.addons.Features.Dungeons.utils.MapUtils;
@@ -203,7 +202,6 @@ public class Waypoints {
                     int totalSecrets = Integer.parseInt(splitSecrets[1].replaceAll("[^0-9]", ""));
 
                     allFound = (totalSecrets == secretNum && completedSecrets == secretNum);
-                    BadAddons.currentRoom.roomDone = allFound;
                     break;
                 }
             }

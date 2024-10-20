@@ -343,6 +343,35 @@ public class RealRenderUtils {
 		GlStateManager.popMatrix();
 	}
 
+	public static void draw3dNametagItem(String str, int color, float scale) {
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+		float textScale = 0.016666668F * scale;
+
+		GlStateManager.pushMatrix();
+		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+
+		GlStateManager.rotate(-Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+
+		GlStateManager.scale(-textScale, -textScale, textScale);
+		GlStateManager.disableLighting();
+		GlStateManager.depthMask(false);
+		GlStateManager.disableDepth();
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		int i = 0;
+		GuiUtils.drawScaledCenteredStringWithItems(str,-fontRenderer.getStringWidth(str) / 2, i, 2);
+		GlStateManager.depthMask(true);
+
+		GlStateManager.enableDepth();
+		GlStateManager.enableBlend();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.popMatrix();
+	}
+
 	public static void drawCoolBox(AxisAlignedBB boundingBox) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldRenderer = tessellator.getWorldRenderer();
@@ -374,4 +403,26 @@ public class RealRenderUtils {
         tessellator.draw();
     }
 
+	public static void render3dStringItem(String str, double x, double y, double z, int color, float scale, float partialTicks) {
+		GlStateManager.alphaFunc(516, 0.1F);
+		GlStateManager.pushMatrix();
+
+		Entity viewer = Minecraft.getMinecraft().getRenderViewEntity();
+		double viewerX = viewer.lastTickPosX + (viewer.posX - viewer.lastTickPosX) * partialTicks;
+		double viewerY = viewer.lastTickPosY + (viewer.posY - viewer.lastTickPosY) * partialTicks;
+		double viewerZ = viewer.lastTickPosZ + (viewer.posZ - viewer.lastTickPosZ) * partialTicks;
+
+		double offsetX = x - viewerX;
+		double offsetY = y - viewerY - viewer.getEyeHeight();
+		double offsetZ = z - viewerZ;
+
+		double distanceSq = offsetX * offsetX + offsetY * offsetY + offsetZ * offsetZ;
+		double distance = Math.sqrt(distanceSq);
+
+		GlStateManager.translate(offsetX, offsetY, offsetZ);
+		GlStateManager.translate(0, viewer.getEyeHeight(), 0);
+		draw3dNametag(str, color, scale);
+		GlStateManager.popMatrix();
+		GlStateManager.disableLighting();
+	}
 }

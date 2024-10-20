@@ -32,7 +32,6 @@ import mehdi.bad.addons.utils.*;
 import mehdi.bad.addons.utils.multistorage.Triple;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Tuple;
@@ -52,6 +51,7 @@ public class OnWorldRender {
     public void onRenderWorld(RenderWorldLastEvent event) {
         if (!Configs.DungeonRoutes) return;
         if (BadAddons.currentRoom == null || !SkyblockUtils.isInDungeon()) return;
+        if (DungeonManager.secrets[0]==DungeonManager.secrets[1]) return;
 
         try {
             if (DungeonManager.gameStage != 2) {
@@ -224,7 +224,7 @@ public class OnWorldRender {
                 V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 0.5f, event.partialTicks);
             } else if (type.equals("bat")) {
                 if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§bBAT", pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 1, event.partialTicks);
-                V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.BLUE, 0.5f, event.partialTicks);
+                V2RenderUtils.drawPixelBox(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Color.ORANGE, 0.7f, event.partialTicks);
             }
 
             if (BadAddons.mc.thePlayer.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) <= 3 && BadAddons.mc.thePlayer.isSneaking()) {
@@ -265,7 +265,7 @@ public class OnWorldRender {
 
 
             for (Triple<Double, Double, Double> enderpearlPos : enderpearlPositons) {
-                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§2PEARL", enderpearlPos.getOne() + 0.5, enderpearlPos.getTwo() + 1, enderpearlPos.getThree() + 0.5, 1, 2, event.partialTicks);
+                if (Configs.DungeonRoutesText) RealRenderUtils.render3dString("§dPEARL", enderpearlPos.getOne() + 0.5, enderpearlPos.getTwo() + 1, enderpearlPos.getThree() + 0.5, 1, 2, event.partialTicks);
 
             }
         }
@@ -312,7 +312,6 @@ public class OnWorldRender {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (BadAddons.currentRoom == null || !SkyblockUtils.isInDungeon()) return;
         if (e.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            EntityPlayer p = e.entityPlayer;
             BlockPos pos = e.pos;
             Block block = e.world.getBlockState(e.pos).getBlock();
 
