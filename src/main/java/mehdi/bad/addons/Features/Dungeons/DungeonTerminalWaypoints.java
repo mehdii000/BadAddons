@@ -40,7 +40,7 @@ public class DungeonTerminalWaypoints {
 
     @SubscribeEvent
     public void onChatStuff(ClientChatReceivedEvent event) {
-        if (!Configs.DungeonsTerminalWaypoints || !SkyblockUtils.isInDungeon() || !isInTerminals) return;
+        if (!SkyblockUtils.isInDungeon()) return;
 
         if (event.type == 0) {
             String message = StringUtils.stripControlCodes(event.message.getUnformattedText());
