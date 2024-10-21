@@ -71,9 +71,11 @@ public class DungeonTerminalWaypoints {
     public void onWorldRenderEvent(RenderWorldLastEvent event) {
         if (!Configs.DungeonsTerminalWaypoints || !SkyblockUtils.isInDungeon() || !isInTerminals) return;
 
-        for (DungeonTerminal term : getRemainingTerminals()) {
-            V2RenderUtils.renderBeacon(term.pos.getX(), term.pos.getY(), term.pos.getZ(), Color.BLUE.getRGB(), 0.8f, event.partialTicks);
-            V2RenderUtils.renderBlockModel(term.pos, Blocks.redstone_block, event.partialTicks);
+        for (DungeonTerminal term : ALL_TERMINALS) {
+            if (!terminalsDone.contains(term)) { // Render only terminals not yet done
+                V2RenderUtils.renderBeacon(term.getPos().getX(), term.getPos().getY(), term.getPos().getZ(), Color.BLUE.getRGB(), 0.8f, event.partialTicks);
+                V2RenderUtils.renderBlockModel(term.getPos(), Blocks.redstone_block, event.partialTicks);
+            }
         }
     }
 
