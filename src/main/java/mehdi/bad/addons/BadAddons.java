@@ -10,10 +10,7 @@ import mehdi.bad.addons.Config.modules.MovableListener;
 import mehdi.bad.addons.Config.modules.MovablesManager;
 import mehdi.bad.addons.Events.PacketEvent;
 import mehdi.bad.addons.Events.TickEndEvent;
-import mehdi.bad.addons.Features.Dungeons.DungeonRooms;
-import mehdi.bad.addons.Features.Dungeons.OnItemPickedUp;
-import mehdi.bad.addons.Features.Dungeons.OnPlayerTick;
-import mehdi.bad.addons.Features.Dungeons.OnWorldRender;
+import mehdi.bad.addons.Features.Dungeons.*;
 import mehdi.bad.addons.Features.Dungeons.catacombs.RoomDetection;
 import mehdi.bad.addons.Features.Dungeons.utils.PacketHandler;
 import mehdi.bad.addons.Features.Dungeons.utils.Room;
@@ -140,6 +137,7 @@ public class BadAddons {
 
         // DUNGEONS
         MinecraftForge.EVENT_BUS.register(new DungeonRooms());
+        MinecraftForge.EVENT_BUS.register(new DungeonTerminalWaypoints());
         MinecraftForge.EVENT_BUS.register(new RoomDetection());
         //MinecraftForge.EVENT_BUS.register(new Waypoints());
         MinecraftForge.EVENT_BUS.register(new OnWorldRender());
@@ -153,6 +151,7 @@ public class BadAddons {
         try {
             String routesfilePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";;
             String pearlRoutesPath =  BadAddons.ROUTES_PATH + File.separator + "pearlroutes.json";
+            String termsPath =  BadAddons.ROUTES_PATH + File.separator + "f7terminals.json";
 
             // Check if the config directory exists
             File configDir = new File(ROUTES_PATH);
@@ -170,7 +169,23 @@ public class BadAddons {
                 updatePearlRoutes(pearlConfigFile);
             }
 
+            File termsConfigFile = new File(termsPath);
+            if (!termsConfigFile.exists()) {
+                updateTerms(termsConfigFile);
+            }
+
         } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateTerms(File configFile) {
+        try {
+            ChatLib.chat("§e[BA] Downloading terms data...");
+            URL url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/f7terminals.json");
+            downloadFile(configFile, url);
+
+        }catch(Exception e){
             e.printStackTrace();
         }
     }

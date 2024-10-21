@@ -25,10 +25,10 @@ public class Configs {
 
     @Property(
             type = Property.Type.FOLDER,
-            name = "CoolStuff",
+            name = "Dungeons",
             parent = "Misc & Visual"
     )
-    public static boolean CoolStuffFolder = false;
+    public static boolean DungeonsFolder = false;
 
     @Property(
             type = Property.Type.FOLDER,
@@ -43,14 +43,6 @@ public class Configs {
             parent = "Misc & Visual"
     )
     public static boolean GuiLocationsUslessFolder = false;
-
-    @Property(
-            type = Property.Type.BOOLEAN,
-            name = "TimerCommand",
-            description = "allows you or your party to use @timer <seconds> to set a timer!",
-            parent = "CoolStuff"
-    )
-    public static boolean SetTimerCommand = false;
 
     @Property(
             type = Property.Type.BOOLEAN,
@@ -153,7 +145,7 @@ public class Configs {
             type = Property.Type.BOOLEAN,
             name = "Dungeon Routes",
             description = "they call me a §ccommunist, pretty self explanatory",
-            parent = "CoolStuff"
+            parent = "Dungeons"
     )
     public static boolean DungeonRoutes = false;
 
@@ -161,7 +153,7 @@ public class Configs {
             type = Property.Type.BOOLEAN,
             name = "DynamicRoutesMode",
             description = "Basically same thing but its a little bit smarter, unlike me.",
-            parent = "CoolStuff"
+            parent = "Dungeons"
     )
     public static boolean DynamicDungeonRoutes = false;
 
@@ -169,21 +161,35 @@ public class Configs {
             type = Property.Type.BOOLEAN,
             name = "Draw Text",
             description = "Draws a text above the waypoints indicating type.",
-            parent = "CoolStuff"
+            parent = "Dungeons"
     )
     public static boolean DungeonRoutesText = true;
 
-    @Property(type = Property.Type.SELECT, name = "RoutesMethod", parent = "CoolStuff",
+    @Property(type = Property.Type.SELECT, name = "RoutesMethod", parent = "Dungeons",
             options = {"§dPearls", "§2AOTV"},
             description = "Select a rendering type for the routes.")
     public static int DungeonRoutesMethod = 1;
 
-    @Property(type = Property.Type.SELECT, name = "RoutesType", parent = "CoolStuff",
+    @Property(type = Property.Type.SELECT, name = "RoutesType", parent = "Dungeons",
             options = {"§6Particles", "§bLine"},
             description = "Select a rendering type for the routes.")
     public static int DungeonRoutesType = 1;
 
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "TerminalWaypoints",
+            description = "Highlights floor 7 terminal waypoints.",
+            parent = "Dungeons"
+    )
+    public static boolean DungeonsTerminalWaypoints = false;
 
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "TimerCommand",
+            description = "allows you or your party to use @timer <seconds> to set a timer!",
+            parent = "Dungeons"
+    )
+    public static boolean SetTimerCommand = false;
 	
 	// BLOCKS 
     @Property(
