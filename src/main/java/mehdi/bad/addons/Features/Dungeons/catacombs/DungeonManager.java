@@ -56,6 +56,7 @@ public class DungeonManager extends MovableModule {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
+        if (BadAddons.mc.theWorld == null || BadAddons.mc.thePlayer == null) return;
         if (event.phase != TickEvent.Phase.START) return;
         EntityPlayerSP player = mc.thePlayer;
 
