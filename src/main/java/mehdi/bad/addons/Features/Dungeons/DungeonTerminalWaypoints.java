@@ -7,11 +7,13 @@ import com.google.gson.JsonObject;
 import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.utils.ChatLib;
+import mehdi.bad.addons.utils.RealRenderUtils;
 import mehdi.bad.addons.utils.SkyblockUtils;
 import mehdi.bad.addons.utils.V2RenderUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -72,9 +74,17 @@ public class DungeonTerminalWaypoints {
         if (!Configs.DungeonsTerminalWaypoints || !SkyblockUtils.isInDungeon() || !isInTerminals) return;
 
         for (DungeonTerminal term : ALL_TERMINALS) {
-            if (!terminalsDone.contains(term) && term.phase == currentPhase) { // Render only terminals not yet done
-                V2RenderUtils.renderBeacon(term.getPos().getX(), term.getPos().getY(), term.getPos().getZ(), Color.BLUE.getRGB(), 0.8f, event.partialTicks);
-                V2RenderUtils.renderBlockModel(term.getPos(), Blocks.diamond_block, event.partialTicks);
+            if (Configs.DungeonsTerminalsRenderAll) {
+                if (!terminalsDone.contains(term) && term.phase == currentPhase) { // Render only terminals not yet done
+                    V2RenderUtils.renderBeacon(term.getPos().getX(), term.getPos().getY(), term.getPos().getZ(), Color.BLUE.getRGB(), 0.8f, event.partialTicks);
+                    V2RenderUtils.drawPixelBox(new Vec3(term.getPos().getX() - 0.5f, term.getPos().getY(), term.pos.getZ() - 0.5f), Color.YELLOW, 1, event.partialTicks);
+                    RealRenderUtils.render3dString("§c§l" + term.phase, term.getPos().getX() - 0.5f, term.getPos().getY() + 1, term.pos.getZ() - 0.5f, 1, 1.5f, event.partialTicks);
+                }
+            } else {
+                if (!terminalsDone.contains(term)) { // Render only terminals not yet done
+                    V2RenderUtils.renderBeacon(term.getPos().getX(), term.getPos().getY(), term.getPos().getZ(), Color.BLUE.getRGB(), 0.8f, event.partialTicks);
+                    V2RenderUtils.renderBlockModel(term.getPos(), Blocks.diamond_block, event.partialTicks);
+                }
             }
         }
     }

@@ -185,6 +185,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "Render All Terminals",
+            description = "Wether to rendera all terminals or only specific phase terminals.",
+            parent = "Dungeons"
+    )
+    public static boolean DungeonsTerminalsRenderAll = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "TimerCommand",
             description = "allows you or your party to use @timer <seconds> to set a timer!",
             parent = "Dungeons"
