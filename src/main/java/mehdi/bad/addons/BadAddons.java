@@ -21,7 +21,6 @@ import mehdi.bad.addons.Objects.NotificationManager;
 import mehdi.bad.addons.Objects.ScoreBoard;
 import mehdi.bad.addons.Objects.UpdateCheck;
 import mehdi.bad.addons.utils.AuctionUtils;
-import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.SkyblockUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -97,7 +96,7 @@ public class BadAddons {
 
 	@EventHandler
     public void preInit(FMLPreInitializationEvent var1) {
-
+        checkRoutesData();
         DungeonRooms.preInit(var1);
 
         MinecraftForge.EVENT_BUS.register(new TickEndEvent());
@@ -118,7 +117,6 @@ public class BadAddons {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         DungeonRooms.init();
-        checkRoutesData();
 
         MinecraftForge.EVENT_BUS.register(new MovableListener());
 
@@ -181,7 +179,6 @@ public class BadAddons {
 
     public static void updateTerms(File configFile) {
         try {
-            ChatLib.chat("§e[BA] Downloading terms data...");
             URL url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/f7terminals.json");
             downloadFile(configFile, url);
 
@@ -192,7 +189,6 @@ public class BadAddons {
 
     public static void updateRoutes(File configFile) {
         try {
-            ChatLib.chat("§e[BA] Downloading routes data...");
             URL url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/routes.json");
             downloadFile(configFile, url);
 
@@ -203,7 +199,6 @@ public class BadAddons {
 
     public static void updatePearlRoutes(File configFile) {
         try {
-            ChatLib.chat("§e[BA] Downloading routes data...");
             URL url = new URL("https://raw.githubusercontent.com/mehdii000/BadAddons/main/pearlroutes.json");
             downloadFile(configFile, url);
 

@@ -1,3 +1,8 @@
+/**
+ * Taken from Secret Routes Mod under the GNU General Public License v3.0
+ * https://github.com/yourboykyle/SecretRoutes/blob/main/LICENSE
+ * @authors @yourboykyle and @R-aMcC
+ */
 package mehdi.bad.addons.Features.Dungeons;
 
 import com.google.gson.Gson;
