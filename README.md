@@ -56,7 +56,7 @@ Here're some of the project's best features:
 
 CREDITS:
 * \- mehdiii000 (aka ephermality) [ME] - Created this mess
-* \- https://github.com/yourboykyle/SecretRoutes - Routes & Some detection code ❤️
+* \- https://github.com/yourboykyle/SecretRoutes - Routes & Detection code ❤️
 * \- https://github.com/Quantizr/DungeonRoomsMod - Dungeons Room Detection logic ❤️
 * \- https://github.com/hannibal002/SkyHanni - a huge inspiration ❤️
 * \- Coffee ☕
