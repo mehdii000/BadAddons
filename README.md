@@ -21,6 +21,7 @@ Here're some of the project's best features:
 *   \- Normal & Pearl routes.
 *   \- Dynamic Routes Mode
 *   \- F7 Terminal Waypoints
+*   -----------------------------------------------------------------------------------------------
 *   Kuudra Features ->
 *   \- Supply Waypoints
 *   \- Pre Detection & Highlight
@@ -34,12 +35,15 @@ Here're some of the project's best features:
 *   \- Ballista Progress (Shows a big text indicating ballista progress in the middle)
 *   \- Fresh Timer & Highlighter
 *   \- Better supply pile build progress
+*   -----------------------------------------------------------------------------------------------
 *   Flipping Features ->
 *   \- BedsFlipper (This one i made for fun its just shows you all beds with diffrent modes to use whitelisted fitler use /bb flipper)
 *   \-Highlight Grace Items (Highlight Items that are in grace period on ah)
 *   \-- Trades Tracker (Trackers all player trades and sends them as discord hooks)
+*   -----------------------------------------------------------------------------------------------
 *   Rendering ->
 *   \- Word Replacing (pretty obviouse to use /bb replaceword)
+*   -----------------------------------------------------------------------------------------------
 *   BTW
 *   There are more hidden features that i didnt make clear bc i didnt know ill be releasing ill try to make them obvious in feature updates for now just like figure them out!
 *   HAVE FUN <3
