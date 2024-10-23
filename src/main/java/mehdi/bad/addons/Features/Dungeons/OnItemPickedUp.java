@@ -31,11 +31,11 @@ public class OnItemPickedUp {
 
     @SubscribeEvent
     public void onPickupItem(PlayerEvent.ItemPickupEvent e) {
+        if (e.player != BadAddons.mc.thePlayer) return;
         if (BadAddons.currentRoom == null || !SkyblockUtils.isInDungeon()) return;
         if(BadAddons.currentRoom.getSecretType() == Room.SECRET_TYPES.ITEM) {
             BlockPos pos = e.player.getPosition();
             BlockPos itemPos = BadAddons.currentRoom.getSecretLocation();
-
             if (pos.getX() >= itemPos.getX() - 10 && pos.getX() <= itemPos.getX() + 10 && pos.getY() >= itemPos.getY() - 10 && pos.getY() <= itemPos.getY() + 10 && pos.getZ() >= itemPos.getZ() - 10 && pos.getZ() <= itemPos.getZ() + 10) {
                 BadAddons.currentRoom.nextSecret();
                 ChatLib.debug("picked up item secret!");

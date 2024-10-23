@@ -153,9 +153,9 @@ public class DungeonManager extends MovableModule {
 
     @Override
     public void render() {
-        if (!SkyblockUtils.isInKuudra()) return;
-        if (!Configs.KuudraPreDetection) return;
-        String txt = "§7Secrets: §r" + secrets[0] + "§e/" + secrets[1];
+        if (!SkyblockUtils.isInDungeon()) return;
+        if (!Configs.DungeonRoutes) return;
+        String txt = ":CHEST: §7Secrets: §b" + secrets[0] + "§3/" + secrets[1];
 
         int textWidth = RenderUtils.getStringWidthWithItem(txt);
         int textHeight = BadAddons.mc.fontRendererObj.FONT_HEIGHT;
@@ -169,7 +169,8 @@ public class DungeonManager extends MovableModule {
 
         // Apply scaling
         GlStateManager.scale(factor, factor, 1);
-        BadAddons.mc.fontRendererObj.drawStringWithShadow(txt, centeredX / factor, centeredY / factor, 1);
+        //BadAddons.mc.fontRendererObj.drawStringWithShadow(txt, centeredX / factor, centeredY / factor, 1);
+        RenderUtils.renderStringWithItems(txt, centeredX / factor, centeredY / factor, 1, true);
         GlStateManager.scale(1 / factor, 1 / factor, 1); // Revert scaling
     }
 }

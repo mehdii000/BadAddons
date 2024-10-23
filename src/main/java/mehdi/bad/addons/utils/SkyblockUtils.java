@@ -1,5 +1,6 @@
 package mehdi.bad.addons.utils;
 
+import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Objects.ScoreBoard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -10,9 +11,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -281,4 +280,28 @@ public class SkyblockUtils {
 			return isInNether;
 		}
 
+	public static void multipleDings() {
+		Timer timer = new Timer();
+
+		// Play first sound immediately
+		BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
+
+		// Schedule the second sound after 1000 milliseconds (1 second)
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				BadAddons.mc.thePlayer.playSound("random.orb", 0.8f, 0.9f);
+			}
+		}, 750);
+
+		// Schedule the third sound after an additional 500 milliseconds (1.5 seconds total)
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				BadAddons.mc.thePlayer.playSound("random.orb", 0.9f, 0.9f);
+			}
+		}, 500);
+
+		// Timer doesn't need to be explicitly shut down in this case
 	}
+}

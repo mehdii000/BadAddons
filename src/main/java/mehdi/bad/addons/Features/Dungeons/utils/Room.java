@@ -24,6 +24,7 @@ import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.Features.Dungeons.DungeonRooms;
 import mehdi.bad.addons.Features.Dungeons.catacombs.RoomDetection;
 import mehdi.bad.addons.utils.ChatLib;
+import mehdi.bad.addons.utils.SkyblockUtils;
 import mehdi.bad.addons.utils.V2RenderUtils;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
@@ -115,6 +116,7 @@ public class Room {
     }
 
     public void nextSecret() {
+        SkyblockUtils.multipleDings();
         currentSecretIndex++;
         currentEtherwarp = 0;
         if(!(currentSecretIndex >= currentSecretRoute.size())) {
