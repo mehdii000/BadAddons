@@ -51,3 +51,12 @@ Here're some of the project's best features:
 <h2>🛠️ Installation Steps:</h2>
 
 <p>1. download put in mods you muffin</p>
+
+
+
+CREDITS:
+* \- mehdiii000 (aka ephermality) [ME] - Created this mess
+* \- https://github.com/yourboykyle/SecretRoutes - Routes & Some detection code ❤️
+* \- https://github.com/Quantizr/DungeonRoomsMod - Dungeons Room Detection logic ❤️
+* \- https://github.com/hannibal002/SkyHanni - a huge inspiration ❤️
+* \- Coffee ☕
