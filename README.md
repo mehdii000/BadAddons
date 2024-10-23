@@ -20,6 +20,7 @@ Here're some of the project's best features:
 *   \- Dungeons Routes (like blc but its forge)
 *   \- Normal & Pearl routes.
 *   \- Dynamic Routes Mode
+*   \- F7 Terminal Waypoints
 *   Kuudra Features ->
 *   \- Supply Waypoints
 *   \- Pre Detection & Highlight
@@ -31,6 +32,8 @@ Here're some of the project's best features:
 *   \- Hide PerkUpgrades (Hides the usless spec upgrades and replaces the rest wiht BALLISTA MECHANICS)
 *   \- Noblindless (Ok i know this one sus but in my defense i made it only work when stunning)
 *   \- Ballista Progress (Shows a big text indicating ballista progress in the middle)
+*   \- Fresh Timer & Highlighter
+*   \- Better supply pile build progress
 *   Flipping Features ->
 *   \- BedsFlipper (This one i made for fun its just shows you all beds with diffrent modes to use whitelisted fitler use /bb flipper)
 *   \-Highlight Grace Items (Highlight Items that are in grace period on ah)
