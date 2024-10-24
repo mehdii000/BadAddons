@@ -123,11 +123,8 @@ public class UpdateCheck {
 
                         // Check and delete the old mod file if it exists
                         if (oldModFile.exists()) {
-                            if (oldModFile.delete()) {
-                                ChatLib.chat("§eOld BadAddons version " + BadAddons.VERSION + " has been deleted.");
-                            } else {
-                                ChatLib.chat("§cFailed to delete old BadAddons version " + BadAddons.VERSION + ". Please remove it manually.");
-                            }
+                            oldModFile.deleteOnExit(); // Mark the file for deletion when JVM exits
+                            ChatLib.chat("§eOld BadAddons version " + BadAddons.VERSION + " will be deleted when the game exits.");
                         }
 
                         // Download the new JAR file
