@@ -121,12 +121,6 @@ public class UpdateCheck {
                         File modsFolder = new File(Minecraft.getMinecraft().mcDataDir, "mods");
                         File oldModFile = new File(modsFolder, "BadAddons-" + BadAddons.VERSION + ".jar");
 
-                        // Check and delete the old mod file if it exists
-                        if (oldModFile.exists()) {
-                            oldModFile.deleteOnExit(); // Mark the file for deletion when JVM exits
-                            ChatLib.chat("§eOld BadAddons version " + BadAddons.VERSION + " will be deleted when the game exits.");
-                        }
-
                         // Download the new JAR file
                         try {
                             inputStream = new URL(jarUrl).openStream();
@@ -152,6 +146,12 @@ public class UpdateCheck {
                         } catch (IOException e) {
                             e.printStackTrace();
                             ChatLib.chat("§cFailed to download the new version of BadAddons.");
+                        }
+
+                        // Check and delete the old mod file if it exists
+                        if (oldModFile.exists()) {
+                            oldModFile.deleteOnExit(); // Mark the file for deletion when JVM exits
+                            ChatLib.chat("§[BA] §bOld BadAddons version §c" + BadAddons.VERSION + " §bwill be deleted when the game exits.");
                         }
 
                     } else {
