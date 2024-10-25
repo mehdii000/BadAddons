@@ -32,6 +32,7 @@ import mehdi.bad.addons.Features.Dungeons.catacombs.RoomDetection;
 import mehdi.bad.addons.Features.Dungeons.utils.MapUtils;
 import mehdi.bad.addons.Features.Dungeons.utils.Room;
 import mehdi.bad.addons.Features.Dungeons.utils.RotationUtils;
+import mehdi.bad.addons.Objects.Pathfinding;
 import mehdi.bad.addons.utils.*;
 import mehdi.bad.addons.utils.multistorage.Triple;
 import net.minecraft.block.Block;
@@ -207,7 +208,7 @@ public class OnWorldRender {
                 double newZ = posZ + z * length + 0.25;
                 //sendVerboseMessage("Origin: (" + (posX +0.25f)+ ", " + (posY +1.62f) + ", " + posZ +(0.25)+") to End: (" + newX + ", " + newY + ", " + newZ + ") with a angles of ("+yaw+", "+pitch+") -> ("+yawRadians+", "+pitchRadians+")", verboseTAG);
                 //SecretRoutesRenderUtils.drawBoxAtBlock(newX, newY, newZ, SRMConfig.enderpearls, 0.03125, 0.03125);
-                V2RenderUtils.drawNormalLine(posX + 0.25F, posY + 1.62F, posZ + 0.25F, newX, newY, newZ, Color.RED, event.partialTicks, true, 3);
+                V2RenderUtils.drawNormalLine(posX + 0.25F, posY + 1.62F, posZ + 0.25F, newX, newY, newZ, Color.RED, event.partialTicks, true, 4);
                 enderpearlPositons.add(new Triple<>(posX, posY, posZ));
                 index++;
             }
@@ -293,7 +294,10 @@ public class OnWorldRender {
                 }
                 if (!BadAddons.currentRoom.startRoute) {
                     Vec3 eyePos = BadAddons.mc.thePlayer.getPositionEyes(event.partialTicks);
-                    V2RenderUtils.drawNormalLine(eyePos.xCoord, eyePos.yCoord, eyePos.zCoord, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, Color.GREEN, event.partialTicks, false, 3);
+                    //V2RenderUtils.drawNormalLine(eyePos.xCoord, eyePos.yCoord, eyePos.zCoord, pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, Color.GREEN, event.partialTicks, false, 3);
+                    if (BadAddons.currentRoom.startPath == null) BadAddons.currentRoom.startPath = Pathfinding.getShortestPathBetween(BadAddons.mc.theWorld, pos, BadAddons.mc.thePlayer.getPosition(), 0.5f);
+                    assert BadAddons.currentRoom.startPath != null;
+                    V2RenderUtils.drawMultipleNormalLinesBlocks(BadAddons.currentRoom.startPath.getPath(), event.partialTicks, Color.GREEN, 2);
                 }
             }
             if (index2 == BadAddons.currentRoom.currentSecretRoute.getAsJsonArray().size() - 1) {

@@ -23,6 +23,7 @@ import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.Features.Dungeons.DungeonRooms;
 import mehdi.bad.addons.Features.Dungeons.catacombs.RoomDetection;
+import mehdi.bad.addons.Objects.Pathfinding;
 import mehdi.bad.addons.utils.ChatLib;
 import mehdi.bad.addons.utils.SkyblockUtils;
 import mehdi.bad.addons.utils.V2RenderUtils;
@@ -59,6 +60,8 @@ public class Room {
     public boolean roomDone = false;
     public boolean startRoute = false;
     public int currentEtherwarp = 0;
+
+    public Pathfinding.Path startPath = null;
 
     public Room(String roomName) {
         currentSecretIndex = 0;

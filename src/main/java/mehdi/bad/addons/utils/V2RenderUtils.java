@@ -1069,6 +1069,26 @@ public class V2RenderUtils {
         }
     }
 
+    public static void drawMultipleNormalLinesBlocks(List<BlockPos> locations, float partialTicks, Color color, int width) {
+        if (locations == null || locations.size() < 2) {
+            return;
+        }
+        BlockPos lastLoc = null;
+        for (BlockPos loc : locations) {
+            if (lastLoc == null) {
+                lastLoc = loc;
+                continue;
+            }
+
+            drawNormalLine(
+                    lastLoc.getX() + 0.5, lastLoc.getY() + 0.5, lastLoc.getZ() + 0.5,
+                    loc.getX() + 0.5, loc.getY() + 0.5, loc.getZ() + 0.5,
+                    color, partialTicks, true, width
+            );
+            lastLoc = loc;
+        }
+    }
+
     public static void drawNormalLine(double x1, double y1, double z1, double x2, double y2, double z2, Color colour, float partialTicks, boolean depth, int width) {
         Entity render = Minecraft.getMinecraft().getRenderViewEntity();
         WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
