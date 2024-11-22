@@ -12,17 +12,17 @@
 
   
   
-<h2>🧐 Features</h2>
+<h1>🧐 Features List</h1>
 
 Here're some of the project's best features:
 
-* Dungeon Features ->
+<h3>⚔️ Dungeons</h3>
 *   \- Dungeons Routes (like blc but its forge)
 *   \- Normal & Pearl routes.
 *   \- Dynamic Routes Mode
 *   \- F7 Terminal Waypoints
 *   -----------------------------------------------------------------------------------------------
-*   Kuudra Features ->
+<h3>🌋 Kuudra</h3>
 *   \- Supply Waypoints
 *   \- Pre Detection & Highlight
 *   \- Chat Waypoints Fetcher
@@ -36,12 +36,12 @@ Here're some of the project's best features:
 *   \- Fresh Timer & Highlighter
 *   \- Better supply pile build progress
 *   -----------------------------------------------------------------------------------------------
-*   Flipping Features ->
+<h3>💸 Flipping</h3>
 *   \- BedsFlipper (This one i made for fun its just shows you all beds with diffrent modes to use whitelisted fitler use /bb flipper)
 *   \-Highlight Grace Items (Highlight Items that are in grace period on ah)
 *   \-- Trades Tracker (Trackers all player trades and sends them as discord hooks)
 *   -----------------------------------------------------------------------------------------------
-*   Rendering ->
+<h3>🔎 Rendering</h3>
 *   \- Word Replacing (pretty obviouse to use /bb replaceword)
 *   -----------------------------------------------------------------------------------------------
 *   BTW
