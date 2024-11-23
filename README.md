@@ -19,10 +19,10 @@
 <h2 align="center">📸 Project Screenshots</h2>
 
 <div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290277934489276426/image.png?ex=66fbe077&amp;is=66fa8ef7&amp;hm=26ac89cd7f1b606583d5796fb9d638170e0be7b33f7cb7e89c5f6bb2d9ba6938&amp;" alt="project-screenshot" width="256" >
-  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290270464878444586/image.png?ex=66fbd982&amp;is=66fa8802&amp;hm=a93eb4c59096da0987eaa3b3a1bbcccc4bbed9b03ac5837f1c1d73ad8cc20087&amp;" alt="project-screenshot" width="256" >
-  <img src="https://cdn.discordapp.com/attachments/1066690788622356580/1310000830925246605/2024-11-23_19.14.49.png?ex=6743a0d8&is=67424f58&hm=0e4340b2e436f0fbb7fe5d8b13d27ebabcc7628769484498b989e0c954539fb6&" alt="project-screenshot" width="256" >
-  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290269886462955530/image.png?ex=66fbd8f8&amp;is=66fa8778&amp;hm=dda7b90cbe62b45ef9cadb726f72e02774ad83a6104c71005d04328733e59faa&amp;" alt="project-screenshot" width="256" >
+  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290277934489276426/image.png?ex=66fbe077&amp;is=66fa8ef7&amp;hm=26ac89cd7f1b606583d5796fb9d638170e0be7b33f7cb7e89c5f6bb2d9ba6938&amp;" alt="project-screenshot" width="350" >
+  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290270464878444586/image.png?ex=66fbd982&amp;is=66fa8802&amp;hm=a93eb4c59096da0987eaa3b3a1bbcccc4bbed9b03ac5837f1c1d73ad8cc20087&amp;" alt="project-screenshot" width="350" >
+  <img src="https://cdn.discordapp.com/attachments/1066690788622356580/1310000830925246605/2024-11-23_19.14.49.png?ex=6743a0d8&is=67424f58&hm=0e4340b2e436f0fbb7fe5d8b13d27ebabcc7628769484498b989e0c954539fb6&" alt="project-screenshot" width="400" >
+  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290269886462955530/image.png?ex=66fbd8f8&amp;is=66fa8778&amp;hm=dda7b90cbe62b45ef9cadb726f72e02774ad83a6104c71005d04328733e59faa&amp;" alt="project-screenshot" width="350" >
 </div>
 
 ---
