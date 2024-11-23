@@ -1,5 +1,21 @@
 <h1 align="center" id="title">✨ BadAddons ✨</h1>
 
+***
+<p align="center">
+  <a href="https://github.com/Skytils/SkytilsMod/releases" target="_blank">
+    <img alt="downloads" src="https://img.shields.io/github/v/release/Skytils/SkytilsMod?color=4166f5&style=flat-square" />
+  </a>
+  <a href="https://github.com/Skytils/SkytilsMod/releases" target="_blank">
+    <img alt="downloads" src="https://img.shields.io/github/downloads/Skytils/SkytilsMod/total?color=4166f5&style=flat-square" />
+  </a>
+  <a href="https://github.com/Skytils/SkytilsMod/blob/main/LICENSE" target="_blank">
+    <img alt="license" src="https://img.shields.io/github/license/Skytils/SkytilsMod?color=4166f5&style=flat-square" />
+  </a>
+  <a href="https://discord.gg/skytils" target="_blank">
+    <img alt="discord" src="https://img.shields.io/discord/807302538558308352?color=4166f5&label=discord&style=flat-square" />
+  </a>
+</p>
+
 <p align="center" id="description"><em>BadAddons</em> is a Quality-of-Life (QoL) mod for Forge that's packed with features yet entirely legitimate. It's so good that it might seem *sus*, but trust me—if I wanted to make a rat, I wouldn’t add this many cool features. Enjoy the chaos! :3</p>
 
 ---
