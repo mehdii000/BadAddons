@@ -12,7 +12,7 @@
   </a>
 </p>
 
-<p align="center" id="description"><em>BadAddons</em> is a Quality-of-Life (QoL) mod for Forge that's packed with features yet entirely legitimate. It's so good that it might seem *sus*, but trust me—if I wanted to make a rat, I wouldn’t add this many cool features. Enjoy the chaos! :3</p>
+<p align="center" id="description"><em>BadAddons</em> is a Quality-of-Life (QoL) mod for Forge that's packed with features on almost every aspect of this game, It's so good that it might seem unreal, anyways enjoy and please do give your feedback ❤️</p>
 
 ---
 
@@ -31,45 +31,47 @@
 
 <p>Here are some of the standout features that make <em>BadAddons</em> awesome:</p>
 
+### 🌋 **Kuudra**
+- Supply Waypoints
+- Pre-Detection Box (Renders a box on your pre spot to help with building and getting the supply)  
+- PresWaypoints (Highlight pre-supply waypoints!)  
+- Proximity Pearlpoints (Relative pearl highlights to your pre spot)  
+- Supply Count (Track who got how many supplies + stunning time)  
+- Hide Perk Upgrades (Simplifies spec upgrades for BALLISTA MECHANICS)  
+- NoStomachBlindness (Works only while stunning 👀)  
+- Ballista Progress Indicator  
+- Fresh Timer & Highlighter  
+- Better Supply Pile Build Progress (Render a box either green or red on each ballista pile depending on eta)
+
 ### ⚔️ **Dungeons**
 - Dungeon Routes (like BLC, but for Forge!)
 - Normal & Pearl Routes  
-- Dynamic Routes Mode  
-- F7 Terminal Waypoints  
-
-### 🌋 **Kuudra**
-- Supply Waypoints  
-- Pre-Detection & Highlights  
-- Chat Waypoints Fetcher  
-- PresWaypoints (Highlight pre-supply waypoints!)  
-- Proximity Pearlpoints (Relative pearl highlights to your pre)  
-- Supply Count (Track who got how many supplies + stun time)  
-- Hide Perk Upgrades (Simplifies spec upgrades for BALLISTA MECHANICS)  
-- NoBlindness (Works only while stunning 👀)  
-- Ballista Progress Indicator  
-- Fresh Timer & Highlighter  
-- Better Supply Pile Build Progress  
+- Dynamic Routes Mode (Draws a line to the next nearest route)  
+- F7 Terminal Waypoints (like soopy's)
 
 ### 💸 **Flipping**
-- BedsFlipper (Fun feature to see all beds with custom filters using `/bb flipper`)  
+- BedsFlipper (Fun feature to see auctions that are still not buyable yet (Beds), to use custom filters -> `/bb flipper`)  
 - Highlight Grace Items (Spot items in the AH grace period)  
-- Trades Tracker (Tracks all trades and sends them as Discord webhooks)  
-
+- Trades Tracker (Tracks all ingame trades and sends them as Discord webhooks to any server you want)
+![image](https://github.com/user-attachments/assets/2af366ec-6a50-4c18-9ae7-c97ada15a0b9)
+  
 ### 🔎 **Rendering**
+- Chat Waypoints Fetcher  (Buggy WIP)
 - Word Replacement (`/bb replaceword`)  
 
 ---
 
 > **Note:**  
 > There are even more hidden features! I’ll make them clearer in future updates. For now, explore and figure them out on your own!  
-
+> use /bb <TAB> to autocomplete all subcommands
+> use /bb gui to change gui elements positions and size
 ---
 
 <h2 align="center">🛠️ Installation Steps</h2>
 
 1. Download the mod.  
 2. Drop it into your `mods` folder.  
-3. Enjoy, you muffin!  
+3. Become a tryhard!
 
 ---
 
