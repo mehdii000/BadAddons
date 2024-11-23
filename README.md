@@ -1,5 +1,5 @@
 <div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="https://cdn.discordapp.com/attachments/1066690788622356580/1309999265988218890/badaddons_logo.png?ex=67439f63&is=67424de3&hm=8d8824960ff2902df6d45a99d3763bb6b0512f38827fab79dc8e66ca636e7f52&" width="1024">
+  <img src="https://cdn.discordapp.com/attachments/1066690788622356580/1309999265988218890/badaddons_logo.png?ex=67439f63&is=67424de3&hm=8d8824960ff2902df6d45a99d3763bb6b0512f38827fab79dc8e66ca636e7f52&" width="720">
 </div>
 
 ***
