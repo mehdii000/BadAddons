@@ -1,5 +1,6 @@
 package mehdi.bad.addons.utils;
 
+import mehdi.bad.addons.Config.Configs;
 import mehdi.bad.addons.utils.multistorage.Triple;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -983,6 +984,7 @@ public class V2RenderUtils {
 
     public static void renderCustomBeacon(String str, Vec3 pos, Color color, boolean renderBeacon, float partialTicks) {
         drawPixelBox(pos.addVector(0, 1, 0), color, 0.6, partialTicks);
+        if (Configs.SuppliesWaypointsString) RealRenderUtils.render3dString("§4Supply", pos.xCoord, pos.yCoord + 1, pos.zCoord, 1, 1, partialTicks);
         if (renderBeacon) {
             renderBeacon(pos.xCoord, pos.yCoord + 1, pos.zCoord, color.getRGB(), 1f, partialTicks);
         }

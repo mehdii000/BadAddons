@@ -30,8 +30,9 @@ import mehdi.bad.addons.utils.V2RenderUtils;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 
-import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,27 +71,40 @@ public class Room {
             name = roomName;
 
             if (roomName != null) {
-                String filePath;
+                JsonObject data = null;
                 if (Configs.DungeonRoutesMethod == 1) {
-                    filePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";
+                    // Load routes.json
+                    try (InputStream inputStream = BadAddons.class.getClassLoader()
+                            .getResourceAsStream("assets/roomdetection/routes/routes.json")) {
+                        if (inputStream != null) {
+                            Gson gson = new GsonBuilder().create();
+                            data = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
+                        } else {
+                            System.err.println("Resource routes.json not found!");
+                        }
+                    }
                 } else {
-                    filePath = BadAddons.ROUTES_PATH + File.separator + "pearlroutes.json";
+                    // Load pearlroutes.json
+                    try (InputStream inputStream = BadAddons.class.getClassLoader()
+                            .getResourceAsStream("assets/roomdetection/routes/pearlroutes.json")) {
+                        if (inputStream != null) {
+                            Gson gson = new GsonBuilder().create();
+                            data = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
+                        } else {
+                            System.err.println("Resource pearlroutes.json not found!");
+                        }
+                    }
                 }
 
-                Gson gson = new GsonBuilder().create();
-                FileReader reader = new FileReader(filePath);
-
-                JsonObject data = gson.fromJson(reader, JsonObject.class);
-
-                if(data != null && data.get(name) != null) {
+                if (data != null && data.get(name) != null) {
                     currentSecretRoute = data.get(name).getAsJsonArray();
                     currentSecretWaypoints = currentSecretRoute.get(currentSecretIndex).getAsJsonObject();
                 }
             } else {
                 currentSecretRoute = null;
             }
-        } catch(Exception e) {
-           e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

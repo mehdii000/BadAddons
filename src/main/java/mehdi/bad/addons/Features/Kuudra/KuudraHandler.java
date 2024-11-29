@@ -101,6 +101,7 @@ public class KuudraHandler extends MovableModule {
 
         if (message.contains("Elle: OMG! Great work collecting my supplies!")) {
             ChatLib.chat("§e[BA] §bBuild-Phase started!");
+            suppliesPicked = 6;
             freshTimeFromBuildStart = System.currentTimeMillis();
             buildingPhase = true;
         }
@@ -319,7 +320,6 @@ public class KuudraHandler extends MovableModule {
 
     @Override
     public void render() {
-
         if (!SkyblockUtils.isInSkyblock()) return;
         if (SkyblockUtils.isInKuudra()) {
             BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6)", getX(), getY(), -1);
@@ -334,11 +334,7 @@ public class KuudraHandler extends MovableModule {
                     ), getX(), getY() + 16 + (15*i), -1, true);
                 }
             }
-
-        } else {
-            resetKuudraHandler();
         }
-
     }
 
     private void resetKuudraHandler() {

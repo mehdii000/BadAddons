@@ -59,7 +59,7 @@ public class BadAddons {
     private boolean checkForUpdate = false;
     public static float partialTicks = 0;
 
-    public static final String ROUTES_PATH = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + File.separator + "config" + File.separator + "BadAddons"+ File.separator+"routes";
+    //public static final String ROUTES_PATH = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + File.separator + "config" + File.separator + "BadAddons"+ File.separator+"routes";
     public static Room currentRoom = null;
 
 
@@ -72,7 +72,8 @@ public class BadAddons {
             new FlipperSubcommand(),
             new ReplaceWordSubcommand(),
             new CheckupdateSubcommand(),
-            new UpdatemodSubcommand()
+            new UpdatemodSubcommand(),
+            new GetRelativePositionSubcommand()
         });
     
     @SubscribeEvent
@@ -96,7 +97,7 @@ public class BadAddons {
 
 	@EventHandler
     public void preInit(FMLPreInitializationEvent var1) {
-        checkRoutesData();
+        //checkRoutesData();
         DungeonRooms.preInit(var1);
 
         MinecraftForge.EVENT_BUS.register(new TickEndEvent());
@@ -145,7 +146,7 @@ public class BadAddons {
         AuctionUtils.initItemsPrices();
     }
 
-    public static void checkRoutesData() {
+    /*public static void checkRoutesData() {
         try {
             String routesfilePath = BadAddons.ROUTES_PATH + File.separator + "routes.json";;
             String pearlRoutesPath =  BadAddons.ROUTES_PATH + File.separator + "pearlroutes.json";
@@ -195,7 +196,7 @@ public class BadAddons {
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static void updatePearlRoutes(File configFile) {
         try {

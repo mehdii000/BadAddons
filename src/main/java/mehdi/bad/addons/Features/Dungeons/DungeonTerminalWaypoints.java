@@ -19,9 +19,9 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 
 public class DungeonTerminalWaypoints {
 
-    private static final DungeonTerminal[] ALL_TERMINALS = turnJsonIntoTerms();
+    private static DungeonTerminal[] ALL_TERMINALS = null;
     private final List<DungeonTerminal> terminalsDone = new ArrayList<>();
     private boolean isInTerminals = false;
     private int currentPhase = 0;
@@ -72,7 +72,9 @@ public class DungeonTerminalWaypoints {
     @SubscribeEvent
     public void onWorldRenderEvent(RenderWorldLastEvent event) {
         if (!Configs.DungeonsTerminalWaypoints || !SkyblockUtils.isInDungeon() || !isInTerminals) return;
-
+        if (ALL_TERMINALS == null) {
+            ALL_TERMINALS = turnJsonIntoTerms();
+        }
         for (DungeonTerminal term : ALL_TERMINALS) {
             if (Configs.DungeonsTerminalsRenderAll) {
                 if (!terminalsDone.contains(term) && term.phase == currentPhase) { // Render only terminals not yet done
@@ -149,11 +151,19 @@ public class DungeonTerminalWaypoints {
     }
 
     private static DungeonTerminal[] turnJsonIntoTerms() {
-        String filePath = BadAddons.ROUTES_PATH + File.separator + "f7terminals.json";
-        Gson gson = new GsonBuilder().create();
+        // Use getResourceAsStream to load the JSON file directly from the resources
+        try (InputStream inputStream = BadAddons.class.getClassLoader()
+                .getResourceAsStream("assets/roomdetection/routes/f7terminals.json")) {
 
-        try (FileReader reader = new FileReader(filePath)) {
-            JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+            if (inputStream == null) {
+                System.err.println("Resource f7terminals.json not found!");
+                return null;
+            }
+
+            Gson gson = new GsonBuilder().create();
+
+            // Read the JSON from the InputStream
+            JsonArray jsonArray = gson.fromJson(new InputStreamReader(inputStream), JsonArray.class);
             List<DungeonTerminal> terminals = new ArrayList<>();
 
             for (int i = 0; i < jsonArray.size(); i++) {
@@ -172,7 +182,7 @@ public class DungeonTerminalWaypoints {
             }
             return terminals.toArray(new DungeonTerminal[0]);
         } catch (IOException e) {
-            throw new RuntimeException("File not found: " + filePath, e);
+            throw new RuntimeException("Error reading f7terminals.json", e);
         }
     }
 

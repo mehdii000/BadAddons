@@ -243,7 +243,7 @@ public class Configs {
     @Property(
             type = Property.Type.FOLDER,
             name = "Waypoints",
-            description = "Kuudra waypoints stuff.",
+            description = "Kuudra pres and safe spots waypoints stuff.",
             parent = "Kuudra"
     )
     public static boolean KuudraWaypointsFolder = false;
@@ -287,6 +287,14 @@ public class Configs {
             parent = "Waypoints"
     )
     public static boolean SuppliesWaypointsBeacon = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "SuppliesWaypointsText",
+            description = "Draws a §4Supply §7in the kuudra supply waypoint.",
+            parent = "Waypoints"
+    )
+    public static boolean SuppliesWaypointsString = true;
 
     @Property(
             type = Property.Type.BOOLEAN,
