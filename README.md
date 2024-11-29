@@ -1,62 +1,86 @@
-<h1 align="center" id="title">BadAddons</h1>
+<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; justify-content: center;">
+  <img src="https://cdn.discordapp.com/attachments/1066690788622356580/1310000181714092033/badaddons_logo.png?ex=6743a03d&is=67424ebd&hm=949fd745d2f2991ee9e3576fe11d8800a17f321e31e2751b091f72fbbfd10bee&">
+</div>
 
-<p id="description">BadAddons is a QOL mod that is surprisingly doesnt use any illegal modifications from how good it is holyyyy. ik its kinda sus but trust me if wanted to make a rat i wouldnt add this many features to it. :3</p>
+***
+<p align="center">
+  <a href="https://github.com/mehdii000/BadAddons/releases" target="_blank">
+    <img alt="downloads" src="https://img.shields.io/github/v/release/mehdii000/BadAddons?color=4166f5&style=flat-square" />
+  </a>
+  <a href="https://github.com/mehdii000/BadAddons/releases" target="_blank">
+    <img alt="downloads" src="https://img.shields.io/github/downloads/mehdii000/BadAddons/total?color=4166f5&style=flat-square" />
+  </a>
+</p>
 
-<h2>Project Screenshots:</h2>
+<p align="center" id="description"><em>BadAddons</em> is a Quality-of-Life (QoL) mod for Forge that's packed with features on almost every aspect of this game, It's so good that it might seem unreal, anyways enjoy and please do give your feedback ❤️</p>
 
-<img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290277934489276426/image.png?ex=66fbe077&amp;is=66fa8ef7&amp;hm=26ac89cd7f1b606583d5796fb9d638170e0be7b33f7cb7e89c5f6bb2d9ba6938&amp;" alt="project-screenshot" width="256" height="256/">
+---
 
-<img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290270464878444586/image.png?ex=66fbd982&amp;is=66fa8802&amp;hm=a93eb4c59096da0987eaa3b3a1bbcccc4bbed9b03ac5837f1c1d73ad8cc20087&amp;" alt="project-screenshot" width="256" height="256/">
+<h2 align="center">📸 Project Screenshots</h2>
 
-<img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290269886462955530/image.png?ex=66fbd8f8&amp;is=66fa8778&amp;hm=dda7b90cbe62b45ef9cadb726f72e02774ad83a6104c71005d04328733e59faa&amp;" alt="project-screenshot" width="600" height="400/">
+<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290277934489276426/image.png?ex=66fbe077&amp;is=66fa8ef7&amp;hm=26ac89cd7f1b606583d5796fb9d638170e0be7b33f7cb7e89c5f6bb2d9ba6938&amp;" alt="project-screenshot" width="400" >
+  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290270464878444586/image.png?ex=66fbd982&amp;is=66fa8802&amp;hm=a93eb4c59096da0987eaa3b3a1bbcccc4bbed9b03ac5837f1c1d73ad8cc20087&amp;" alt="project-screenshot" width="400" >
+  <img src="https://cdn.discordapp.com/attachments/1066690788622356580/1310000830925246605/2024-11-23_19.14.49.png?ex=6743a0d8&is=67424f58&hm=0e4340b2e436f0fbb7fe5d8b13d27ebabcc7628769484498b989e0c954539fb6&" alt="project-screenshot" width="500" >
+  <img src="https://cdn.discordapp.com/attachments/1275124186293207060/1310004171168153630/2024-10-16_23.22.45.png?ex=6743a3f5&is=67425275&hm=a24938eea8988fe5716e3a2d253c9906c0c88ece096a5e36d9c6d1d53a607afe&" alt="project-screenshot" width="500" >
+  <img src="https://cdn.discordapp.com/attachments/1289199463658950851/1290269886462955530/image.png?ex=66fbd8f8&amp;is=66fa8778&amp;hm=dda7b90cbe62b45ef9cadb726f72e02774ad83a6104c71005d04328733e59faa&amp;" alt="project-screenshot" width="400" >
+</div>
 
+---
+
+<h2 align="center">🧐 Features List</h2>
+
+<p>Here are some of the standout features that make <em>BadAddons</em> awesome:</p>
+
+### 🌋 **Kuudra**
+- Supply Waypoints
+- Pre-Detection Box (Renders a box on your pre spot to help with building and getting the supply)  
+- PresWaypoints (Highlight pre-supply waypoints!)  
+- Proximity Pearlpoints (Relative pearl highlights to your pre spot)  
+- Supply Count (Track who got how many supplies + stunning time)  
+- Hide Perk Upgrades (Simplifies spec upgrades for BALLISTA MECHANICS)  
+- NoStomachBlindness (Works only while stunning 👀)  
+- Ballista Progress Indicator  
+- Fresh Timer & Highlighter  
+- Better Supply Pile Build Progress (Render a box either green or red on each ballista pile depending on eta)
+
+### ⚔️ **Dungeons**
+- Dungeon Routes (like BLC, but for Forge!)
+  --> ( https://www.youtube.com/watch?v=qk3Svwu88uY ) check this video to see it in action!
+- Normal & Pearl Routes  
+- Dynamic Routes Mode (Draws a line to the next nearest route)  
+- F7 Terminal Waypoints (like soopy's)
+
+### 💸 **Flipping**
+- BedsFlipper (Fun feature to see auctions that are still not buyable yet (Beds), to use custom filters -> `/bb flipper`)  
+- Highlight Grace Items (Spot items in the AH grace period)  
+- Trades Tracker (Tracks all ingame trades and sends them as Discord webhooks to any server you want)
+![image](https://github.com/user-attachments/assets/2af366ec-6a50-4c18-9ae7-c97ada15a0b9)
   
-  
-<h2>🧐 Features</h2>
+### 🔎 **Rendering**
+- Chat Waypoints Fetcher  (Buggy WIP)
+- Word Replacement (`/bb replaceword`)  
 
-Here're some of the project's best features:
+---
 
-* Dungeon Features ->
-*   \- Dungeons Routes (like blc but its forge)
-*   \- Normal & Pearl routes.
-*   \- Dynamic Routes Mode
-*   \- F7 Terminal Waypoints
-*   -----------------------------------------------------------------------------------------------
-*   Kuudra Features ->
-*   \- Supply Waypoints
-*   \- Pre Detection & Highlight
-*   \- Chat Waypoints Fetcher
-*   \-
-*   \- PresWaypoints (Highlight pre-supply waypoints!)
-*   \- Proximity Pearlpoints (Highlights pearl waypoints relative to your pre)
-*   \- Supply Count (Shows a digestion of who and how many supply each player got and stun time.)
-*   \- Hide PerkUpgrades (Hides the usless spec upgrades and replaces the rest wiht BALLISTA MECHANICS)
-*   \- Noblindless (Ok i know this one sus but in my defense i made it only work when stunning)
-*   \- Ballista Progress (Shows a big text indicating ballista progress in the middle)
-*   \- Fresh Timer & Highlighter
-*   \- Better supply pile build progress
-*   -----------------------------------------------------------------------------------------------
-*   Flipping Features ->
-*   \- BedsFlipper (This one i made for fun its just shows you all beds with diffrent modes to use whitelisted fitler use /bb flipper)
-*   \-Highlight Grace Items (Highlight Items that are in grace period on ah)
-*   \-- Trades Tracker (Trackers all player trades and sends them as discord hooks)
-*   -----------------------------------------------------------------------------------------------
-*   Rendering ->
-*   \- Word Replacing (pretty obviouse to use /bb replaceword)
-*   -----------------------------------------------------------------------------------------------
-*   BTW
-*   There are more hidden features that i didnt make clear bc i didnt know ill be releasing ill try to make them obvious in feature updates for now just like figure them out!
-*   HAVE FUN <3
+> **Note:**  
+> There are even more hidden features! I’ll make them clearer in future updates. For now, explore and figure them out on your own!  
+> use /bb <TAB> to autocomplete all subcommands
+> use /bb gui to change gui elements positions and size
+---
 
-<h2>🛠️ Installation Steps:</h2>
+<h2 align="center">🛠️ Installation Steps</h2>
 
-<p>1. download put in mods you muffin</p>
+1. Download the mod.  
+2. Drop it into your `mods` folder.  
+3. Become a tryhard!
 
+---
 
+<h2 align="center">🤝 Credits</h2>
 
-CREDITS:
-* \- mehdiii000 (aka ephermality) [ME] - Created this mess
-* \- https://github.com/yourboykyle/SecretRoutes - Routes & Detection code ❤️
-* \- https://github.com/Quantizr/DungeonRoomsMod - Dungeons Room Detection logic ❤️
-* \- https://github.com/hannibal002/SkyHanni - a huge inspiration ❤️
-* \- Coffee ☕
+- **[Mehdiii000 (aka Ephermality)]** - Created this masterpiece.  
+- [SecretRoutes](https://github.com/yourboykyle/SecretRoutes) - Routes & Detection Code ❤️  
+- [DungeonRoomsMod](https://github.com/Quantizr/DungeonRoomsMod) - Dungeon Room Detection Logic ❤️  
+- [SkyHanni](https://github.com/hannibal002/SkyHanni) - Huge inspiration ❤️  
+- Coffee ☕  
