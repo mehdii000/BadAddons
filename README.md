@@ -1,5 +1,5 @@
 <div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; justify-content: center;">
-  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/52130360/393402704-ee536bd6-cba4-4c8b-84f3-3214243d16e1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241206%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241206T210129Z&X-Amz-Expires=300&X-Amz-Signature=deb1ced74b07777ffa01ada22f13b26ff25972489f46adeeef7152f8586819ea&X-Amz-SignedHeaders=host" alt="project-screenshot" width="500" >
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/52130360/393402704-ee536bd6-cba4-4c8b-84f3-3214243d16e1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241206%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241206T210129Z&X-Amz-Expires=300&X-Amz-Signature=deb1ced74b07777ffa01ada22f13b26ff25972489f46adeeef7152f8586819ea&X-Amz-SignedHeaders=host" alt="project-screenshot" width="1024" >
 </div>
 
 ***
