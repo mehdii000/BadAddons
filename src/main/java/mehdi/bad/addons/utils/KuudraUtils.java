@@ -1,7 +1,12 @@
 package mehdi.bad.addons.utils;
 
+import mehdi.bad.addons.BadAddons;
+import net.minecraft.entity.monster.EntityMagmaCube;
+
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class KuudraUtils {
 
@@ -22,4 +27,20 @@ public class KuudraUtils {
         return null;
     }
 
+    public static float getHP() {
+        List<EntityMagmaCube> cubes = BadAddons.mc.theWorld.loadedEntityList.stream()
+                .filter(entity -> entity instanceof EntityMagmaCube)
+                .map(entity -> (EntityMagmaCube) entity)
+                .filter(cube -> cube.getHealth() <= 1000 && cube.getSlimeSize() == 15)
+                .collect(Collectors.toList());
+
+        // Calculate total HP of all selected cubes, mapped to a new range (1000 HP to 300)
+        float totalHP = 0;
+        for (EntityMagmaCube cube : cubes) {
+            float mappedHP = cube.getHealth() * 0.3f;  // Scale HP to a range where 1000 maps to 300
+            totalHP += mappedHP;
+        }
+
+        return totalHP;  // Return the total mapped HP
+    }
 }

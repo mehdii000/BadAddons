@@ -91,7 +91,7 @@ public class AIPearlWaypoints {
                 }
             }
 
-        } else if (KuudraHandler.buildingPhase) {
+        } else if (KuudraHandler.currentPhase == KuudraHandler.Phases.BUILD) {
             for (Vec3 supply : suppliesPlacing) {
                 if (isSupplyDone(supply.addVector(0, 1, 0))) {
                     V2RenderUtils.drawPixelBox(supply.addVector(0, 1.4, 0), Color.GREEN, 0.8, event.partialTicks);

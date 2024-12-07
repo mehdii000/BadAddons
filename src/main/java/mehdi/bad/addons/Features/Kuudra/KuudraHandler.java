@@ -43,12 +43,14 @@ public class KuudraHandler extends MovableModule {
     private long timeSinceEaten = 0;
     private long timeOfStunning = 0;
     private long timeSinceFresh = 0;
+    private long timeSinceLastPhaseStarted = 0;
+
     private List<String> teammates = new ArrayList<String>();
     private HashMap<String, Integer> pickSupplies = new HashMap<String, Integer>();
     public static int suppliesPicked = 0;
 
-    public static boolean buildingPhase = false;
-    public static boolean lastPhase = false;
+    public static Phases currentPhase = Phases.NONE;
+
     public List<String> freshers = new ArrayList<String>();
     public static long freshTimeFromBuildStart = 0;
 
@@ -109,14 +111,14 @@ public class KuudraHandler extends MovableModule {
 
         if (message.contains("Elle: OMG! Great work collecting my supplies!")) {
             ChatLib.chat("§e[BA] §bBuild-Phase started!");
+            currentPhase = Phases.BUILD;
             suppliesPicked = 6;
             freshTimeFromBuildStart = System.currentTimeMillis();
-            buildingPhase = true;
         }
         if (message.contains("The Ballista is finally ready!") && message.contains("Elle")) {
             ChatLib.chat("§e[BA] §bBuild-Phase ended!");
+            currentPhase = Phases.STUN;
             freshTimeFromBuildStart = 0;
-            buildingPhase = false;
         }
 
         if (message.contains(" destroyed one of Kuudra")) {
@@ -162,7 +164,7 @@ public class KuudraHandler extends MovableModule {
     public void onWorldRender(RenderWorldLastEvent e) {
 
         if (!SkyblockUtils.isInKuudra()) return;
-        if (Configs.BalistaProgress) {
+        if (Configs.BalistaProgress && currentPhase == Phases.BUILD) {
             for (Entity entity : BadAddons.mc.theWorld.loadedEntityList) {
                 if (entity instanceof EntityArmorStand && entity.getDisplayName().getUnformattedText().contains("Building Progress ")) {
                     String progress = entity.getDisplayName().getUnformattedText().split("Building Progress ")[1].split("%")[0] + "%";
@@ -174,7 +176,7 @@ public class KuudraHandler extends MovableModule {
             }
         }
 
-        if ((Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity) && suppliesPicked < 6) {
+        if ((Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity) && currentPhase == Phases.SUPPLIES) {
             Vec3 playerPos = BadAddons.mc.thePlayer.getPositionVector();
             Set<Integer> nearbyColors = new HashSet<>();  // Store the colors of nearby EspBoxes
 
@@ -233,8 +235,24 @@ public class KuudraHandler extends MovableModule {
             BadAddons.mc.thePlayer.removePotionEffect(Potion.blindness.getId());
         }
 
-        if (BadAddons.mc.thePlayer.posY < 55) {
-            lastPhase = true;
+        if (BadAddons.mc.thePlayer.posY < 55 && currentPhase == Phases.STUN) {
+            ChatLib.chat("§e[BA] §bLast phase started!");
+            trackedDps = 0;
+            timeSinceLastPhaseStarted = System.currentTimeMillis();
+            currentPhase = Phases.LAST;
+        }
+
+        if (currentPhase == Phases.LAST) {
+            float initialHP = 250;
+            float currentHP = KuudraUtils.getHP();
+            long dt = System.currentTimeMillis() - timeSinceLastPhaseStarted;
+
+            if (dt > 0) {
+                float damageDealt = initialHP - currentHP;
+                trackedDps = damageDealt / (dt / 1000.0f);
+            } else {
+                trackedDps = 0;
+            }
         }
 
     }
@@ -335,7 +353,7 @@ public class KuudraHandler extends MovableModule {
     public void render() {
         if (!SkyblockUtils.isInSkyblock()) return;
         if (SkyblockUtils.isInKuudra()) {
-            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6)", getX(), getY(), -1);
+            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6) §7" + currentPhase.name(), getX(), getY(), -1);
             int totalLines = teammates != null ? teammates.size() : 0;
 
             for (int i = 0; i < totalLines; i++) {
@@ -364,7 +382,7 @@ public class KuudraHandler extends MovableModule {
             }
 
             if (Configs.FreshDisplay && freshers != null) {
-                totalLines += 2;
+                totalLines += 1;
                 RenderUtils.renderStringWithItems(":RAW_FISH: §aFRESHES:", getX(), getY() + 16 + (15 * totalLines), -1, true);
                 totalLines += 1;
                 for (int i = 0; i < freshers.size(); i++) {
@@ -374,8 +392,8 @@ public class KuudraHandler extends MovableModule {
             }
 
             if (Configs.PartyDpsTracker) {
-                totalLines += 2;
-                RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps), getX(), getY() + 16 + (15 * totalLines), -1, true);
+                totalLines += 1;
+                RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
             }
 
         }
@@ -384,16 +402,15 @@ public class KuudraHandler extends MovableModule {
     private void resetKuudraHandler() {
         timeSinceEaten = 0;
         timeOfStunning = 0;
+        timeSinceLastPhaseStarted = 0;
         teammates.clear();
         pickSupplies.clear();
         freshers.clear();
         suppliesPicked = 0;
         trackedDps = 0;
-        lastPhase = false;
-        buildingPhase = false;
+        currentPhase = Phases.NONE;
         PreSupplyDetection.startPreTime = 0;
         freshTimeFromBuildStart = 0;
-        KuudraHandler.buildingPhase = false;
     }
 
     public class EspBox {
@@ -408,6 +425,14 @@ public class KuudraHandler extends MovableModule {
             this.z = z;
             this.color = color;
         }
+    }
+
+    public enum Phases {
+        NONE,
+        SUPPLIES,
+        BUILD,
+        STUN,
+        LAST
     }
 
 }
