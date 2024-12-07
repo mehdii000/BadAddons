@@ -61,14 +61,6 @@ public class Configs {
     public static boolean FetchWaypoints = false;
 
     @Property(
-            type = Property.Type.BOOLEAN,
-            name = "Combat XP Tracker",
-            description = "Tracks combat xp regardless of method of gaining (hyperion).\n§cRequires /tab §7-> §cSkills [Combat]",
-            parent = "Trackers"
-    )
-    public static boolean CombatXPTracker = false;
-
-    @Property(
             type = Property.Type.FOLDER,
             name = "Flipping",
             description = "QOL thing mainly for flippers.",
@@ -271,6 +263,14 @@ public class Configs {
             parent = "KuudraGameplay"
     )
     public static boolean SupplyCount = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
+            name = "Party Dps Tracker",
+            description = "Tracks party's DPS §8(Damage per second) §7in kuudra §cP5§7.",
+            parent = "KuudraGameplay"
+    )
+    public static boolean PartyDpsTracker = false;
 
     @Property(
             type = Property.Type.BOOLEAN,

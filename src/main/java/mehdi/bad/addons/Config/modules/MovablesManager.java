@@ -1,7 +1,6 @@
 package mehdi.bad.addons.Config.modules;
 
 import mehdi.bad.addons.Features.Dungeons.catacombs.DungeonManager;
-import mehdi.bad.addons.Features.General.CombatXPTracker;
 import mehdi.bad.addons.Features.Kuudra.KuudraHandler;
 import mehdi.bad.addons.Features.Kuudra.PreSupplyDetection;
 import mehdi.bad.addons.Features.Maps.CrimsonIslesMap;
@@ -19,7 +18,6 @@ public class MovablesManager {
     }
 
     public static void loadModules() {
-        registerModule(new CombatXPTracker());
         registerModule(new CrimsonIslesMap());
         registerModule(new KuudraHandler());
         registerModule(new PreSupplyDetection());

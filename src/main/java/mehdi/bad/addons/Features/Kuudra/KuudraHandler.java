@@ -48,7 +48,11 @@ public class KuudraHandler extends MovableModule {
     public static int suppliesPicked = 0;
 
     public static boolean buildingPhase = false;
+    public static boolean lastPhase = false;
+    public List<String> freshers = new ArrayList<String>();
     public static long freshTimeFromBuildStart = 0;
+
+    private float trackedDps = 0;
 
     private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
 
@@ -97,6 +101,10 @@ public class KuudraHandler extends MovableModule {
             String freshDisplayMessage = "§a" + Configs.FreshDisplayString.replace("&", "§");
             BadAddons.mc.ingameGUI.displayTitle(freshDisplayMessage, "", 0, 2500, 0);
             if (Configs.FreshChatMessage) BadAddons.mc.thePlayer.sendChatMessage("FRESHED! After " + MathUtils.detailedFormatTicks(System.currentTimeMillis() - freshTimeFromBuildStart));
+        }
+
+        if (Configs.FreshDisplay && KuudraUtils.matchesFreshRegex(message)) {
+            freshers.add(KuudraUtils.extractName(message));
         }
 
         if (message.contains("Elle: OMG! Great work collecting my supplies!")) {
@@ -224,6 +232,11 @@ public class KuudraHandler extends MovableModule {
         if (Configs.HideBlindness && BadAddons.mc.thePlayer.isPotionActive(Potion.blindness.getId())) {
             BadAddons.mc.thePlayer.removePotionEffect(Potion.blindness.getId());
         }
+
+        if (BadAddons.mc.thePlayer.posY < 55) {
+            lastPhase = true;
+        }
+
     }
 
     // Main method to process crates
@@ -323,17 +336,48 @@ public class KuudraHandler extends MovableModule {
         if (!SkyblockUtils.isInSkyblock()) return;
         if (SkyblockUtils.isInKuudra()) {
             BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6)", getX(), getY(), -1);
-            for (int i = 0; i < teammates.size(); i++) {
-                if (teammates.get(i) != null) {
-                    int supplies = (pickSupplies.get(teammates.get(i)) == null ? 0 : pickSupplies.get(teammates.get(i)));
-                    double stunTime = timeOfStunning == 0 ? (timeSinceEaten == 0 ? 0 : (double)(Math.round((float) (System.currentTimeMillis() - timeSinceEaten) / 10)) / 100) : (timeSinceEaten == 0 ? 0 : (double)(Math.round((timeOfStunning - timeSinceEaten) / 10)) / 100);
+            int totalLines = teammates != null ? teammates.size() : 0;
 
-                    RenderUtils.renderStringWithItems((Objects.equals(teammates.get(i), ccstun)
-                            ? "§a[STUN] §r" + teammates.get(i) + " §e" + supplies + " :IRON_PICKAXE: §b" + stunTime + "s"
-                            : "§e[DPS] §r" + teammates.get(i) + " §e" + supplies + " :CHEST:"
-                    ), getX(), getY() + 16 + (15*i), -1, true);
+            for (int i = 0; i < totalLines; i++) {
+                if (teammates.get(i) != null) {
+                    int supplies = pickSupplies.getOrDefault(teammates.get(i), 0);
+                    double stunTime = 0;
+
+                    if (timeSinceEaten != 0) {
+                        if (timeOfStunning == 0) {
+                            stunTime = Math.round((System.currentTimeMillis() - timeSinceEaten) / 10.0) / 100.0;
+                        } else {
+                            stunTime = Math.round((timeOfStunning - timeSinceEaten) / 10.0) / 100.0;
+                        }
+                    }
+
+                    RenderUtils.renderStringWithItems(
+                            (ccstun != null && ccstun.equals(teammates.get(i))
+                                    ? ":IRON_PICKAXE: §a[STUN] §r" + teammates.get(i) + " §e" + supplies + "§7 / §b" + stunTime + "s"
+                                    : ":CHEST: §e[DPS] §r" + teammates.get(i) + " §e" + supplies),
+                            getX(),
+                            getY() + 16 + (15 * i),
+                            -1,
+                            true
+                    );
                 }
             }
+
+            if (Configs.FreshDisplay && freshers != null) {
+                totalLines += 2;
+                RenderUtils.renderStringWithItems(":RAW_FISH: §aFRESHES:", getX(), getY() + 16 + (15 * totalLines), -1, true);
+                totalLines += 1;
+                for (int i = 0; i < freshers.size(); i++) {
+                    RenderUtils.renderStringWithItems(" §7- §7" +freshers.get(i), getX(), getY() + 16 + (15 * (totalLines + i)), -1, true);
+                }
+                totalLines += freshers.size();
+            }
+
+            if (Configs.PartyDpsTracker) {
+                totalLines += 2;
+                RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps), getX(), getY() + 16 + (15 * totalLines), -1, true);
+            }
+
         }
     }
 
@@ -342,7 +386,10 @@ public class KuudraHandler extends MovableModule {
         timeOfStunning = 0;
         teammates.clear();
         pickSupplies.clear();
+        freshers.clear();
         suppliesPicked = 0;
+        trackedDps = 0;
+        lastPhase = false;
         buildingPhase = false;
         PreSupplyDetection.startPreTime = 0;
         freshTimeFromBuildStart = 0;
