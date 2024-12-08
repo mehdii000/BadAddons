@@ -1,6 +1,5 @@
 <div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; justify-content: center;">
-  ![badaddons_logo](https://github.com/user-attachments/assets/3f0cc2c2-94d8-4097-9620-22a89dffc943)
-
+  ![image](https://github.com/user-attachments/assets/3f0cc2c2-94d8-4097-9620-22a89dffc943)
 </div>
 
 ***
