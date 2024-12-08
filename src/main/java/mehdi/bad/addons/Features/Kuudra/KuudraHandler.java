@@ -126,6 +126,10 @@ public class KuudraHandler extends MovableModule {
             timeOfStunning = System.currentTimeMillis();
         }
 
+        if (message.contains("KUUDRA DOWN")) {
+            currentPhase = Phases.DONE;
+        }
+
     }
 
     @SubscribeEvent
@@ -393,17 +397,17 @@ public class KuudraHandler extends MovableModule {
 
             if (Configs.PartyDpsTracker) {
                 totalLines += 1;
-                if (currentPhase == Phases.LAST) RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
-                if (currentPhase == Phases.SUPPLIES || currentPhase == Phases.BUILD) RenderUtils.renderStringWithItems(":BOW: §7Last Breathed: " + isLastBreathed(), -1, getY() + 16 + (15 * totalLines), -1, true);
+                if (currentPhase == Phases.LAST || currentPhase == Phases.DONE) RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
+                if (currentPhase == Phases.SUPPLIES || currentPhase == Phases.BUILD) RenderUtils.renderStringWithItems(":BOW: §7Last Breathed: " + isLastBreathed(), getX(), getY() + 16 + (15 * totalLines), -1, true);
             }
 
         }
     }
 
     private String isLastBreathed() {
-        if (KuudraUtils.getHP() == 1200) return "§cNo";
-        if (KuudraUtils.getHP() > 1195) return "§6Maybe";
-        if (KuudraUtils.getHP() <= 1195) return "§aYes";
+        if (KuudraUtils.getHP() == KuudraUtils.geMaxtHP()) return "§cNo";
+        if (KuudraUtils.getHP() < KuudraUtils.geMaxtHP() && KuudraUtils.getHP() > KuudraUtils.geMaxtHP() - 1) return "§6Maybe";
+        if (KuudraUtils.getHP() <= KuudraUtils.geMaxtHP() - 1) return "§a90% Sure";
         return "§eidk?";
     }
 
@@ -440,7 +444,8 @@ public class KuudraHandler extends MovableModule {
         SUPPLIES,
         BUILD,
         STUN,
-        LAST
+        LAST,
+        DONE
     }
 
 }

@@ -43,4 +43,23 @@ public class KuudraUtils {
 
         return totalHP;  // Return the total mapped HP
     }
+
+    public static float geMaxtHP() {
+        List<EntityMagmaCube> cubes = BadAddons.mc.theWorld.loadedEntityList.stream()
+                .filter(entity -> entity instanceof EntityMagmaCube)
+                .map(entity -> (EntityMagmaCube) entity)
+                .filter(cube -> cube.getSlimeSize() == 15)
+                .collect(Collectors.toList());
+
+        // Calculate total HP of all selected cubes, mapped to a new range (1000 HP to 300)
+        float totalHP = 0;
+        for (EntityMagmaCube cube : cubes) {
+            float mappedHP = cube.getMaxHealth() * 0.3f;  // Scale HP to a range where 1000 maps to 300
+            totalHP += mappedHP;
+        }
+
+        return totalHP;  // Return the total mapped HP
+    }
+
+
 }
