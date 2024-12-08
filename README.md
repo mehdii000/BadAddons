@@ -1,6 +1,5 @@
-<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; justify-content: center;">
-  ![image](https://github.com/user-attachments/assets/3f0cc2c2-94d8-4097-9620-22a89dffc943)
-</div>
+![image](https://github.com/user-attachments/assets/2b936ede-4489-4571-b077-34fdfeb51790)
+
 
 ***
 <p align="center">
