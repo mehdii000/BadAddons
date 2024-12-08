@@ -1,6 +1,5 @@
-<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; justify-content: center;">
-  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/52130360/393402704-ee536bd6-cba4-4c8b-84f3-3214243d16e1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241206%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241206T210129Z&X-Amz-Expires=300&X-Amz-Signature=deb1ced74b07777ffa01ada22f13b26ff25972489f46adeeef7152f8586819ea&X-Amz-SignedHeaders=host" alt="project-screenshot" width="1024" >
-</div>
+![image](https://github.com/user-attachments/assets/2b936ede-4489-4571-b077-34fdfeb51790)
+
 
 ***
 <p align="center">
@@ -35,13 +34,15 @@
 ### 🌋 **Kuudra**
 - Supply Waypoints
 - Pre-Detection Box (Renders a box on your pre spot to help with building and getting the supply)  
-- PresWaypoints (Highlight pre-supply waypoints!)  
+- PresWaypoints (Highlight pre-supply waypoints!)
+- Party Dps Tracker (Kuudra last phase total party dps tracker)
 - Proximity Pearlpoints (Relative pearl highlights to your pre spot)  
 - Supply Count (Track who got how many supplies + stunning time)  
 - Hide Perk Upgrades (Simplifies spec upgrades for BALLISTA MECHANICS)  
 - NoStomachBlindness (Works only while stunning 👀)  
 - Ballista Progress Indicator  
-- Fresh Timer & Highlighter  
+- Fresh Timer & Highlighter
+- Freshes tracker (people that freshed throughout the build phase)
 - Better Supply Pile Build Progress (Render a box either green or red on each ballista pile depending on eta)
 
 ### ⚔️ **Dungeons**
