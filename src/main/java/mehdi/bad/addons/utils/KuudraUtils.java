@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 public class KuudraUtils {
 
     public static boolean matchesFreshRegex(String str) {
-        String regex = "Party > .* (\\w+): FRESH(?:ED.*)?";
+        String regex = "Party > .* (\\w+): FRESH(?:\\s\\(.*\\))?";
         return str.matches(regex);
     }
 
     // Function to extract the [name] from the string
     public static String extractName(String str) {
-        String regex = "Party > .* (\\w+): FRESH(?:ED.*)?";
+        String regex = "Party > .* (\\w+): FRESH(?:\\s\\(.*\\))?";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
 
@@ -31,7 +31,7 @@ public class KuudraUtils {
         List<EntityMagmaCube> cubes = BadAddons.mc.theWorld.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityMagmaCube)
                 .map(entity -> (EntityMagmaCube) entity)
-                .filter(cube -> cube.getHealth() <= 1000 && cube.getSlimeSize() == 15)
+                .filter(cube -> cube.getSlimeSize() == 15)
                 .collect(Collectors.toList());
 
         // Calculate total HP of all selected cubes, mapped to a new range (1000 HP to 300)

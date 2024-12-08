@@ -249,7 +249,7 @@ public class KuudraHandler extends MovableModule {
 
             if (dt > 0) {
                 float damageDealt = initialHP - currentHP;
-                trackedDps = damageDealt / (dt / 1000.0f);
+                trackedDps = (float) Math.round(10 * (damageDealt / (dt / 1000.0f))) / 10;
             } else {
                 trackedDps = 0;
             }
@@ -381,7 +381,7 @@ public class KuudraHandler extends MovableModule {
                 }
             }
 
-            if (Configs.FreshDisplay && freshers != null) {
+            if (Configs.FreshDisplay && freshers != null && !freshers.isEmpty()) {
                 totalLines += 1;
                 RenderUtils.renderStringWithItems(":RAW_FISH: §aFRESHES:", getX(), getY() + 16 + (15 * totalLines), -1, true);
                 totalLines += 1;
@@ -393,10 +393,18 @@ public class KuudraHandler extends MovableModule {
 
             if (Configs.PartyDpsTracker) {
                 totalLines += 1;
-                RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
+                if (currentPhase == Phases.LAST) RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
+                if (currentPhase == Phases.SUPPLIES || currentPhase == Phases.BUILD) RenderUtils.renderStringWithItems(":BOW: §7Last Breathed: " + isLastBreathed(), -1, getY() + 16 + (15 * totalLines), -1, true);
             }
 
         }
+    }
+
+    private String isLastBreathed() {
+        if (KuudraUtils.getHP() == 1200) return "§cNo";
+        if (KuudraUtils.getHP() > 1195) return "§6Maybe";
+        if (KuudraUtils.getHP() <= 1195) return "§aYes";
+        return "§eidk?";
     }
 
     private void resetKuudraHandler() {
