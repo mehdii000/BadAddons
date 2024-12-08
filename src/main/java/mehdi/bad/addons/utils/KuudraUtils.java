@@ -11,18 +11,17 @@ import java.util.stream.Collectors;
 public class KuudraUtils {
 
     public static boolean matchesFreshRegex(String str) {
-        String regex = "Party > .* (\\w+): FRESH(?:ED.*|\\s\\(.*\\))?\n";
+        String regex = "Party > .* (\\w+): FRESH(?:ED.*|\\s\\(.*\\)|.*)?";
         return str.matches(regex);
     }
 
-    // Function to extract the [name] from the string
     public static String extractName(String str) {
-        String regex = "Party > .* (\\w+): FRESH(?:ED.*|\\s\\(.*\\))?\n";
+        String regex = "Party > .* (\\w+): FRESH(?:ED.*|\\s\\(.*\\)|.*)?";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
 
         if (matcher.matches()) {
-            return matcher.group(1);
+            return matcher.group(1); // Extract the username
         }
         return null;
     }
