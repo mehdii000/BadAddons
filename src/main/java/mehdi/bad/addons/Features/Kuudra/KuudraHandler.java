@@ -406,8 +406,8 @@ public class KuudraHandler extends MovableModule {
 
     private String isLastBreathed() {
         if (KuudraUtils.getHP() == KuudraUtils.geMaxtHP()) return "§cNo";
-        if (KuudraUtils.getHP() < KuudraUtils.geMaxtHP() && KuudraUtils.getHP() > KuudraUtils.geMaxtHP() - 1) return "§6Maybe";
-        if (KuudraUtils.getHP() <= KuudraUtils.geMaxtHP() - 1) return "§a90% Sure";
+        if (KuudraUtils.getHP() > 1199.52f && KuudraUtils.getHP() < 1200) return "§6Maybe";
+        if (KuudraUtils.getHP() <= 1199.52) return "§a90% Sure";
         return "§eidk?";
     }
 
