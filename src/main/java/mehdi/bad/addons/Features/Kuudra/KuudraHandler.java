@@ -263,7 +263,7 @@ public class KuudraHandler extends MovableModule {
     public void onTickEnd(TickEndEvent e) {
         if (System.currentTimeMillis() > timeSinceFresh) timeSinceFresh = -1;
         if (!SkyblockUtils.isInKuudra()) return;
-        if (BadAddons.mc.thePlayer.getActivePotionEffects().isEmpty()) return;
+        if (BadAddons.mc.thePlayer.getActivePotionEffects() == null || BadAddons.mc.thePlayer.getActivePotionEffects().isEmpty()) return;
         if (Configs.HideBlindness && BadAddons.mc.thePlayer.isPotionActive(Potion.blindness.getId())) {
             BadAddons.mc.thePlayer.removePotionEffect(Potion.blindness.getId());
         }
