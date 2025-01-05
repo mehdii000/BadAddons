@@ -17,7 +17,6 @@ import mehdi.bad.addons.BadAddons;
 import mehdi.bad.addons.Events.RenderEntityModelEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
@@ -27,34 +26,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 public class OutlineUtils {
-    public static void outlineEntity(ModelBase model, Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch, float scaleFactor, Color color, int outlineWidth) {
-        float gamma = BadAddons.mc.gameSettings.gammaSetting;
-        GlStateManager.disableDepth();
-        BadAddons.mc.gameSettings.gammaSetting = Float.MAX_VALUE;
-        GlStateManager.resetColor();
-        OutlineUtils.setColor(color);
-        GlStateManager.disableDepth();
-        OutlineUtils.renderOne(outlineWidth);
-        model.render(entity, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scaleFactor);
-        OutlineUtils.setColor(color);
-        OutlineUtils.renderTwo();
-        model.render(entity, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scaleFactor);
-        OutlineUtils.setColor(color);
-        OutlineUtils.renderThree();
-        model.render(entity, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scaleFactor);
-        OutlineUtils.setColor(color);
-        OutlineUtils.renderFour(color);
-        model.render(entity, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scaleFactor);
-        OutlineUtils.setColor(color);
-        OutlineUtils.renderFive();
-        OutlineUtils.setColor(Color.WHITE);
-        GlStateManager.enableDepth();
-        BadAddons.mc.gameSettings.gammaSetting = gamma;
-    }
 
-    public static void outlineEntity(RenderEntityModelEvent event, Color color, int outlineWidth) {
-        OutlineUtils.outlineEntity(event.model, (Entity)event.entity, event.limbSwing, event.limbSwingAmount, event.ageInTicks, event.headYaw, event.headPitch, event.scaleFactor, color, outlineWidth);
-    }
 
     public static void drawFillEntity(ModelBase model, Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch, float scaleFactor, Color color) {
         // Save the original OpenGL state

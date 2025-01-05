@@ -7,7 +7,6 @@ import mehdi.bad.addons.Events.RenderEntityModelEvent;
 import mehdi.bad.addons.Events.SlotClickEvent;
 import mehdi.bad.addons.Events.TickEndEvent;
 import mehdi.bad.addons.utils.*;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -246,17 +245,6 @@ public class KuudraHandler extends MovableModule {
     }
 
     @SubscribeEvent
-    public void onRenderModel(RenderEntityModelEvent e) {
-        if (!Configs.BoxKuudra || !SkyblockUtils.isInKuudra()) return;
-        if (e.entity instanceof EntityMagmaCube) {
-            EntityMagmaCube mg = (EntityMagmaCube) e.entity;
-            if (mg.getSlimeSize() >= 25) {
-                OutlineUtils.outlineEntity(e, Color.PINK, Configs.BoxKuudraSize + 3);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onTickEnd(TickEndEvent e) {
         if (System.currentTimeMillis() > timeSinceFresh) timeSinceFresh = -1;
         if (!SkyblockUtils.isInKuudra()) return;
@@ -362,18 +350,6 @@ public class KuudraHandler extends MovableModule {
 
         }
     }
-
-    private void drawColoredRect(int x, int y, Color color) {
-        Gui.drawRect(x, y, x + 16, y + 16, color.getRGB());
-    }
-
-    private void highlightFillEntity(Color color, RenderEntityModelEvent e) {
-        OutlineUtils.drawFillEntity(e, color);
-    }
-    private void highlightEntity(Color color, RenderEntityModelEvent e) {
-        OutlineUtils.outlineEntity(e, color, 3);
-    }
-
 
     private boolean isWithin(double x, double z, double min, double max) {
         return x >= min && x <= max && z >= min && z <= max;
