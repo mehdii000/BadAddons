@@ -82,9 +82,32 @@ public class PreSupplyDetection extends MovableModule {
             }
         });
         if (!noCloseSupplies.get()) {
-            BadAddons.mc.thePlayer.playSound("random.orb", 0.7f, 1f);
-            ChatLib.chat("§e[BA] §bPre [" + currentPreSpot.getName() + "] didn't spawn!");
-            BadAddons.mc.ingameGUI.displayTitle("§CNO-PRE", "", 0, 2500, 0);
+            BadAddons.mc.thePlayer.playSound("random.orb", 1f, 1f);
+            ChatLib.chat("§e[BA] §4Pre [" + currentPreSpot.getName() + "] didn't spawn!");
+
+            switch (currentPreSpot.getName()) {
+                case "X":
+                    ChatLib.chat("§e[BA] X -> §4X-CANON");
+                    BadAddons.mc.ingameGUI.displayTitle("§cX-CANON", "", 0, 2500, 0);
+
+                    break;
+                case "Triangle":
+                    ChatLib.chat("§e[BA] Tri -> §4SHOP");
+                    BadAddons.mc.ingameGUI.displayTitle("§cSHOP", "", 0, 2500, 0);
+
+                    break;
+                case "Equals":
+                    ChatLib.chat("§e[BA] Equals -> §4X-CANON");
+                    BadAddons.mc.ingameGUI.displayTitle("§cSQUARE", "", 0, 2500, 0);
+                    break;
+                case "Slash":
+                    ChatLib.chat("§e[BA] Slash -> §4SHOP");
+                    BadAddons.mc.ingameGUI.displayTitle("§cSQUARE", "", 0, 2500, 0);
+                    break;
+                default:
+                    ChatLib.chat("§e[BA] §aYou sure " + currentPreSpot.getName() + " is a pre? bruh...");
+                    break;
+            }
         }
     }
 

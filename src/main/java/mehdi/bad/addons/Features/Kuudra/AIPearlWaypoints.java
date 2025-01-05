@@ -17,6 +17,8 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -33,6 +35,16 @@ public class AIPearlWaypoints {
             new Vec3(-110, 78.125, -106.0),
             new Vec3(-106, 78.125, -99.0625)
     };
+
+    public static Map<String, Vec3> preToPlacingMapping;
+    static {
+        preToPlacingMapping = new HashMap<>();
+        preToPlacingMapping.put("Triangle", new Vec3(1, 2, 3));
+        preToPlacingMapping.put("b", new Vec3(4, 5, 6));
+        preToPlacingMapping.put("c", new Vec3(7, 8, 9));
+    }
+
+    public static Vec3 preferedBuildSplot = null;
 
     @SubscribeEvent
     public void onChatStuff(ClientChatReceivedEvent event) {
@@ -100,6 +112,34 @@ public class AIPearlWaypoints {
                     RealRenderUtils.render3dString(getPileProgress(supply), supply.xCoord + 0.45, supply.yCoord + 2, supply.zCoord + 0.45, 1, 1.5f, event.partialTicks);
                 }
             }
+
+            if (Configs.BuildAssist && preferedBuildSplot != null) {
+                V2RenderUtils.drawPixelBox(preferedBuildSplot.addVector(0, 2.5, 0), Color.BLUE, 0.5, event.partialTicks);
+                RealRenderUtils.render3dString("§b§lBUILD THIS", preferedBuildSplot.xCoord + 0.45, preferedBuildSplot.yCoord + 5, preferedBuildSplot.zCoord + 0.45, 1, 2f, event.partialTicks);
+                if (isSupplyDone(preferedBuildSplot)) {
+                    nextSupply();
+                }
+            }
+
+        }
+    }
+
+    private void nextSupply() {
+        switch (PreSupplyDetection.currentPreSpot.getName()) {
+            case "X":
+                AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[3];
+                break;
+            case "Triangle":
+                AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[0];
+                break;
+            case "Equals":
+                AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[5];
+                break;
+            case "Slash":
+                AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[4];
+                break;
+            default:
+                break;
         }
     }
 

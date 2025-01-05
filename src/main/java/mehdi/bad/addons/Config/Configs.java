@@ -314,6 +314,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "BuildAssist",
+            description = "Helps you in build phase by pointing which supplies to build.",
+            parent = "FreshHighlight"
+    )
+    public static boolean BuildAssist = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "FreshMessage",
             description = "Sends a message in chat to notify others that u freshed.",
             parent = "FreshHighlight"

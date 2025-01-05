@@ -55,6 +55,7 @@ public class KuudraHandler extends MovableModule {
     public static long freshTimeFromBuildStart = 0;
 
     private float trackedDps = 0;
+    private boolean lastBreathed = false;
 
     private final String SUPPLY_REGEX = "(?:\\[\\w+\\]\\s)?(\\w+)\\srecovered one of Elle's supplies";
 
@@ -109,11 +110,34 @@ public class KuudraHandler extends MovableModule {
             freshers.add(KuudraUtils.extractName(message));
         }
 
+        if (message.contains("Elle: Damaging Kuudra directly is futile. His thick skin is impenetrable with conventional weapons!")) {
+            lastBreathed = true;
+        }
+
         if (message.contains("Elle: OMG! Great work collecting my supplies!")) {
             ChatLib.chat("§e[BA] §bBuild-Phase started!");
             currentPhase = Phases.BUILD;
             suppliesPicked = 6;
             freshTimeFromBuildStart = System.currentTimeMillis();
+
+            switch (PreSupplyDetection.currentPreSpot.getName()) {
+                case "X":
+                    AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[4];
+                    break;
+                case "Triangle":
+                    AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[1];
+                    break;
+                case "Equals":
+                    AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[2];
+                    break;
+                case "Slash":
+                    AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[5];
+                    break;
+                default:
+                    ChatLib.chat("§e[BA] You dont have a pre registerd yet!");
+                    break;
+            }
+
         }
         if (message.contains("The Ballista is finally ready!") && message.contains("Elle")) {
             ChatLib.chat("§e[BA] §bBuild-Phase ended!");
@@ -226,7 +250,9 @@ public class KuudraHandler extends MovableModule {
         if (!Configs.BoxKuudra || !SkyblockUtils.isInKuudra()) return;
         if (e.entity instanceof EntityMagmaCube) {
             EntityMagmaCube mg = (EntityMagmaCube) e.entity;
-            if (mg.getSlimeSize() >= 25) OutlineUtils.outlineEntity(e, Color.PINK, Configs.BoxKuudraSize + 2);
+            if (mg.getSlimeSize() >= 25) {
+                OutlineUtils.outlineEntity(e, Color.PINK, Configs.BoxKuudraSize + 3);
+            }
         }
     }
 
@@ -405,10 +431,8 @@ public class KuudraHandler extends MovableModule {
     }
 
     private String isLastBreathed() {
-        if (KuudraUtils.getHP() == KuudraUtils.geMaxtHP()) return "§cNo";
-        if (KuudraUtils.getHP() > 1199.52f && KuudraUtils.getHP() < 1200) return "§6Maybe";
-        if (KuudraUtils.getHP() <= 1199.52) return "§a90% Sure";
-        return "§eidk?";
+        if (lastBreathed) return "MAYBE";
+        return "§cNO";
     }
 
     private void resetKuudraHandler() {
@@ -420,6 +444,7 @@ public class KuudraHandler extends MovableModule {
         freshers.clear();
         suppliesPicked = 0;
         trackedDps = 0;
+        lastBreathed = false;
         currentPhase = Phases.NONE;
         PreSupplyDetection.startPreTime = 0;
         freshTimeFromBuildStart = 0;

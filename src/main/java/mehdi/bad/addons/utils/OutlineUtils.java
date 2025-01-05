@@ -29,6 +29,7 @@ import java.awt.*;
 public class OutlineUtils {
     public static void outlineEntity(ModelBase model, Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch, float scaleFactor, Color color, int outlineWidth) {
         float gamma = BadAddons.mc.gameSettings.gammaSetting;
+        GlStateManager.disableDepth();
         BadAddons.mc.gameSettings.gammaSetting = Float.MAX_VALUE;
         GlStateManager.resetColor();
         OutlineUtils.setColor(color);
