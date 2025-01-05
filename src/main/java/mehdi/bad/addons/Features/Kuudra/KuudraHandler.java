@@ -226,7 +226,7 @@ public class KuudraHandler extends MovableModule {
                         .collect(Collectors.toList());
 
                 for (EntityMagmaCube magmaCube : cubs) {
-                    V2RenderUtils.drawPixelBox(magmaCube.getPositionVector(), Color.GREEN, 12, e.partialTicks);
+                    V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-15, 0, -15), Color.GREEN, 15, e.partialTicks);
                 }
 
             }
