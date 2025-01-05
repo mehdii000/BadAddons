@@ -424,15 +424,15 @@ public class KuudraHandler extends MovableModule {
             if (Configs.PartyDpsTracker) {
                 totalLines += 1;
                 if (currentPhase == Phases.LAST || currentPhase == Phases.DONE) RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
-                if (currentPhase == Phases.SUPPLIES || currentPhase == Phases.BUILD) RenderUtils.renderStringWithItems(":BOW: §7Last Breathed: " + isLastBreathed(), getX(), getY() + 16 + (15 * totalLines), -1, true);
+                if (currentPhase == Phases.SUPPLIES || currentPhase == Phases.BUILD) RenderUtils.renderStringWithItems(":BOW: §7Last §7Breathed: " + isLastBreathed(), getX(), getY() + 16 + (15 * totalLines), -1, true);
             }
 
         }
     }
 
     private String isLastBreathed() {
-        if (lastBreathed) return "MAYBE";
-        return "§cNO";
+        if (lastBreathed) return "§eLikely";
+        return "§cNope";
     }
 
     private void resetKuudraHandler() {
@@ -445,6 +445,7 @@ public class KuudraHandler extends MovableModule {
         suppliesPicked = 0;
         trackedDps = 0;
         lastBreathed = false;
+        AIPearlWaypoints.preferedBuildSplot = null;
         currentPhase = Phases.NONE;
         PreSupplyDetection.startPreTime = 0;
         freshTimeFromBuildStart = 0;

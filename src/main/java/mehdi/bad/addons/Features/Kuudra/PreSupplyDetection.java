@@ -77,11 +77,11 @@ public class PreSupplyDetection extends MovableModule {
                 .collect(Collectors.toList());
         gzs.forEach(supply -> {
             Vec3 supplyPos = new Vec3(supply.posX, 76, supply.posZ);
-            if (currentPreSpot.getInitialPos().distanceTo(supplyPos) <= 18) {
+            if (currentPreSpot.getInitialPos().distanceTo(supplyPos) <= 20) {
                 noCloseSupplies.set(false); // Found a supply close to the prespot
             }
         });
-        if (!noCloseSupplies.get()) {
+        if (noCloseSupplies.get()) {
             BadAddons.mc.thePlayer.playSound("random.orb", 1f, 1f);
             ChatLib.chat("§e[BA] §4Pre [" + currentPreSpot.getName() + "] didn't spawn!");
 
@@ -116,9 +116,9 @@ public class PreSupplyDetection extends MovableModule {
     public void onWorldRender(RenderWorldLastEvent e) {
         if (!SkyblockUtils.isInKuudra()) return;
         if (BadAddons.mc.thePlayer.posY < 65) return;
-        if (Configs.KuudraPreDetection && currentPreSpot != null) {
+        if (Configs.KuudraPreDetection && currentPreSpot != null && Configs.debugShowScanning) {
             Vec3 pos = currentPreSpot.getInitialPos();
-            GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord - 6, pos.yCoord, pos.zCoord - 6), Color.WHITE, 10);
+            GuiUtils.drawCustomBoundingBoxAtBlock(new BlockPos(pos.xCoord - 6, pos.yCoord, pos.zCoord - 6), Color.WHITE, 2);
         }
     }
 

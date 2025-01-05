@@ -17,8 +17,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -35,14 +33,6 @@ public class AIPearlWaypoints {
             new Vec3(-110, 78.125, -106.0),
             new Vec3(-106, 78.125, -99.0625)
     };
-
-    public static Map<String, Vec3> preToPlacingMapping;
-    static {
-        preToPlacingMapping = new HashMap<>();
-        preToPlacingMapping.put("Triangle", new Vec3(1, 2, 3));
-        preToPlacingMapping.put("b", new Vec3(4, 5, 6));
-        preToPlacingMapping.put("c", new Vec3(7, 8, 9));
-    }
 
     public static Vec3 preferedBuildSplot = null;
 
@@ -139,6 +129,7 @@ public class AIPearlWaypoints {
                 AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[4];
                 break;
             default:
+                AIPearlWaypoints.preferedBuildSplot = null;
                 break;
         }
     }
