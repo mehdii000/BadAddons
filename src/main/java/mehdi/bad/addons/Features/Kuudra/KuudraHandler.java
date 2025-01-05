@@ -217,6 +217,20 @@ public class KuudraHandler extends MovableModule {
                 }
             }
 
+            if (Configs.BoxKuudra) {
+
+                List<EntityMagmaCube> cubs = BadAddons.mc.theWorld.loadedEntityList.stream()
+                        .filter(entity -> entity instanceof EntityMagmaCube)
+                        .map(entity -> (EntityMagmaCube) entity)
+                        .filter(gz -> gz.getSlimeSize() >= 25)
+                        .collect(Collectors.toList());
+
+                for (EntityMagmaCube magmaCube : cubs) {
+                    V2RenderUtils.drawPixelBox(magmaCube.getPositionVector(), Color.GREEN, 12, e.partialTicks);
+                }
+
+            }
+
             // Draw InnerEspBoxes based on the proximity check
             for (EspBox innerBox : InnerEspBoxes) {
                 // If proximity is disabled, draw all InnerEspBoxes
