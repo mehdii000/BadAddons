@@ -50,7 +50,8 @@ public class PreSupplyDetection extends MovableModule {
                 ChatLib.chat("§e[BA] §bKuudra fight begins.");
                 KuudraHandler.currentPhase = KuudraHandler.Phases.SUPPLIES;
                 startPreTime = System.currentTimeMillis();
-                currentPreSpot = checkForPre(BadAddons.mc.thePlayer.getPosition());
+                PreSpot spot = checkForPre(BadAddons.mc.thePlayer.getPosition());
+                if (spot != PreSpot.NOSPOT) currentPreSpot = spot;
             }
 
             if (message.contains(spawnRegex) && Configs.KuudraPreDetection) {

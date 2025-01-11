@@ -15,7 +15,6 @@ import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.Vec3;
@@ -218,7 +217,7 @@ public class KuudraHandler extends MovableModule {
 
         }
 
-        if ((Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity) && currentPhase == Phases.SUPPLIES) {
+        if ((Configs.KuudraPresHighlight || Configs.KuudraWaypointsProximity) && (currentPhase == Phases.SUPPLIES || currentPhase == Phases.NONE)) {
             Vec3 playerPos = BadAddons.mc.thePlayer.getPositionVector();
             Set<Integer> nearbyColors = new HashSet<>();  // Store the colors of nearby EspBoxes
 
@@ -263,10 +262,6 @@ public class KuudraHandler extends MovableModule {
     public void onTickEnd(TickEndEvent e) {
         if (System.currentTimeMillis() > timeSinceFresh) timeSinceFresh = -1;
         if (!SkyblockUtils.isInKuudra()) return;
-        if (BadAddons.mc.thePlayer.getActivePotionEffects() == null || BadAddons.mc.thePlayer.getActivePotionEffects().isEmpty()) return;
-        if (Configs.HideBlindness && BadAddons.mc.thePlayer.isPotionActive(Potion.blindness.getId())) {
-            BadAddons.mc.thePlayer.removePotionEffect(Potion.blindness.getId());
-        }
 
         if (BadAddons.mc.thePlayer.posY < 20 && currentPhase == Phases.STUN) {
             ChatLib.chat("§e[BA] §bLast phase started!");
@@ -403,9 +398,9 @@ public class KuudraHandler extends MovableModule {
             }
 
             if (Configs.FreshDisplay && freshers != null && !freshers.isEmpty()) {
-                totalLines += 1;
-                RenderUtils.renderStringWithItems(":RAW_FISH: §aFRESHES:", getX(), getY() + 16 + (15 * totalLines), -1, true);
-                totalLines += 1;
+                totalLines++;
+                RenderUtils.renderStringWithItems(":WATER_BUCKET: §aFRESHES:", getX(), getY() + 16 + (15 * totalLines), -1, true);
+                totalLines++;
                 for (int i = 0; i < freshers.size(); i++) {
                     RenderUtils.renderStringWithItems(" §7- §7" +freshers.get(i), getX(), getY() + 16 + (15 * (totalLines + i)), -1, true);
                 }
@@ -413,8 +408,13 @@ public class KuudraHandler extends MovableModule {
             }
 
             if (Configs.PartyDpsTracker) {
-                totalLines += 1;
-                if (currentPhase == Phases.LAST || currentPhase == Phases.DONE) RenderUtils.renderStringWithItems(":BOW: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
+                totalLines++;
+                if (currentPhase == Phases.LAST || currentPhase == Phases.DONE) {
+                    RenderUtils.renderStringWithItems(":BOW: §7Last §7Breathed: " + isLastBreathed(), getX(), getY() + 16 + (15 * totalLines), -1, true);
+                    totalLines++;
+                    RenderUtils.renderStringWithItems(":IRON_SWORD: §7Party §7Dps: §c" + (trackedDps == 0 ? "NaN" : "§e" + trackedDps + "m"), getX(), getY() + 16 + (15 * totalLines), -1, true);
+
+                }
                 if (currentPhase == Phases.SUPPLIES || currentPhase == Phases.BUILD) RenderUtils.renderStringWithItems(":BOW: §7Last §7Breathed: " + isLastBreathed(), getX(), getY() + 16 + (15 * totalLines), -1, true);
             }
 
