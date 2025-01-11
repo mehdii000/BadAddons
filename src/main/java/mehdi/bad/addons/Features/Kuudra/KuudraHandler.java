@@ -208,11 +208,18 @@ public class KuudraHandler extends MovableModule {
                     .filter(entity -> entity instanceof EntityMagmaCube)
                     .map(entity -> (EntityMagmaCube) entity)
                     .filter(gz -> gz.getSlimeSize() >= 25)
-                    .filter(gz -> gz.posY < 30 || gz.posY > 71)
                     .collect(Collectors.toList());
 
-            for (EntityMagmaCube magmaCube : cubs) {
-                V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
+            if (currentPhase == Phases.LAST) {
+                for (EntityMagmaCube magmaCube : cubs) {
+                    V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
+
+                }
+            } else {
+                for (EntityMagmaCube magmaCube : cubs) {
+                    if (magmaCube.posY < 30 || magmaCube.posY > 71) V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
+
+                }
             }
 
         }
