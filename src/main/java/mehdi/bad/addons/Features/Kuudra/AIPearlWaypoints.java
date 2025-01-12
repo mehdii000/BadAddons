@@ -85,7 +85,7 @@ public class AIPearlWaypoints {
         if (KuudraHandler.suppliesPicked < 6) {
             ItemStack heldItem = BadAddons.mc.thePlayer.getHeldItem();
             if (heldItem == null) return;
-            if (!heldItem.getDisplayName().contains("Ender Pearl") && !heldItem.getDisplayName().contains("Elle's Supplies")) return;
+            if (!(heldItem.getDisplayName().contains("Ender Pearl") || heldItem.getDisplayName().contains("Elle's Supplies"))) return;
 
             for (Vec3 supply : suppliesPlacing) {
                 if (isSupplyAvailable(supply.addVector(0, 1, 0))) {
@@ -117,16 +117,14 @@ public class AIPearlWaypoints {
     private void nextSupply() {
         switch (PreSupplyDetection.currentPreSpot.getName()) {
             case "X":
-                AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[3];
+            case "Slash":
+                AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[4];
                 break;
             case "Triangle":
                 AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[0];
                 break;
             case "Equals":
                 AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[5];
-                break;
-            case "Slash":
-                AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[4];
                 break;
             default:
                 AIPearlWaypoints.preferedBuildSplot = null;

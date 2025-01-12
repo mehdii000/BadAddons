@@ -120,7 +120,7 @@ public class KuudraHandler extends MovableModule {
 
             switch (PreSupplyDetection.currentPreSpot.getName()) {
                 case "X":
-                    AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[4];
+                    AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[3];
                     break;
                 case "Triangle":
                     AIPearlWaypoints.preferedBuildSplot = AIPearlWaypoints.suppliesPlacing[1];
@@ -173,6 +173,19 @@ public class KuudraHandler extends MovableModule {
             new EspBox("§5X-Canon", -112, 155, -107, Color.MAGENTA)
     };
 
+    EspBox[] DoublePearlLineups = {
+            new EspBox("§eTRI §7-> §aSL", -81, 160, -128, Color.YELLOW),
+            new EspBox("§eTRI §7-> §aSR", -72, 160, -134, Color.YELLOW),
+
+            new EspBox("§5X §7-> §5CANON", -129, 162, -113, Color.MAGENTA),
+            new EspBox("§5X §7-> §aSQUARE", -141, 151, -83, Color.MAGENTA),
+
+            new EspBox("§dEQUAL §7-> §aSQUARE", -76, 150, -137, Color.PINK),
+
+            new EspBox("§cSLASH §7-> §5CANON", -136, 155, -133, Color.RED),
+            new EspBox("§cSLASH §7-> §aSQUARE", -140, 152, -92, Color.RED)
+    };
+
     // Outer Esp Boxes with labels and coordinates
     EspBox[] EspBoxes = {
             new EspBox("§eTRIANGLE", -70.5, 79, -134.5, Color.YELLOW),
@@ -213,7 +226,6 @@ public class KuudraHandler extends MovableModule {
             if (currentPhase == Phases.LAST) {
                 for (EntityMagmaCube magmaCube : cubs) {
                     V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
-
                 }
             } else {
                 for (EntityMagmaCube magmaCube : cubs) {
@@ -232,7 +244,7 @@ public class KuudraHandler extends MovableModule {
             if (Configs.KuudraWaypointsProximity) {
                 for (EspBox box : EspBoxes) {
                     // Check if the EspBox is within proximity (4 block radius)
-                    if (playerPos.squareDistanceTo(new Vec3(box.x + 0.5, box.y + 0.5, box.z + 0.5)) <= 24) {  // 4^2 = 16
+                    if (playerPos.squareDistanceTo(new Vec3(box.x + 0.5, box.y + 0.5, box.z + 0.5)) <= 30) {  // 4^2 = 16
                         nearbyColors.add(box.color.getRGB());  // Add the color of the nearby EspBox
                     }
                 }
@@ -244,6 +256,14 @@ public class KuudraHandler extends MovableModule {
                 // If proximity is enabled, draw only InnerEspBoxes with matching colors of nearby EspBoxes
                 if (!Configs.KuudraWaypointsProximity || nearbyColors.contains(innerBox.color.getRGB())) {
                     GuiUtils.drawBoundingBoxAtBlock(new BlockPos(innerBox.x, innerBox.y, innerBox.z), innerBox.color);
+                }
+            }
+            if (Configs.DoublePearlLineups) {
+                for (EspBox doublePearlLineup : DoublePearlLineups) {
+                    if (!Configs.KuudraWaypointsProximity || nearbyColors.contains(doublePearlLineup.color.getRGB())) {
+                        GuiUtils.drawBoundingBoxAtBlock(new BlockPos(doublePearlLineup.x, doublePearlLineup.y, doublePearlLineup.z), Color.getHSBColor(0.3889f, 0.6f, 1.0f));
+                        RealRenderUtils.render3dString(doublePearlLineup.label, doublePearlLineup.x, doublePearlLineup.y - 2, doublePearlLineup.z, 1, 3, e.partialTicks);
+                    }
                 }
             }
 

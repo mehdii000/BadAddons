@@ -359,6 +359,14 @@ public class Configs {
 
     @Property(
             type = Property.Type.BOOLEAN,
+            name = "Double Pearl Lineups",
+            description = "Highlights double-pearl lineups for all my sweats out there.",
+            parent = "Waypoints"
+    )
+    public static boolean DoublePearlLineups = false;
+
+    @Property(
+            type = Property.Type.BOOLEAN,
             name = "Proximity",
             description = "Highlights pearl waypoints dynamically to your pre.",
             parent = "Waypoints"
