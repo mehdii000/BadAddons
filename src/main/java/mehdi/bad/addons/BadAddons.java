@@ -51,7 +51,7 @@ import java.util.ArrayList;
 @Mod(modid = BadAddons.MODID, version = BadAddons.VERSION, acceptedMinecraftVersions = "[1.8.9]")
 public class BadAddons {
 
-    public static final String VERSION = "1.5.7";
+    public static final String VERSION = "1.5.8";
     public static final String MODID = "badaddons";
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static ArrayList settings = Config.collect(Configs.class);
