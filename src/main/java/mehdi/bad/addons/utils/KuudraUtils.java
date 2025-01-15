@@ -33,18 +33,14 @@ public class KuudraUtils {
                 .filter(cube -> cube.getSlimeSize() >= 25)
                 .collect(Collectors.toList());
 
-        // Calculate total HP of all selected cubes, mapped to a new range (1000 HP to 240)
-        float totalHP = 0;
         for (EntityMagmaCube cube : cubes) {
-            float mappedHP = cube.getHealth() * 0.24f;  // Scale HP to a range where 1000 maps to 240
-            totalHP += mappedHP;
+            return Math.round(cube.getHealth()) / 100f;
         }
-
-        return totalHP;  // Return the total mapped HP
+        return 250;
     }
 
     public static int getLastPhaseMaxtHP() {
-        return 240;
+        return 250;
     }
 
 

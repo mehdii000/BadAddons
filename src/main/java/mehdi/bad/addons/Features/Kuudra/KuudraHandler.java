@@ -308,7 +308,7 @@ public class KuudraHandler extends MovableModule {
                 float damageDealt = KuudraUtils.getLastPhaseMaxtHP() - currentHP;
                 trackedDps = (float) Math.round(10 * (damageDealt / (dt / 1000.0f))) / 10;
             } else {
-                trackedDps = 0;
+                trackedDps = KuudraUtils.getLastPhaseMaxtHP();
             }
         }
 
