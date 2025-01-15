@@ -232,7 +232,7 @@ public class KuudraHandler extends MovableModule {
                 for (EntityMagmaCube magmaCube : cubs) {
                     if (magmaCube.posY < 30 || magmaCube.posY > 71) {
                         V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
-                        RealRenderUtils.render3dString("§a" + KuudraUtils.getHitsHP() + "§c❤", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
+                        RealRenderUtils.render3dString("§a" + KuudraUtils.getHitsHP() + "%", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
                     }
                 }
             }

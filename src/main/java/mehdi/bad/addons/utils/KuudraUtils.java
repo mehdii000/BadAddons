@@ -57,10 +57,32 @@ public class KuudraUtils {
 
         for (EntityMagmaCube cube : cubes) {
             if (cube.posY < 30 || cube.posY > 71) {
-                return "§e" + (cube.getHealth() / 100000 * 100);
+                return mapColorToHP((int) cube.getHealth(), 100000, "§a", "§e", "§c", "§4") + Math.round(cube.getHealth() / 100000 * 100 * 10) / 10;
             }
         }
 
         return "§cNaN";
     }
+
+    public static String mapColorToHP(int health, int maxHealth, String... mappers) {
+        // Ensure there are at least 4 mappers
+        if (mappers.length < 4) {
+            throw new IllegalArgumentException("At least 4 color mappers are required.");
+        }
+
+        // Calculate thresholds based on the maximum health
+        int quarter = maxHealth / 4;
+
+        // Map colors based on the calculated thresholds
+        if (health > 3 * quarter) {
+            return mappers[0]; // High health
+        } else if (health > 2 * quarter) {
+            return mappers[1]; // Medium-high health
+        } else if (health > quarter) {
+            return mappers[2]; // Medium-low health
+        } else {
+            return mappers[3]; // Low health
+        }
+    }
+
 }

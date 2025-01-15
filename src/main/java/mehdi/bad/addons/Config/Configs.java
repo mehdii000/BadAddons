@@ -422,8 +422,8 @@ public class Configs {
     public static boolean BoxKuudra = false;
 
     @Property(type = Property.Type.SELECT, name = "BoxKuudraSize", parent = "KuudraGameplay",
-            options = {"1", "2", "3", "4"},
+            options = {"2", "3", "4", "5", "6", "7", "8"},
             description = "Select a size for outline.")
-    public static int BoxKuudraSize = 0;
+    public static int BoxKuudraSize = 2;
 
 }
