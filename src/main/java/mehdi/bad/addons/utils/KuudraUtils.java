@@ -57,7 +57,14 @@ public class KuudraUtils {
 
         for (EntityMagmaCube cube : cubes) {
             if (cube.posY < 30 || cube.posY > 71) {
-                return mapColorToHP((int) cube.getHealth() - 25000, 75000, "§a", "§e", "§c", "§4") + (float) Math.round(((cube.getHealth() - 25000) / 75000 * 100) * 100) / 100;
+                return mapColorToHP(
+                        (int) cube.getHealth() - 25000,
+                        75000,
+                        "§a",
+                        "§e",
+                        "§c",
+                        "§4"
+                ) + (float) Math.round(((cube.getHealth() - 25000) / 75000.0f * 100) * 100) / 100;
             }
         }
 
