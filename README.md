@@ -33,8 +33,11 @@
 
 ### 🌋 **Kuudra**
 - Supply Waypoints
+- Dynamic Kuudra HP (100% -> 0% Hits Phase / 240M -> 0M Damage Phase)
 - Pre-Detection Box (Renders a box on your pre spot to help with building and getting the supply)  
 - PresWaypoints (Highlight pre-supply waypoints!)
+- Pearl & Double Pearl Lineups
+- Building Assist (Determines what to build next based on your pre)
 - Party Dps Tracker (Kuudra last phase total party dps tracker)
 - Proximity Pearlpoints (Relative pearl highlights to your pre spot)  
 - Supply Count (Track who got how many supplies + stunning time)  
