@@ -226,11 +226,14 @@ public class KuudraHandler extends MovableModule {
             if (currentPhase == Phases.LAST) {
                 for (EntityMagmaCube magmaCube : cubs) {
                     V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
+                    RealRenderUtils.render3dString("§e"+ (KuudraUtils.getLastPhaseMaxtHP() - KuudraUtils.getHP()) + "M§7/§a240M§c❤", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
                 }
             } else {
                 for (EntityMagmaCube magmaCube : cubs) {
-                    if (magmaCube.posY < 30 || magmaCube.posY > 71) V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
-
+                    if (magmaCube.posY < 30 || magmaCube.posY > 71) {
+                        V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
+                        RealRenderUtils.render3dString("§a" + KuudraUtils.getHP() + "§c❤", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
+                    }
                 }
             }
 
@@ -298,12 +301,11 @@ public class KuudraHandler extends MovableModule {
         }
 
         if (currentPhase == Phases.LAST) {
-            float initialHP = 250;
             float currentHP = KuudraUtils.getHP();
             long dt = System.currentTimeMillis() - timeSinceLastPhaseStarted;
 
             if (dt > 0) {
-                float damageDealt = initialHP - currentHP;
+                float damageDealt = KuudraUtils.getLastPhaseMaxtHP() - currentHP;
                 trackedDps = (float) Math.round(10 * (damageDealt / (dt / 1000.0f))) / 10;
             } else {
                 trackedDps = 0;
@@ -396,7 +398,7 @@ public class KuudraHandler extends MovableModule {
     public void render() {
         if (!SkyblockUtils.isInSkyblock()) return;
         if (SkyblockUtils.isInKuudra()) {
-            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6) §7" + (Configs.debugShowScanning ? currentPhase.name() + " / " + KuudraUtils.getHP() + " Max: " + KuudraUtils.geMaxtHP() : currentPhase), getX(), getY(), -1);
+            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6) §7" + (Configs.debugShowScanning ? currentPhase.name() + " / " + KuudraUtils.getHP() : currentPhase), getX(), getY(), -1);
             int totalLines = teammates != null ? teammates.size() : 0;
 
             for (int i = 0; i < totalLines; i++) {
