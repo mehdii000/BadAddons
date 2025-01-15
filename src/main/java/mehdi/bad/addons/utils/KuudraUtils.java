@@ -30,7 +30,7 @@ public class KuudraUtils {
         List<EntityMagmaCube> cubes = BadAddons.mc.theWorld.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityMagmaCube)
                 .map(entity -> (EntityMagmaCube) entity)
-                .filter(cube -> cube.getSlimeSize() == 15)
+                .filter(cube -> cube.width == 15 && cube.getHealth() <= 100000)
                 .collect(Collectors.toList());
 
         // Calculate total HP of all selected cubes, mapped to a new range (1000 HP to 300)
@@ -48,4 +48,8 @@ public class KuudraUtils {
     }
 
 
+    public static String getHitsHP() {
+
+        return "§cNaN";
+    }
 }

@@ -220,19 +220,19 @@ public class KuudraHandler extends MovableModule {
             List<EntityMagmaCube> cubs = BadAddons.mc.theWorld.loadedEntityList.stream()
                     .filter(entity -> entity instanceof EntityMagmaCube)
                     .map(entity -> (EntityMagmaCube) entity)
-                    .filter(gz -> gz.getSlimeSize() >= 25)
+                    .filter(cube -> cube.width == 15 && cube.getHealth() <= 100000)
                     .collect(Collectors.toList());
 
             if (currentPhase == Phases.LAST) {
                 for (EntityMagmaCube magmaCube : cubs) {
                     V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
-                    RealRenderUtils.render3dString("§e"+ (KuudraUtils.getLastPhaseMaxtHP() - KuudraUtils.getHP()) + "M§7/§a240M§c❤", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
+                    RealRenderUtils.render3dString("§e"+ KuudraUtils.getHP() + "M§7/§a" + KuudraUtils.getLastPhaseMaxtHP() + "M§c❤", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
                 }
             } else {
                 for (EntityMagmaCube magmaCube : cubs) {
                     if (magmaCube.posY < 30 || magmaCube.posY > 71) {
                         V2RenderUtils.drawPixelBox(magmaCube.getPositionVector().addVector(-7, 0, -7), Color.GREEN, 14, e.partialTicks);
-                        RealRenderUtils.render3dString("§a" + KuudraUtils.getHP() + "§c❤", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
+                        RealRenderUtils.render3dString("§a" + KuudraUtils.getHitsHP() + "§c❤", magmaCube.posX, magmaCube.posY + 7, magmaCube.posZ, 1, 4 * Configs.BoxKuudraSize, e.partialTicks);
                     }
                 }
             }
