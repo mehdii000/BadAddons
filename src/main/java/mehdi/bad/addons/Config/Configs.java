@@ -416,7 +416,7 @@ public class Configs {
     @Property(
             type = Property.Type.BOOLEAN,
             name = "BoxKuudra",
-            description = "Draws a large box to esp kuudra.",
+            description = "Draws a large box to esp/HP bar kuudra.",
             parent = "KuudraGameplay"
     )
     public static boolean BoxKuudra = false;
