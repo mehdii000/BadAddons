@@ -30,7 +30,7 @@ public class KuudraUtils {
         List<EntityMagmaCube> cubes = BadAddons.mc.theWorld.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityMagmaCube)
                 .map(entity -> (EntityMagmaCube) entity)
-                .filter(cube -> cube.width == 15 && cube.getHealth() <= 100000)
+                .filter(cube -> cube.getSlimeSize() >= 25)
                 .collect(Collectors.toList());
 
         // Calculate total HP of all selected cubes, mapped to a new range (1000 HP to 240)
@@ -52,11 +52,13 @@ public class KuudraUtils {
         List<EntityMagmaCube> cubes = BadAddons.mc.theWorld.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityMagmaCube)
                 .map(entity -> (EntityMagmaCube) entity)
-                .filter(cube -> cube.width == 15 && cube.getHealth() <= 100000)
+                .filter(cube -> cube.getSlimeSize() >= 25)
                 .collect(Collectors.toList());
 
         for (EntityMagmaCube cube : cubes) {
-            return "§e" + (cube.getHealth() / 100000 * 100);
+            if (cube.posY < 30 || cube.posY > 71) {
+                return "§e" + (cube.getHealth() / 100000 * 100);
+            }
         }
 
         return "§cNaN";

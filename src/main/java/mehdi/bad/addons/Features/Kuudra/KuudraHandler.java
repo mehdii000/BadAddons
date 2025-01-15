@@ -220,7 +220,7 @@ public class KuudraHandler extends MovableModule {
             List<EntityMagmaCube> cubs = BadAddons.mc.theWorld.loadedEntityList.stream()
                     .filter(entity -> entity instanceof EntityMagmaCube)
                     .map(entity -> (EntityMagmaCube) entity)
-                    .filter(cube -> cube.width == 15 && cube.getHealth() <= 100000)
+                    .filter(cube -> cube.getSlimeSize() >= 25)
                     .collect(Collectors.toList());
 
             if (currentPhase == Phases.LAST) {
@@ -398,7 +398,7 @@ public class KuudraHandler extends MovableModule {
     public void render() {
         if (!SkyblockUtils.isInSkyblock()) return;
         if (SkyblockUtils.isInKuudra()) {
-            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6) §7" + (Configs.debugShowScanning ? currentPhase.name() + " / " + KuudraUtils.getHP() : currentPhase), getX(), getY(), -1);
+            BadAddons.mc.fontRendererObj.drawStringWithShadow("§dKuudra Gaming  §7(§e" + suppliesPicked + "§7/6) §7" + (Configs.debugShowScanning ? currentPhase.name() + " / " + KuudraUtils.getHitsHP() : currentPhase), getX(), getY(), -1);
             int totalLines = teammates != null ? teammates.size() : 0;
 
             for (int i = 0; i < totalLines; i++) {
