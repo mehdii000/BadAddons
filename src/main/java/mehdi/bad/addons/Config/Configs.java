@@ -421,9 +421,9 @@ public class Configs {
     )
     public static boolean BoxKuudra = false;
 
-    @Property(type = Property.Type.SELECT, name = "BoxKuudraSize", parent = "KuudraGameplay",
+    @Property(type = Property.Type.SELECT, name = "HP Text Size", parent = "KuudraGameplay",
             options = {"2", "3", "4", "5", "6", "7", "8"},
-            description = "Select a size for outline.")
+            description = "Select a size for the HP (Size * 4 = Final Size).")
     public static int BoxKuudraSize = 2;
 
 }
