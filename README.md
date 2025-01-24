@@ -9,11 +9,9 @@
   <a href="https://github.com/mehdii000/BadAddons/releases" target="_blank">
     <img alt="downloads" src="https://img.shields.io/github/downloads/mehdii000/BadAddons/total?color=4166f5&style=flat-square" />
   </a>
-
   <a href="https://github.com/mehdii000/BadAddons/releases" target="_blank">
-  [![Total Lines](https://tokei.rs/b1/github/mehdii000/BadAddons?category=code)](https://github.com/mehdii000/BadAddons)
+    <img alt="downloads" src="https://tokei.rs/b1/github/mehdii000/BadAddons?category=code" />
   </a>
-  
 </p>
 
 <p align="center" id="description"><em>BadAddons</em> is a Quality-of-Life (QoL) mod for Forge that's packed with features on almost every aspect of this game, It's so good that it might seem unreal, anyways enjoy and please do give your feedback ❤️</p>
