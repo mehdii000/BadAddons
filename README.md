@@ -10,7 +10,9 @@
     <img alt="downloads" src="https://img.shields.io/github/downloads/mehdii000/BadAddons/total?color=4166f5&style=flat-square" />
   </a>
 
+  <a href="https://github.com/mehdii000/BadAddons/releases" target="_blank">
   [![Total Lines](https://tokei.rs/b1/github/mehdii000/BadAddons?category=code)](https://github.com/mehdii000/BadAddons)
+  </a>
   
 </p>
 
