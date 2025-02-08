@@ -40,6 +40,7 @@
 - Pre-Detection Box (Renders a box on your pre spot to help with building and getting the supply)  
 - PresWaypoints (Highlight pre-supply waypoints!)
 - Pearl & Double Pearl Lineups
+- ClearLava (Hides the foggy effect under lava, ONLY WORKS IN KUUDRA)
 - Building Assist (Determines what to build next based on your pre)
 - Party Dps Tracker (Kuudra last phase total party dps tracker)
 - Proximity Pearlpoints (Relative pearl highlights to your pre spot)  
